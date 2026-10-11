@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Lattice
+GenericName=Spreadsheet
+Comment=Calculate, analyse and chart data in workbooks
+Exec=lattice %F
+TryExec=lattice
+Icon=app.lattice.nimbushq.xyz
+Terminal=false
+StartupNotify=true
+StartupWMClass=app.lattice.nimbushq.xyz
+Categories=Office;Spreadsheet;
+MimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;text/csv;text/tab-separated-values;
+Keywords=spreadsheet;workbook;sheet;table;formula;chart;pivot;xlsx;csv;tsv;excel;

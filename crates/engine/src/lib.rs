@@ -1,4 +1,4 @@
-//! The GridCraft engine façade.
+//! The Lattice engine façade.
 //!
 //! Every user-visible action is a command with a stable id (`cell.set`, `home.bold`,
 //! `data.sortAscending`…) and JSON parameters. The egui UI, the CLI, the control channel and MCP
@@ -19,18 +19,18 @@ pub mod tables;
 
 use std::sync::Arc;
 
-use gridcraft_calc::Calc;
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::Workbook;
+use lattice_calc::Calc;
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::Workbook;
 use serde::Serialize;
 use serde_json::Value as Json;
 
 pub use cmd::{CommandInfo, CommandSpec, command_specs, find_command};
-pub use gridcraft_calc as calc;
-pub use gridcraft_core as core;
-pub use gridcraft_formula as formula;
-pub use gridcraft_model as model;
-pub use gridcraft_numfmt as numfmt;
+pub use lattice_calc as calc;
+pub use lattice_core as core;
+pub use lattice_formula as formula;
+pub use lattice_model as model;
+pub use lattice_numfmt as numfmt;
 pub use selection::Selection;
 
 #[derive(Debug, thiserror::Error)]
@@ -157,9 +157,9 @@ impl Default for Prefs {
         Prefs {
             enter_direction: "down".into(),
             autocomplete: true,
-            user_name: "GridCraft User".into(),
-            default_font: gridcraft_model::DEFAULT_FONT.into(),
-            default_font_size: gridcraft_model::DEFAULT_FONT_SIZE,
+            user_name: "Lattice User".into(),
+            default_font: lattice_model::DEFAULT_FONT.into(),
+            default_font_size: lattice_model::DEFAULT_FONT_SIZE,
             sheets_in_new_workbook: 1,
             r1c1: false,
             user_dictionary: vec![],
@@ -248,7 +248,7 @@ impl Session {
         let mut wb = Workbook::new();
         for _ in 1..self.prefs.sheets_in_new_workbook.clamp(1, 255) {
             let name = wb.next_sheet_name();
-            wb.sheets.push(Arc::new(gridcraft_model::Sheet::new(name)));
+            wb.sheets.push(Arc::new(lattice_model::Sheet::new(name)));
         }
         self.add_document(DocState::new(wb, None, format!("Book{n}")))
     }
@@ -333,7 +333,7 @@ impl Session {
 }
 
 /// Convenience: the active workbook's active sheet.
-pub fn active_sheet(s: &Session) -> Option<&gridcraft_model::Sheet> {
+pub fn active_sheet(s: &Session) -> Option<&lattice_model::Sheet> {
     s.active().and_then(|d| d.wb.active())
 }
 

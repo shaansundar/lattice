@@ -1,11 +1,11 @@
-//! Renders the whole GridCraft window offscreen (wgpu, no window) to a PNG.
+//! Renders the whole Lattice window offscreen (wgpu, no window) to a PNG.
 //!
-//! `cargo run --release -p gridcraft-ui-egui --example snapshot -- [--sample sales] [--in file.xlsx]
+//! `cargo run --release -p lattice-ui-egui --example snapshot -- [--sample sales] [--in file.xlsx]
 //!  [--size 1440x900] [--scale 2] [--cmd 'id={json}']... [--tab Insert] [--dark] [--language en|zh|ja|ko|ru|pt]
 //!  [--dialog 'name={json}'] out.png`
 
-use gridcraft_engine::Session;
-use gridcraft_ui_egui::SheetApp;
+use lattice_engine::Session;
+use lattice_ui_egui::SheetApp;
 use serde_json::json;
 
 fn main() {
@@ -99,7 +99,7 @@ fn main() {
                 let mut app = SheetApp::new(session, Default::default());
                 app.ui.dark = dark;
                 if let Some(code) = &language
-                    && let Some(l) = gridcraft_ui_egui::i18n::Language::parse(code)
+                    && let Some(l) = lattice_ui_egui::i18n::Language::parse(code)
                 {
                     app.ui.language = l;
                 }

@@ -6,10 +6,10 @@
 
 use std::sync::Arc;
 
-use gridcraft_core::{Array, CellError, CellRef, MAX_COLS, MAX_ROWS, RangeRef, Value, compare};
-use gridcraft_formula::{BinOp, Expr, RefKind, Reference, SheetSel, StructItem, StructRef, UnOp};
-use gridcraft_functions::{Arg, Ctx};
-use gridcraft_model::Workbook;
+use lattice_core::{Array, CellError, CellRef, MAX_COLS, MAX_ROWS, RangeRef, Value, compare};
+use lattice_formula::{BinOp, Expr, RefKind, Reference, SheetSel, StructItem, StructRef, UnOp};
+use lattice_functions::{Arg, Ctx};
+use lattice_model::Workbook;
 
 /// Largest array a reference may expand to.
 pub const MAX_CELLS: u64 = 16_000_000;
@@ -86,7 +86,7 @@ struct FnCtx<'a, 'h> {
 }
 
 impl Ctx for FnCtx<'_, '_> {
-    fn date_system(&self) -> gridcraft_core::DateSystem {
+    fn date_system(&self) -> lattice_core::DateSystem {
         self.ev.host.workbook().date_system
     }
     fn now_serial(&self) -> f64 {
@@ -242,7 +242,7 @@ impl<'h> Evaluator<'h> {
         if let Some(def) = wb.name(bare, scope_sheet) {
             let text = def.formula.clone();
             let scope = def.scope.unwrap_or(self.sheet);
-            return match gridcraft_formula::parse(&text) {
+            return match lattice_formula::parse(&text) {
                 Ok(expr) => {
                     let saved = self.sheet;
                     // Unqualified references in a name refer to the scope sheet.
@@ -558,14 +558,14 @@ impl<'h> Evaluator<'h> {
                 if let Value::Array(_) = index {
                     // An array of indexes picks element by element: `CHOOSE({1,2},A1:A3,B1:B3)`
                     // is a two-column array. The library CHOOSE lifts over its arguments.
-                    let Some(spec) = gridcraft_functions::lookup(name) else { return err(CellError::Name) };
+                    let Some(spec) = lattice_functions::lookup(name) else { return err(CellError::Name) };
                     let mut evaluated = vec![Arg { value: index, from_ref: false }];
                     for a in &args[1..] {
                         let value = self.value(a);
                         evaluated.push(Arg { value, from_ref: false });
                     }
                     let mut ctx = FnCtx { ev: self };
-                    return gridcraft_functions::call(spec, &evaluated, &mut ctx).pipe(Ev::V);
+                    return lattice_functions::call(spec, &evaluated, &mut ctx).pipe(Ev::V);
                 }
                 let i = match index.to_number() {
                     Ok(n) => n.trunc() as i64,
@@ -693,7 +693,7 @@ impl<'h> Evaluator<'h> {
                         Ok(c) => c,
                         Err(e) => return Value::Error(e),
                     };
-                    match gridcraft_numfmt::text_function(v, &code, sys) {
+                    match lattice_numfmt::text_function(v, &code, sys) {
                         Ok(s) => Value::text(s),
                         Err(e) => Value::Error(e),
                     }
@@ -729,7 +729,7 @@ impl<'h> Evaluator<'h> {
     }
 
     fn builtin(&mut self, name: &str, args: &[Expr]) -> Ev {
-        let Some(spec) = gridcraft_functions::lookup(name) else {
+        let Some(spec) = lattice_functions::lookup(name) else {
             // A defined name holding a LAMBDA, or a LET-bound lambda.
             if let Ev::L(l) = self.name(name) {
                 return self.apply_lambda(&l, args);
@@ -772,7 +772,7 @@ impl<'h> Evaluator<'h> {
             evaluated.push(Arg { value, from_ref });
         }
         let mut ctx = FnCtx { ev: self };
-        gridcraft_functions::call(spec, &evaluated, &mut ctx).pipe(Ev::V)
+        lattice_functions::call(spec, &evaluated, &mut ctx).pipe(Ev::V)
     }
 
     pub fn apply_lambda(&mut self, l: &Lambda, args: &[Expr]) -> Ev {
@@ -998,7 +998,7 @@ impl<'h> Evaluator<'h> {
             }
         };
         let text = if a1 { text } else { r1c1_to_a1(&text, self.at).unwrap_or(text) };
-        match gridcraft_formula::parse(&text) {
+        match lattice_formula::parse(&text) {
             Ok(e @ (Expr::Ref(_) | Expr::Name(_) | Expr::Struct(_))) => match self.eval(&e) {
                 r @ Ev::R(_) => r,
                 _ => err(CellError::Ref),
@@ -1080,7 +1080,7 @@ impl<'h> Evaluator<'h> {
         let wb = self.host.workbook();
         let sheet = wb.sheet(a.sheet);
         match kind.as_str() {
-            "address" => Ev::V(Value::text(format!("${}${}", gridcraft_core::col_to_letters(c.col), c.row + 1))),
+            "address" => Ev::V(Value::text(format!("${}${}", lattice_core::col_to_letters(c.col), c.row + 1))),
             "row" => Ev::V(Value::number(c.row as f64 + 1.0)),
             "col" => Ev::V(Value::number(c.col as f64 + 1.0)),
             "contents" => Ev::V(self.host.cell_value(a.sheet, c)),
@@ -1171,9 +1171,9 @@ impl<'h> Evaluator<'h> {
         }
         if let Some(k) = k {
             values.push(Value::Empty);
-            return Ev::V(gridcraft_functions::aggregate_values_k(func, &values[..values.len() - 1], &k));
+            return Ev::V(lattice_functions::aggregate_values_k(func, &values[..values.len() - 1], &k));
         }
-        Ev::V(gridcraft_functions::aggregate_values(func, &values))
+        Ev::V(lattice_functions::aggregate_values(func, &values))
     }
 }
 
@@ -1243,7 +1243,7 @@ pub fn r1c1_to_a1(s: &str, at: CellRef) -> Option<String> {
         };
         let (r, ra) = num(rpart, at.row)?;
         let (c, ca) = num(cpart, at.col)?;
-        Some(format!("{}{}{}{}", if ca { "$" } else { "" }, gridcraft_core::col_to_letters(c), if ra { "$" } else { "" }, r + 1))
+        Some(format!("{}{}{}{}", if ca { "$" } else { "" }, lattice_core::col_to_letters(c), if ra { "$" } else { "" }, r + 1))
     };
     let out = match body.split_once(':') {
         Some((a, b)) => format!("{}:{}", conv(a)?, conv(b)?),
@@ -1426,7 +1426,7 @@ pub fn precedents(wb: &Workbook, sheet: usize, e: &Expr) -> (Vec<Area>, bool) {
             dynamic = true
         }
         Expr::Name(_) | Expr::Struct(_) => dynamic = true,
-        Expr::Call(n, _) if gridcraft_functions::lookup(n).is_none() && !is_special(n) => dynamic = true,
+        Expr::Call(n, _) if lattice_functions::lookup(n).is_none() && !is_special(n) => dynamic = true,
         // A range ending in a function's result (`A1:INDEX(B1:B9,n)`) covers the cells between
         // the references inside it, not only those references.
         Expr::Binary(BinOp::Range, a, b) if !matches!((&**a, &**b), (Expr::Ref(_), Expr::Ref(_))) => {
@@ -1520,7 +1520,7 @@ pub const SPECIAL_FUNCTIONS: &[&str] = &[
 ];
 
 pub fn is_known_function(n: &str) -> bool {
-    is_special(&n.to_ascii_uppercase()) || gridcraft_functions::lookup(n).is_some()
+    is_special(&n.to_ascii_uppercase()) || lattice_functions::lookup(n).is_some()
 }
 
 #[allow(dead_code)]

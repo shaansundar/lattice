@@ -38,9 +38,9 @@ impl Hasher for FxHasher {
 type HashMap<K, V> = std::collections::HashMap<K, V, BuildHasherDefault<FxHasher>>;
 type HashSet<K> = std::collections::HashSet<K, BuildHasherDefault<FxHasher>>;
 
-use gridcraft_core::{Array, CellError, CellRef, RangeRef, Value};
-use gridcraft_formula::Expr;
-use gridcraft_model::{CalcMode, Workbook};
+use lattice_core::{Array, CellError, CellRef, RangeRef, Value};
+use lattice_formula::Expr;
+use lattice_model::{CalcMode, Workbook};
 
 use crate::eval::{Area, Evaluator, Host, precedents};
 
@@ -404,8 +404,8 @@ fn spill_blocked(host: &PassHost<'_>, (sheet, anchor): Key, a: &Array) -> bool {
         !own.is_some_and(|o| o.contains(c))
             && sh.spill_ranges.iter().any(|(o, r)| *o != anchor && r.contains(c) && !host.exprs.contains_key(&(sheet, *o)))
     };
-    end.row >= gridcraft_core::MAX_ROWS
-        || end.col >= gridcraft_core::MAX_COLS
+    end.row >= lattice_core::MAX_ROWS
+        || end.col >= lattice_core::MAX_COLS
         || sh.merges.iter().any(|m| m.intersects(&range))
         || sh.tables.iter().any(|t| t.range.contains(anchor))
         || sh.cells.iter_range(range).any(|(c, cell)| c != anchor && (!cell.value.is_empty() || cell.formula.is_some()))
@@ -516,8 +516,8 @@ impl Host for PassHost<'_> {
         );
         let range = RangeRef::new(anchor, end);
         let sh = self.wb.sheet(sheet)?;
-        let blocked = end.row >= gridcraft_core::MAX_ROWS
-            || end.col >= gridcraft_core::MAX_COLS
+        let blocked = end.row >= lattice_core::MAX_ROWS
+            || end.col >= lattice_core::MAX_COLS
             || sh.cells.iter_range(range).any(|(c, cell)| c != anchor && (cell.formula.is_some() || !cell.value.is_empty()))
             || sh.merges.iter().any(|m| m.intersects(&range));
         (!blocked).then_some(range)
@@ -744,7 +744,7 @@ impl Calc {
         let t1 = prof_now();
         let n = dirty.len();
         self.run(wb, dirty, false);
-        if std::env::var_os("GRIDCRAFT_PROFILE").is_some() {
+        if std::env::var_os("LATTICE_PROFILE").is_some() {
             eprintln!("recalc: {} seeds, closure {} cells {:.1} ms, run {:.1} ms", seeds.len(), n, t1 - t0, prof_now() - t1);
         }
     }
@@ -821,7 +821,7 @@ impl Calc {
                 (host.results, host.spills, host.cycles)
             };
             self.rng = rng;
-            if std::env::var_os("GRIDCRAFT_PROFILE").is_some() {
+            if std::env::var_os("LATTICE_PROFILE").is_some() {
                 eprintln!("  eval {} formulas {:.1} ms", results.len(), prof_now() - tp);
             }
             let tw = prof_now();
@@ -855,8 +855,8 @@ impl Calc {
                 if let Some(arr) = new {
                     let end = CellRef::new(k.1.row.saturating_add(arr.rows as u32 - 1), k.1.col.saturating_add(arr.cols as u32 - 1));
                     let range = RangeRef::new(k.1, end);
-                    let blocked = end.row >= gridcraft_core::MAX_ROWS
-                        || end.col >= gridcraft_core::MAX_COLS
+                    let blocked = end.row >= lattice_core::MAX_ROWS
+                        || end.col >= lattice_core::MAX_COLS
                         || range.iter().any(|c| c != k.1 && (sheet.cells.has(c) || sheet.spill.contains_key(&c)))
                         || sheet.merges.iter().any(|m| m.intersects(&range))
                         || sheet.tables.iter().any(|t| t.range.contains(k.1));
@@ -906,7 +906,7 @@ impl Calc {
             if full {
                 // Everything was already evaluated once; spill dependents need another pass.
             }
-            if std::env::var_os("GRIDCRAFT_PROFILE").is_some() {
+            if std::env::var_os("LATTICE_PROFILE").is_some() {
                 eprintln!("  write-back {:.1} ms", prof_now() - tw);
             }
             spill_changes.sort_by_key(|(s, c)| (*s, c.row, c.col));
@@ -936,7 +936,7 @@ pub fn now_serial() -> f64 {
 /// validation, Evaluate Formula, Name Manager previews, the CLI `eval`).
 pub fn evaluate(wb: &Workbook, sheet: usize, at: CellRef, formula: &str) -> Value {
     let body = formula.strip_prefix('=').unwrap_or(formula);
-    let Ok(expr) = gridcraft_formula::parse(body) else { return Value::Error(CellError::Name) };
+    let Ok(expr) = lattice_formula::parse(body) else { return Value::Error(CellError::Name) };
     evaluate_expr(wb, sheet, at, &expr)
 }
 
@@ -977,8 +977,8 @@ fn prof_now() -> f64 {
 mod tests {
     use std::time::{Duration, Instant};
 
-    use gridcraft_core::{CellRef, RangeRef, Value};
-    use gridcraft_model::{Cell, Formula, Workbook};
+    use lattice_core::{CellRef, RangeRef, Value};
+    use lattice_model::{Cell, Formula, Workbook};
 
     use super::{Calc, Intervals, Key};
 
@@ -1171,7 +1171,7 @@ mod tests {
         set(&mut wb, &mut calc, "CZ3", "30");
         assert_eq!(num(&wb, "DA6"), 36.0);
         // Ranges on another sheet.
-        wb.sheets.push(std::sync::Arc::new(gridcraft_model::Sheet::new("Data")));
+        wb.sheets.push(std::sync::Arc::new(lattice_model::Sheet::new("Data")));
         set(&mut wb, &mut calc, "DA9", "=SUM(Data!A1:A3)+SUM(Data!A:CZ)");
         assert_eq!(num(&wb, "DA9"), 0.0);
         wb.sheet_mut(1).unwrap().cells.set(CellRef::parse("A2").unwrap(), Cell::value(Value::Number(4.0)));

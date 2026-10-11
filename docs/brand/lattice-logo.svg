@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 320" width="1024" height="320">
+  <!-- Lattice logo (light backgrounds): mark + wordmark, "by NimbusHQ".
+       Original work; placeholder until the NimbusHQ brand art replaces it. -->
+  <g transform="translate(24 48) scale(0.4375)">
+    <g fill="#0b0b0c">
+      <rect x="88" y="56" width="72" height="400" rx="18"/>
+      <rect x="220" y="56" width="72" height="400" rx="18"/>
+      <rect x="352" y="56" width="72" height="400" rx="18"/>
+      <rect x="56" y="88" width="400" height="72" rx="18"/>
+      <rect x="56" y="220" width="400" height="72" rx="18"/>
+      <rect x="56" y="352" width="400" height="72" rx="18"/>
+    </g>
+    <rect x="226" y="226" width="60" height="60" rx="12" fill="#1f9d55"/>
+  </g>
+  <text x="288" y="178" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="128" font-weight="600" fill="#0b0b0c">Lattice</text>
+  <text x="292" y="242" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="44" font-weight="500" fill="#5c5c60">by NimbusHQ</text>
+</svg>

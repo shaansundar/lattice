@@ -1,4 +1,4 @@
-//! GridCraft file formats: XLSX (transitional and strict) and CSV import/export, plus XLSB and ODS data import.
+//! Lattice file formats: XLSX (transitional and strict) and CSV import/export, plus XLSB and ODS data import.
 //!
 //! Clean-room implementation from ECMA-376 / ISO/IEC 29500 and observed behaviour. All entry
 //! points work on byte slices (no file system access), so the crate builds for WebAssembly.
@@ -34,8 +34,8 @@ mod xml;
 #[cfg(test)]
 mod tests;
 
-use gridcraft_core::DateSystem;
-use gridcraft_model::Workbook;
+use lattice_core::DateSystem;
+use lattice_model::Workbook;
 
 pub use csv::{read_csv, write_csv};
 pub use ods::read_ods;

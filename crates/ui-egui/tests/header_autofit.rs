@@ -1,8 +1,8 @@
 //! Header AutoFit and resize gestures, driven through real egui pointer events.
 
 use egui::{Event, Modifiers, PointerButton, Pos2, pos2, vec2};
-use gridcraft_engine::Session;
-use gridcraft_ui_egui::{SheetApp, grid::Geo};
+use lattice_engine::Session;
+use lattice_ui_egui::{SheetApp, grid::Geo};
 use serde_json::json;
 
 fn harness(selection: &str) -> egui_kittest::Harness<'static, SheetApp> {

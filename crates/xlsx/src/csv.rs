@@ -2,9 +2,9 @@
 
 use std::sync::Arc;
 
-use gridcraft_core::parse::parse_input;
-use gridcraft_core::{CellRef, MAX_COLS, MAX_ROWS, Value, number_to_text};
-use gridcraft_model::{Cell, NumFmt, Sheet, StyleId, Workbook};
+use lattice_core::parse::parse_input;
+use lattice_core::{CellRef, MAX_COLS, MAX_ROWS, Value, number_to_text};
+use lattice_model::{Cell, NumFmt, Sheet, StyleId, Workbook};
 
 use crate::{CsvOptions, IoError};
 

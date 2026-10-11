@@ -31,7 +31,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
-      APP_ID: ai.storyteller.gridcraft
+      APP_ID: app.lattice.nimbushq.xyz
     steps:
       - name: Configure Pages
         id: pages
@@ -70,7 +70,7 @@ jobs:
           gh release download "$tag" --repo "$GITHUB_REPOSITORY" \
             --pattern SHA256SUMS.txt --dir bundles
           for arch in x86_64 aarch64; do
-            asset="gridcraft-$version-linux-$arch.flatpak"
+            asset="lattice-$version-linux-$arch.flatpak"
             gh release download "$tag" --repo "$GITHUB_REPOSITORY" \
               --pattern "$asset" --dir bundles
             test -s "bundles/$asset"
@@ -83,7 +83,7 @@ jobs:
           test "$(find bundles -maxdepth 1 -type f -name '*.flatpak' | wc -l)" -eq 2
 
           for arch in x86_64 aarch64; do
-            asset="bundles/gridcraft-$version-linux-$arch.flatpak"
+            asset="bundles/lattice-$version-linux-$arch.flatpak"
             validation_repo="$(mktemp -d)"
             ostree --repo="$validation_repo" init --mode=archive-z2
             flatpak build-import-bundle "$validation_repo" "$asset"
@@ -117,15 +117,15 @@ jobs:
           version="${RELEASE_TAG#v}"
           for arch in x86_64 aarch64; do
             flatpak build-import-bundle "$repo_dir" \
-              "bundles/gridcraft-$version-linux-$arch.flatpak"
+              "bundles/lattice-$version-linux-$arch.flatpak"
           done
           # Prune unreachable objects and keep at most 3 commits per ref, so the Pages repository
           # (re-mirrored and re-deployed on every release) does not grow without bound.
           flatpak build-update-repo \
             --prune --prune-depth=3 \
-            --title="GridCraft" \
-            --comment='Official GridCraft releases' \
-            --description='Official Flatpak repository for GridCraft' \
+            --title="Lattice" \
+            --comment='Official Lattice releases' \
+            --description='Official Flatpak repository for Lattice' \
             --homepage="https://github.com/$GITHUB_REPOSITORY" \
             --default-branch=stable \
             "$repo_dir"
@@ -137,20 +137,20 @@ jobs:
 
           base_url="${PAGES_BASE_URL%/}"
           repo_url="$base_url/flatpak/repo/"
-          cat >"$site/flatpak/gridcraft.flatpakrepo" <<META
+          cat >"$site/flatpak/lattice.flatpakrepo" <<META
           [Flatpak Repo]
-          Title=GridCraft
-          Comment=Official GridCraft releases
-          Description=Official Flatpak repository for GridCraft
+          Title=Lattice
+          Comment=Official Lattice releases
+          Description=Official Flatpak repository for Lattice
           Url=$repo_url
           Homepage=https://github.com/$GITHUB_REPOSITORY
           META
           cat >"$site/flatpak/index.html" <<HTML
-          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GridCraft Flatpak repository</title></head><body><main><h1>GridCraft Flatpak repository</h1><p>Latest published release: <strong>$RELEASE_TAG</strong></p><p><a href="gridcraft.flatpakrepo">Add the GridCraft repository</a></p><pre>flatpak remote-add --if-not-exists gridcraft $base_url/flatpak/gridcraft.flatpakrepo
-          flatpak install gridcraft $APP_ID</pre></main></body></html>
+          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lattice Flatpak repository</title></head><body><main><h1>Lattice Flatpak repository</h1><p>Latest published release: <strong>$RELEASE_TAG</strong></p><p><a href="lattice.flatpakrepo">Add the Lattice repository</a></p><pre>flatpak remote-add --if-not-exists lattice $base_url/flatpak/lattice.flatpakrepo
+          flatpak install lattice $APP_ID</pre></main></body></html>
           HTML
           cat >"$site/index.html" <<HTML
-          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GridCraft downloads</title></head><body><main><h1>GridCraft downloads</h1><p><a href="flatpak/">Flatpak repository</a></p><p><a href="https://github.com/$GITHUB_REPOSITORY/releases/tag/$RELEASE_TAG">Release assets</a></p></main></body></html>
+          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lattice downloads</title></head><body><main><h1>Lattice downloads</h1><p><a href="flatpak/">Flatpak repository</a></p><p><a href="https://github.com/$GITHUB_REPOSITORY/releases/tag/$RELEASE_TAG">Release assets</a></p></main></body></html>
           HTML
           touch "$site/.nojekyll"
 

@@ -2,10 +2,10 @@
 
 use egui::{Event, Key, Modifiers, PointerButton, os::OperatingSystem};
 use egui_kittest::kittest::Queryable as _;
-use gridcraft_engine::Session;
-use gridcraft_engine::core::{CellRef, Value};
-use gridcraft_engine::model::HAlign;
-use gridcraft_ui_egui::SheetApp;
+use lattice_engine::Session;
+use lattice_engine::core::{CellRef, Value};
+use lattice_engine::model::HAlign;
+use lattice_ui_egui::SheetApp;
 use serde_json::json;
 
 type Harness = egui_kittest::Harness<'static, SheetApp>;

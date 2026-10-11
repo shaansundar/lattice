@@ -112,7 +112,7 @@ impl Dialog {
                 "Column Width",
                 "home.columnWidth",
                 vec![Number { key: "chars", label: "Column width (characters):" }],
-                json!({"chars": app.session.active().and_then(|d| d.wb.active().map(|s| gridcraft_engine::cmd::format::points_to_chars(s.col_width(d.selection.active.col) as f64))).unwrap_or(8.43)}),
+                json!({"chars": app.session.active().and_then(|d| d.wb.active().map(|s| lattice_engine::cmd::format::points_to_chars(s.col_width(d.selection.active.col) as f64))).unwrap_or(8.43)}),
             ),
             "defaultWidth" => Dialog::form(
                 "defaultWidth",
@@ -363,7 +363,7 @@ impl Dialog {
                     Text { key: "comment", label: "Comment:" },
                     Text { key: "refersTo", label: "Refers to:" },
                 ],
-                json!({"scope": "Workbook", "refersTo": app.session.active().and_then(|d| d.wb.active().map(|s| format!("={}!{}", gridcraft_engine::formula::quote_sheet(&s.name), abs(&d.selection.current()))))}),
+                json!({"scope": "Workbook", "refersTo": app.session.active().and_then(|d| d.wb.active().map(|s| format!("={}!{}", lattice_engine::formula::quote_sheet(&s.name), abs(&d.selection.current()))))}),
             ),
             "dataValidation" => Dialog::form(
                 "dataValidation",
@@ -510,7 +510,7 @@ impl Dialog {
             "commandSearch" => Dialog::custom("commandSearch", "Search Commands", json!({})),
             "agents" => Dialog::custom("agents", "Agent Control", json!({})),
             "about" => {
-                let mut d = Dialog::custom("about", "About GridCraft", json!({}));
+                let mut d = Dialog::custom("about", "About Lattice", json!({}));
                 d.tab = match p("tab").as_str() {
                     Some(t @ ("Contributors" | "Models")) => t.to_string(),
                     _ => "About".into(),
@@ -569,7 +569,7 @@ impl Dialog {
             "pickList" => Dialog::custom("pickList", "Pick From List", json!({})),
             "saveCopy" => Dialog::custom("saveCopy", "Save a Copy", json!({"format": p("format")})),
             "saveChanges" => Dialog::custom("saveChanges", "Save Changes?", json!({"title": p("title")})),
-            "start" => Dialog::custom("start", "GridCraft", json!({})),
+            "start" => Dialog::custom("start", "Lattice", json!({})),
             "comments" => {
                 app.grid.pane = Some("comments".into());
                 return None;
@@ -591,8 +591,8 @@ impl Dialog {
     }
 }
 
-fn abs(r: &gridcraft_engine::core::RangeRef) -> String {
-    let a = |c: gridcraft_engine::core::CellRef| format!("${}${}", gridcraft_engine::core::col_to_letters(c.col), c.row + 1);
+fn abs(r: &lattice_engine::core::RangeRef) -> String {
+    let a = |c: lattice_engine::core::CellRef| format!("${}${}", lattice_engine::core::col_to_letters(c.col), c.row + 1);
     if r.is_single() { a(r.start) } else { format!("{}:{}", a(r.start), a(r.end)) }
 }
 
@@ -683,11 +683,11 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
                 "goalSeek" => goal_seek(app, ui, &mut d, &mut confirm),
                 "spelling" => spelling(app, ui, &mut d, &mut open),
                 "agents" => {
-                    ui.label("GridCraft is fully drivable by agents. Every menu item, button and gesture is a command:");
+                    ui.label("Lattice is fully drivable by agents. Every menu item, button and gesture is a command:");
                     ui.add_space(4.0);
-                    ui.monospace("gridcraft --control 7979        # JSON-lines control channel\ngridcraft-cli mcp --connect 7979   # MCP bridged to this window\ngridcraft-cli mcp                   # headless MCP server");
+                    ui.monospace("lattice --control 7979        # JSON-lines control channel\nlattice-cli mcp --connect 7979   # MCP bridged to this window\nlattice-cli mcp                   # headless MCP server");
                     ui.add_space(4.0);
-                    ui.label(format!("{} engine commands are available. See docs/mcp.md and docs/control-protocol.md.", gridcraft_engine::command_specs().len()));
+                    ui.label(format!("{} engine commands are available. See docs/mcp.md and docs/control-protocol.md.", lattice_engine::command_specs().len()));
                 }
                 "about" => about(ui, &mut d),
                 "journal" => {
@@ -720,7 +720,7 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
                         } else {
                             d.values.remove("path");
                             d.values.insert("alt".into(), json!(name));
-                            d.values.insert("base64".into(), json!(gridcraft_engine::io::base64_encode(&bytes)));
+                            d.values.insert("base64".into(), json!(lattice_engine::io::base64_encode(&bytes)));
                         }
                     }
                     if app.services.pick_picture_async.is_some() {
@@ -767,9 +767,9 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
                             let a = doc.selection.active;
                             let mut seen = std::collections::BTreeSet::new();
                             let mut r = a.row;
-                            while r > 0 && !sh.value(gridcraft_engine::core::CellRef::new(r - 1, a.col)).is_empty() {
+                            while r > 0 && !sh.value(lattice_engine::core::CellRef::new(r - 1, a.col)).is_empty() {
                                 r -= 1;
-                                seen.insert(sh.value(gridcraft_engine::core::CellRef::new(r, a.col)).display());
+                                seen.insert(sh.value(lattice_engine::core::CellRef::new(r, a.col)).display());
                             }
                             Some(seen.into_iter().collect())
                         })
@@ -827,7 +827,7 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
                             app.run_or_alert("file.new", json!({}));
                             open = false;
                         }
-                        for (n, t) in gridcraft_engine::sample::SAMPLES {
+                        for (n, t) in lattice_engine::sample::SAMPLES {
                             if ui.button(*t).clicked() {
                                 app.run_or_alert("file.new", json!({"sample": n}));
                                 open = false;
@@ -1026,7 +1026,7 @@ fn form(ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool, open: &mut bool) 
     ok_cancel(ui, confirm, open);
 }
 
-/// Help ▸ About GridCraft: the app, its contributors and the AI models that helped. The credits
+/// Help ▸ About Lattice: the app, its contributors and the AI models that helped. The credits
 /// are compiled in (`crate::credits`, docs/contributors.md).
 fn about(ui: &mut egui::Ui, d: &mut Dialog) {
     ui.horizontal(|ui| {
@@ -1041,12 +1041,11 @@ fn about(ui: &mut egui::Ui, d: &mut Dialog) {
         "Contributors" => crate::credits::contributors_ui(ui),
         "Models" => crate::credits::models_ui(ui),
         _ => {
-            ui.heading("GridCraft");
+            ui.heading("Lattice");
             ui.label(format!("Version {}", env!("CARGO_PKG_VERSION")));
             ui.add_space(4.0);
-            ui.label("A clean-room, open-source, Rust-native spreadsheet. Part of ArtCraft.");
-            ui.hyperlink_to("getartcraft.com/apps/gridcraft", "https://getartcraft.com/apps/gridcraft");
-            ui.hyperlink_to("Join the ArtCraft Discord", "https://discord.gg/artcraft");
+            ui.label("A clean-room, open-source, Rust-native spreadsheet. Lattice by ☁️ NimbusHQ.");
+            ui.hyperlink_to("nimbushq.xyz", "https://nimbushq.xyz");
         }
     }
 }
@@ -1060,7 +1059,7 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
         }
     });
     ui.separator();
-    let mut st: gridcraft_engine::model::Style = d.values.get("style").and_then(|v| serde_json::from_value(v.clone()).ok()).unwrap_or_default();
+    let mut st: lattice_engine::model::Style = d.values.get("style").and_then(|v| serde_json::from_value(v.clone()).ok()).unwrap_or_default();
     let sample = app.session.active().and_then(|doc| doc.wb.active().map(|s| s.value(doc.selection.active))).unwrap_or_default();
     match d.tab.as_str() {
         "Number" => {
@@ -1070,13 +1069,13 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
                 for name in
                     ["General", "Number", "Currency", "Accounting", "Short Date", "Long Date", "Time", "Percentage", "Fraction", "Scientific", "Text"]
                 {
-                    let c = gridcraft_engine::cmd::format::format_code_for(name).to_string();
+                    let c = lattice_engine::cmd::format::format_code_for(name).to_string();
                     if cols[0].selectable_label(code == c, name).clicked() {
                         code = c;
                     }
                 }
                 cols[1].label(egui::RichText::new("Sample").strong());
-                let preview = app.session.active().map(|doc| gridcraft_engine::display::format(&sample, &code, &doc.wb).text).unwrap_or_default();
+                let preview = app.session.active().map(|doc| lattice_engine::display::format(&sample, &code, &doc.wb).text).unwrap_or_default();
                 cols[1].label(egui::RichText::new(preview).font(theme::ui_font(15.0)));
                 cols[1].add_space(8.0);
                 cols[1].label("Type (custom format code):");
@@ -1104,10 +1103,10 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
                     }
                 }
             });
-            st.num_fmt = gridcraft_engine::model::NumFmt::new(&code);
+            st.num_fmt = lattice_engine::model::NumFmt::new(&code);
         }
         "Alignment" => {
-            use gridcraft_engine::model::{HAlign, VAlign};
+            use lattice_engine::model::{HAlign, VAlign};
             ui.label(egui::RichText::new("Horizontal").strong());
             ui.horizontal_wrapped(|ui| {
                 for (h, n) in [
@@ -1156,7 +1155,7 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
                 ui.checkbox(&mut st.font.italic, "Italic");
                 ui.checkbox(&mut st.font.strike, "Strikethrough");
             });
-            use gridcraft_engine::model::{Underline, VertAlign};
+            use lattice_engine::model::{Underline, VertAlign};
             ui.horizontal(|ui| {
                 for (u, n) in [
                     (Underline::None, "None"),
@@ -1177,12 +1176,12 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
             let colors = app.session.active().map(|doc| doc.wb.theme.colors).unwrap_or_default();
             if let Some(c) = crate::widgets::color_palette(ui, &colors, "Automatic") {
                 st.font.color =
-                    if c == "none" { gridcraft_engine::model::Color::Auto } else { gridcraft_engine::model::Color::from_hex(&c).unwrap_or_default() };
+                    if c == "none" { lattice_engine::model::Color::Auto } else { lattice_engine::model::Color::from_hex(&c).unwrap_or_default() };
             }
         }
         "Border" => {
-            use gridcraft_engine::model::{BorderLine, BorderStyle};
-            let line = BorderLine { style: BorderStyle::Thin, color: gridcraft_engine::model::Color::Auto };
+            use lattice_engine::model::{BorderLine, BorderStyle};
+            let line = BorderLine { style: BorderStyle::Thin, color: lattice_engine::model::Color::Auto };
             ui.horizontal(|ui| {
                 if ui.button("None").clicked() {
                     st.borders = Default::default();
@@ -1232,7 +1231,7 @@ fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: 
                 st.fill = if c == "none" {
                     Default::default()
                 } else {
-                    gridcraft_engine::model::Fill::solid(gridcraft_engine::model::Color::from_hex(&c).unwrap_or_default())
+                    lattice_engine::model::Fill::solid(lattice_engine::model::Color::from_hex(&c).unwrap_or_default())
                 };
             }
         }
@@ -1267,7 +1266,7 @@ fn insert_function(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confir
         r.request_focus();
     });
     let locale = app.ui.language.formula_locale();
-    let list = gridcraft_engine::cmd::formulas::function_list();
+    let list = lattice_engine::cmd::formulas::function_list();
     let q = d.search.to_ascii_lowercase();
     let hits: Vec<&Json> = list
         .iter()

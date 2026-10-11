@@ -1,8 +1,8 @@
 //! Formula text conversion between the model (canonical text, no `=`) and files (`_xlfn.`
 //! prefixes for newer functions).
 
-use gridcraft_formula::Expr;
-use gridcraft_model::Formula;
+use lattice_formula::Expr;
+use lattice_model::Formula;
 
 /// Formula text for a file.
 pub fn to_file(f: &Formula) -> String {
@@ -15,7 +15,7 @@ pub fn to_file(f: &Formula) -> String {
 /// Arbitrary formula text (names, CF, validation) for a file. Unparseable text is kept.
 pub fn text_to_file(text: &str) -> String {
     let body = text.strip_prefix('=').unwrap_or(text);
-    match gridcraft_formula::parse(body) {
+    match lattice_formula::parse(body) {
         Ok(e) => expr_to_file(e),
         Err(_) => body.to_string(),
     }
@@ -77,12 +77,12 @@ fn expr_to_file(e: Expr) -> String {
             None => Expr::Call(name, args),
         },
         // Files have no `#` operator: Excel writes `A1#` as `_xlfn.ANCHORARRAY(A1)`.
-        Expr::Unary(gridcraft_formula::UnOp::Spill, r) => Expr::Call("_xlfn.ANCHORARRAY".into(), vec![*r]),
+        Expr::Unary(lattice_formula::UnOp::Spill, r) => Expr::Call("_xlfn.ANCHORARRAY".into(), vec![*r]),
         // Nor an `@` operator: Excel writes `@x` as `_xlfn.SINGLE(x)`.
-        Expr::Unary(gridcraft_formula::UnOp::At, x) => Expr::Call("_xlfn.SINGLE".into(), vec![*x]),
+        Expr::Unary(lattice_formula::UnOp::At, x) => Expr::Call("_xlfn.SINGLE".into(), vec![*x]),
         other => other,
     });
-    gridcraft_formula::print(&e)
+    lattice_formula::print(&e)
 }
 
 /// `_xlpm.x` → `x` (any case, as the parser upper-cases function names).
@@ -96,8 +96,8 @@ fn strip_param_prefix(n: String) -> String {
 /// Formula text read from a file → model text (strips prefixes when it parses).
 pub fn from_file(text: &str) -> String {
     let body = text.strip_prefix('=').unwrap_or(text);
-    match gridcraft_formula::parse(body) {
-        Ok(e) => gridcraft_formula::print(&e.map(&mut |x| match x {
+    match lattice_formula::parse(body) {
+        Ok(e) => lattice_formula::print(&e.map(&mut |x| match x {
             Expr::Name(n) => Expr::Name(strip_param_prefix(n)),
             Expr::Call(n, args) => Expr::Call(strip_param_prefix(n), args),
             other => other,

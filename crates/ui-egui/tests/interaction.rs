@@ -1,9 +1,9 @@
 //! UI interaction tests: real egui input through the whole app (no GPU needed).
 
 use egui::{Event, Key, Modifiers, PointerButton};
-use gridcraft_engine::Session;
-use gridcraft_engine::core::{CellRef, Value};
-use gridcraft_ui_egui::{SheetApp, grid::Geo};
+use lattice_engine::Session;
+use lattice_engine::core::{CellRef, Value};
+use lattice_ui_egui::{SheetApp, grid::Geo};
 use serde_json::json;
 
 fn harness(session: Session) -> egui_kittest::Harness<'static, SheetApp> {
@@ -131,7 +131,7 @@ fn name_box_enter_goes_to_the_typed_cell_not_the_one_below() {
     let mut h = harness(blank());
     h.state_mut().session.run("selection.set", json!({"cell": "C5"})).unwrap();
     h.run_steps(2);
-    h.ctx.memory_mut(|m| m.request_focus(egui::Id::new("gridcraft.name_box")));
+    h.ctx.memory_mut(|m| m.request_focus(egui::Id::new("lattice.name_box")));
     h.run_steps(2);
     h.input_mut().events.push(Event::Key { key: Key::A, physical_key: None, pressed: true, repeat: false, modifiers: Modifiers::COMMAND });
     h.input_mut().events.push(Event::Text("A1".into()));
@@ -205,14 +205,13 @@ fn renders_every_ribbon_tab_without_panicking() {
 
 #[test]
 fn language_switch_translates_the_ribbon_and_persists() {
-    use gridcraft_ui_egui::i18n::Language;
+    use lattice_ui_egui::i18n::Language;
     let mut h = harness(blank());
     // English by default whatever the host's locale: only the desktop app reads the system language.
     assert_eq!(h.state().ui.language, Language::En);
     // The language commands are listed with the other UI commands.
     let ctx = h.ctx.clone();
-    let gridcraft_ui_egui::control::Outcome::Done(listed) = gridcraft_ui_egui::control::handle(h.state_mut(), &ctx, "engine.commands", &json!({}))
-    else {
+    let lattice_ui_egui::control::Outcome::Done(listed) = lattice_ui_egui::control::handle(h.state_mut(), &ctx, "engine.commands", &json!({})) else {
         panic!("engine.commands returns a response");
     };
     let ids: Vec<&str> = listed["result"].as_array().into_iter().flatten().filter_map(|c| c["id"].as_str()).collect();
@@ -226,7 +225,7 @@ fn language_switch_translates_the_ribbon_and_persists() {
         h.run_steps(2); // every locale renders the ribbon without panicking
         assert_eq!(h.state().ui.language, language);
         assert_eq!(language.tr("Data"), expected);
-        let restored: gridcraft_ui_egui::UiState = serde_json::from_str(&serde_json::to_string(&h.state().ui).unwrap()).unwrap();
+        let restored: lattice_ui_egui::UiState = serde_json::from_str(&serde_json::to_string(&h.state().ui).unwrap()).unwrap();
         assert_eq!(restored.language, language);
     }
     h.state_mut().run("app.language.set", json!({"language": "en"})).unwrap();

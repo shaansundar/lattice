@@ -1,16 +1,16 @@
 [package]
-name = "gridcraft-ui-egui"
+name = "lattice-ui-egui"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "GridCraft egui frontend (Excel-style UI); swappable — nothing below depends on it"
+description = "Lattice egui frontend (Excel-style UI); swappable — nothing below depends on it"
 
 [lints]
 workspace = true
 
 [dependencies]
-gridcraft-engine = { workspace = true }
-gridcraft-chart = { workspace = true }
+lattice-engine = { workspace = true }
+lattice-chart = { workspace = true }
 egui = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

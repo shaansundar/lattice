@@ -3,9 +3,9 @@
 
 use std::fmt::Write as _;
 
-use gridcraft_core::Value;
-use gridcraft_formula::{Expr, SheetSel};
-use gridcraft_model::{Chart, ChartKind, Color, LegendPos, Series, Workbook};
+use lattice_core::Value;
+use lattice_formula::{Expr, SheetSel};
+use lattice_model::{Chart, ChartKind, Color, LegendPos, Series, Workbook};
 
 use crate::drawing::{dml_color, srgb};
 use crate::xml::{El, esc, num};
@@ -230,7 +230,7 @@ const MAX_CACHE: u64 = 100_000;
 
 /// Values of a same-workbook reference (`Sheet1!$B$2:$B$9`), row-major.
 pub(crate) fn ref_values(wb: &Workbook, sheet_idx: usize, f: &str) -> Option<Vec<Value>> {
-    let e = gridcraft_formula::parse(f).ok()?;
+    let e = lattice_formula::parse(f).ok()?;
     let Expr::Ref(r) = e else { return None };
     let si = match &r.sheet {
         SheetSel::Current => sheet_idx,
@@ -250,7 +250,7 @@ pub(crate) fn ref_values(wb: &Workbook, sheet_idx: usize, f: &str) -> Option<Vec
 }
 
 fn is_ref(f: &str) -> bool {
-    matches!(gridcraft_formula::parse(f), Ok(Expr::Ref(_)))
+    matches!(lattice_formula::parse(f), Ok(Expr::Ref(_)))
 }
 
 fn num_data(tag: &str, f: Option<&str>, wb: &Workbook, si: usize) -> String {

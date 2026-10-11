@@ -6,8 +6,8 @@
 
 use std::sync::Arc;
 
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::*;
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::*;
 use serde_json::{Value as Json, json};
 
 use super::*;
@@ -1280,7 +1280,7 @@ fn recommended(s: &mut Session, p: &Json) -> Result<Json> {
 
 #[cfg(test)]
 mod tests {
-    use gridcraft_core::{CellRef, Value};
+    use lattice_core::{CellRef, Value};
     use serde_json::json;
 
     use crate::Session;
@@ -1316,7 +1316,7 @@ mod tests {
     fn text(s: &Session, a: &str) -> String {
         val(s, a).display()
     }
-    fn pt(s: &Session) -> gridcraft_model::PivotTable {
+    fn pt(s: &Session) -> lattice_model::PivotTable {
         s.doc().unwrap().wb.active().unwrap().pivots.last().unwrap().clone()
     }
     /// Finds the row (0-based) whose first report column holds `label`.

@@ -9,7 +9,7 @@
 use std::cmp::Ordering;
 use std::collections::HashMap;
 
-use gridcraft_core::{Array, CellError, Value, sort_compare};
+use lattice_core::{Array, CellError, Value, sort_compare};
 
 use crate::util::{A, MAX_CELLS, R, arg, array_val, as_array, has, num, opt_bool, scalar};
 use crate::{Arg, Ctx, FnSpec, VAR};
@@ -1030,7 +1030,7 @@ pub(crate) fn specs() -> Vec<FnSpec> {
 
 #[cfg(test)]
 mod tests {
-    use gridcraft_core::{CellError, Value};
+    use lattice_core::{CellError, Value};
 
     use crate::util::testutil::*;
 

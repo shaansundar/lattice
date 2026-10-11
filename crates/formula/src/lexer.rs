@@ -2,7 +2,7 @@
 //!
 //! Token spans are byte offsets into the source, which the editor uses to colour references.
 
-use gridcraft_core::CellError;
+use lattice_core::CellError;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Tok {

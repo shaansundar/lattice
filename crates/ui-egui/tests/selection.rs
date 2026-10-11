@@ -1,9 +1,9 @@
 //! Cell selection consumes every pointer position without editing cell contents.
 
 use egui::{Event, Modifiers, PointerButton, Pos2};
-use gridcraft_engine::Session;
-use gridcraft_engine::core::{CellRef, RangeRef};
-use gridcraft_ui_egui::{SheetApp, grid::Geo};
+use lattice_engine::Session;
+use lattice_engine::core::{CellRef, RangeRef};
+use lattice_ui_egui::{SheetApp, grid::Geo};
 use serde_json::{Value, json};
 
 type Harness = egui_kittest::Harness<'static, SheetApp>;

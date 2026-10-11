@@ -1,5 +1,5 @@
-use gridcraft_core::{CellError, CellRef, Value};
-use gridcraft_model::{Cell, Formula, Workbook};
+use lattice_core::{CellError, CellRef, Value};
+use lattice_model::{Cell, Formula, Workbook};
 
 use crate::Calc;
 
@@ -20,7 +20,7 @@ impl T {
         let cell = if input.starts_with('=') {
             Cell::formula(Formula::new(input))
         } else {
-            Cell::value(gridcraft_core::parse::parse_input(input, self.wb.date_system).value)
+            Cell::value(lattice_core::parse::parse_input(input, self.wb.date_system).value)
         };
         self.wb.sheet_mut(0).unwrap().cells.set(c(at), cell);
         self.calc.cells_changed(&mut self.wb, &[(0, c(at))]);
@@ -54,7 +54,7 @@ fn spill_range_operator() {
     t.set("D1", "=SUM(A1#)");
     assert_eq!(t.get("D1"), Value::Error(CellError::Ref));
     // Through a defined name.
-    t.wb.names.push(gridcraft_model::DefinedName {
+    t.wb.names.push(lattice_model::DefinedName {
         name: "Seq".into(),
         scope: None,
         formula: "Sheet1!$B$1#".into(),
@@ -182,10 +182,10 @@ fn spill_into_the_old_area_of_a_blocked_neighbour() {
 fn arrays_do_not_spill_in_tables() {
     // Excel: spilled array formulas aren't supported in tables.
     let mut t = T::new();
-    t.wb.sheet_mut(0).unwrap().tables.push(gridcraft_model::Table {
+    t.wb.sheet_mut(0).unwrap().tables.push(lattice_model::Table {
         id: 1,
         name: "Table1".into(),
-        range: gridcraft_core::RangeRef::parse("B3:C6").unwrap(),
+        range: lattice_core::RangeRef::parse("B3:C6").unwrap(),
         header_row: true,
         totals_row: false,
         columns: vec![],
@@ -327,8 +327,8 @@ fn let_lambda() {
 #[test]
 fn names_and_sheets() {
     let mut t = T::new();
-    t.wb.names.push(gridcraft_model::DefinedName { name: "Rate".into(), scope: None, formula: "0.5".into(), comment: String::new(), hidden: false });
-    t.wb.sheets.push(std::sync::Arc::new(gridcraft_model::Sheet::new("Data")));
+    t.wb.names.push(lattice_model::DefinedName { name: "Rate".into(), scope: None, formula: "0.5".into(), comment: String::new(), hidden: false });
+    t.wb.sheets.push(std::sync::Arc::new(lattice_model::Sheet::new("Data")));
     t.wb.sheet_mut(1).unwrap().set_value(c("A1"), Value::Number(8.0));
     t.calc.rebuild(&t.wb);
     t.set("A1", "=Rate*Data!A1");
@@ -345,7 +345,7 @@ fn legacy_array_formulas_fill_their_range() {
     t.set("A2", "2");
     let cse = |t: &mut T, at: &str, formula: &str, range: &str| {
         let mut f = Formula::new(formula);
-        f.array = gridcraft_core::RangeRef::parse(range);
+        f.array = lattice_core::RangeRef::parse(range);
         t.wb.sheet_mut(0).unwrap().cells.set(c(at), Cell::formula(f));
         t.calc.cells_changed(&mut t.wb, &[(0, c(at))]);
     };
@@ -378,7 +378,7 @@ fn subtotal_skips_hidden() {
     t.set("A1", "1");
     t.set("A2", "2");
     t.set("A3", "3");
-    t.wb.sheet_mut(0).unwrap().rows.insert(1, gridcraft_model::LineInfo { hidden: true, ..Default::default() });
+    t.wb.sheet_mut(0).unwrap().rows.insert(1, lattice_model::LineInfo { hidden: true, ..Default::default() });
     t.set("B1", "=SUBTOTAL(109,A1:A3)");
     t.set("B2", "=SUBTOTAL(9,A1:A3)");
     assert_eq!(t.num("B1"), 4.0);
@@ -464,8 +464,8 @@ fn sumif_resized_sum_range_stops_at_the_sheet_edge() {
 #[test]
 fn sumif_resized_sum_range_on_another_sheet_and_through_a_name() {
     let mut t = T::new();
-    t.wb.sheets.push(std::sync::Arc::new(gridcraft_model::Sheet::new("Data")));
-    t.wb.names.push(gridcraft_model::DefinedName {
+    t.wb.sheets.push(std::sync::Arc::new(lattice_model::Sheet::new("Data")));
+    t.wb.names.push(lattice_model::DefinedName {
         name: "Amounts".into(),
         scope: None,
         formula: "Data!$B$1".into(),

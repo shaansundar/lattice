@@ -1,7 +1,7 @@
 //! Title bar (Quick Access Toolbar), ribbon tabs and ribbon groups, and keyboard shortcuts.
 
 use egui::{Align2, Color32, Key, Modifiers, Rect, Sense, Stroke, StrokeKind, Ui, pos2, vec2};
-use gridcraft_engine::model::{HAlign, Style, VAlign};
+use lattice_engine::model::{HAlign, Style, VAlign};
 use serde_json::json;
 
 use crate::SheetApp;
@@ -268,7 +268,7 @@ fn active_style(app: &SheetApp) -> Style {
 }
 
 fn theme_colors(app: &SheetApp) -> [u32; 12] {
-    app.session.active().map(|d| d.wb.theme.colors).unwrap_or(gridcraft_engine::model::Theme::default().colors)
+    app.session.active().map(|d| d.wb.theme.colors).unwrap_or(lattice_engine::model::Theme::default().colors)
 }
 
 /// Runs a command from a ribbon click (menu-style: no params may open a dialog).
@@ -461,7 +461,7 @@ fn home(app: &mut SheetApp, ui: &mut Ui) {
                 }
             });
             let fill = app.grid.last_fill.clone();
-            let fill_c = gridcraft_engine::model::Color::from_hex(&fill).and_then(|c| c.resolve(&Default::default())).map(theme::color32);
+            let fill_c = lattice_engine::model::Color::from_hex(&fill).and_then(|c| c.resolve(&Default::default())).map(theme::color32);
             let (f, fa) = split_button(ui, Icon::Fill, fill_c, "Fill Color");
             if f {
                 act(app, "home.fillColor", json!({"color": fill}));
@@ -476,7 +476,7 @@ fn home(app: &mut SheetApp, ui: &mut Ui) {
                 }
             });
             let fc = app.grid.last_font_color.clone();
-            let fc_c = gridcraft_engine::model::Color::from_hex(&fc).and_then(|c| c.resolve(&Default::default())).map(theme::color32);
+            let fc_c = lattice_engine::model::Color::from_hex(&fc).and_then(|c| c.resolve(&Default::default())).map(theme::color32);
             let (c, ca) = split_button(ui, Icon::FontColor, fc_c, "Font Color");
             if c {
                 act(app, "home.fontColor", json!({"color": fc}));
@@ -834,7 +834,7 @@ fn size_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style) {
 
 fn number_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style) {
     let code = st.num_fmt.as_str().to_string();
-    let kind = gridcraft_engine::display::number_format(&code).kind();
+    let kind = lattice_engine::display::number_format(&code).kind();
     let current = format!("{kind:?}");
     let lang = app.ui.language;
     let sample = app.session.active().and_then(|d| d.wb.active().map(|sh| sh.value(d.selection.active))).unwrap_or_default();
@@ -846,8 +846,8 @@ fn number_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style) {
             for name in
                 ["General", "Number", "Currency", "Accounting", "Short Date", "Long Date", "Time", "Percentage", "Fraction", "Scientific", "Text"]
             {
-                let code = gridcraft_engine::cmd::format::format_code_for(name);
-                let preview = app.session.active().map(|d| gridcraft_engine::display::format(&sample, code, &d.wb).text).unwrap_or_default();
+                let code = lattice_engine::cmd::format::format_code_for(name);
+                let preview = app.session.active().map(|d| lattice_engine::display::format(&sample, code, &d.wb).text).unwrap_or_default();
                 let r = ui.add(egui::Button::selectable(current == name, format!("{:<12}   {preview}", lang.tr(name))).min_size(vec2(240.0, 22.0)));
                 if r.clicked() {
                     picked = Some(name);
@@ -978,9 +978,9 @@ fn table_gallery(app: &mut SheetApp, ui: &mut Ui, cmd: &str) {
     }
 }
 
-fn paint_table_swatch(ui: &Ui, r: Rect, wb: &gridcraft_engine::model::Workbook, style: &str) {
-    let lk = gridcraft_engine::tables::look(style);
-    let res = |c: Option<gridcraft_engine::model::Color>| c.and_then(|c| c.resolve(&wb.theme)).map(theme::color32);
+fn paint_table_swatch(ui: &Ui, r: Rect, wb: &lattice_engine::model::Workbook, style: &str) {
+    let lk = lattice_engine::tables::look(style);
+    let res = |c: Option<lattice_engine::model::Color>| c.and_then(|c| c.resolve(&wb.theme)).map(theme::color32);
     let p = ui.painter();
     p.rect_filled(r, 0.0, Color32::WHITE);
     let rows = 5;
@@ -1051,13 +1051,13 @@ fn cell_style_gallery(app: &mut SheetApp, ui: &mut Ui) {
         ui.label(egui::RichText::new(*g).strong());
         egui::Grid::new(("csg", *g)).spacing(vec2(4.0, 4.0)).show(ui, |ui| {
             for (i, n) in names.iter().enumerate() {
-                let st = gridcraft_engine::cmd::format::builtin_cell_style(n, &wb.theme).unwrap_or_default();
+                let st = lattice_engine::cmd::format::builtin_cell_style(n, &wb.theme).unwrap_or_default();
                 let (r, resp) = ui.allocate_exact_size(vec2(82.0, 24.0), Sense::click());
                 let fill = st
                     .fill
                     .fg
                     .resolve(&wb.theme)
-                    .filter(|_| st.fill.pattern != gridcraft_engine::model::PatternType::None)
+                    .filter(|_| st.fill.pattern != lattice_engine::model::PatternType::None)
                     .map(theme::color32)
                     .unwrap_or(Color32::WHITE);
                 ui.painter().rect_filled(r, 0.0, fill);
@@ -1296,7 +1296,7 @@ fn draw(app: &mut SheetApp, ui: &mut Ui) {
 fn page_layout(app: &mut SheetApp, ui: &mut Ui) {
     let th = big_button(ui, Icon::Theme, "Themes", "Themes", true);
     egui::Popup::menu(&th).show(|ui| {
-        for (name, colors) in gridcraft_engine::cmd::view::themes() {
+        for (name, colors) in lattice_engine::cmd::view::themes() {
             ui.horizontal(|ui| {
                 for c in colors.iter().skip(4).take(6) {
                     let (r, _) = ui.allocate_exact_size(vec2(12.0, 12.0), Sense::hover());
@@ -1419,7 +1419,7 @@ fn formulas(app: &mut SheetApp, ui: &mut Ui) {
         egui::Popup::menu(&r).show(|ui| {
             ui.set_max_height(420.0);
             egui::ScrollArea::vertical().show(ui, |ui| {
-                for f in gridcraft_engine::cmd::formulas::function_list() {
+                for f in lattice_engine::cmd::formulas::function_list() {
                     if f["category"].as_str() == Some(cat)
                         && let Some(n) = f["name"].as_str()
                     {
@@ -1718,13 +1718,13 @@ fn automate(app: &mut SheetApp, ui: &mut Ui) {
     if big_button(ui, Icon::Script, "Command\nPalette", "Search and run any command", false).clicked() {
         app.open_dialog("commandSearch", json!({}));
     }
-    if big_button(ui, Icon::Script, "Agent\nControl", "How agents drive GridCraft (MCP / control channel)", false).clicked() {
+    if big_button(ui, Icon::Script, "Agent\nControl", "How agents drive Lattice (MCP / control channel)", false).clicked() {
         app.open_dialog("agents", json!({}));
     }
     if big_button(ui, Icon::Script, "Action\nJournal", "Every command run in this session (replayable)", false).clicked() {
         app.open_dialog("journal", json!({}));
     }
-    if big_button(ui, Icon::Script, "About\nGridCraft", "Version, contributors and the AI models that helped", false).clicked() {
+    if big_button(ui, Icon::Script, "About\nLattice", "Version, contributors and the AI models that helped", false).clicked() {
         app.open_dialog("about", json!({}));
     }
 }
@@ -1894,11 +1894,11 @@ pub fn shortcut(app: &mut SheetApp, key: Key, m: Modifiers) {
         }
         Key::Semicolon => {
             // Insert today's date.
-            let today = gridcraft_engine::calc::now_serial().floor();
+            let today = lattice_engine::calc::now_serial().floor();
             let text = app
                 .session
                 .active()
-                .map(|d| gridcraft_engine::display::format(&gridcraft_engine::core::Value::Number(today), "m/d/yyyy", &d.wb).text)
+                .map(|d| lattice_engine::display::format(&lattice_engine::core::Value::Number(today), "m/d/yyyy", &d.wb).text)
                 .unwrap_or_default();
             app.begin_edit(Some(text), false);
             None

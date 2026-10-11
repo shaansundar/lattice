@@ -4,8 +4,8 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use egui::{Event, OutputCommand};
-use gridcraft_engine::Session;
-use gridcraft_ui_egui::{Services, SheetApp};
+use lattice_engine::Session;
+use lattice_ui_egui::{Services, SheetApp};
 use serde_json::json;
 
 fn harness(services: Services) -> egui_kittest::Harness<'static, SheetApp> {

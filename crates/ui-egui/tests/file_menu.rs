@@ -3,8 +3,8 @@
 use std::sync::{Arc, Mutex};
 
 use egui_kittest::kittest::Queryable as _;
-use gridcraft_engine::{Session, core::CellRef, core::Value};
-use gridcraft_ui_egui::{Services, SheetApp};
+use lattice_engine::{Session, core::CellRef, core::Value};
+use lattice_ui_egui::{Services, SheetApp};
 
 fn harness(services: Services) -> egui_kittest::Harness<'static, SheetApp> {
     let mut session = Session::new();
@@ -64,7 +64,7 @@ fn save_actions_include_the_cell_draft_and_close_keeps_the_unsaved_prompt() {
     let saved = downloads.lock().unwrap();
     assert_eq!(saved.len(), 2);
     for bytes in saved.iter() {
-        let (wb, _) = gridcraft_engine::io::open_bytes("saved.xlsx", bytes).unwrap();
+        let (wb, _) = lattice_engine::io::open_bytes("saved.xlsx", bytes).unwrap();
         assert_eq!(wb.active().unwrap().value(CellRef::new(0, 0)), Value::Number(123.0));
     }
     drop(saved);

@@ -1,7 +1,7 @@
 //! Formulas tab: AutoSum, Insert Function, names, auditing, calculation.
 
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::{CalcMode, DefinedName};
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::{CalcMode, DefinedName};
 use serde_json::{Value as Json, json};
 
 use super::*;
@@ -144,7 +144,7 @@ fn insert_function(s: &mut Session, p: &Json) -> Result<Json> {
 }
 
 pub fn function_list() -> Vec<Json> {
-    let mut v: Vec<Json> = gridcraft_functions::all()
+    let mut v: Vec<Json> = lattice_functions::all()
         .iter()
         .map(|f| json!({"name": f.name, "category": format!("{:?}", f.category), "signature": f.signature, "description": f.description}))
         .collect();
@@ -256,12 +256,12 @@ fn define_name(s: &mut Session, p: &Json) -> Result<Json> {
         None => {
             let sh = d.wb.active().ok_or(EngineError::NoDocument)?;
             let r = d.selection.current();
-            let abs = |c: CellRef| format!("${}${}", gridcraft_core::col_to_letters(c.col), c.row + 1);
+            let abs = |c: CellRef| format!("${}${}", lattice_core::col_to_letters(c.col), c.row + 1);
             let body = if r.is_single() { abs(r.start) } else { format!("{}:{}", abs(r.start), abs(r.end)) };
-            format!("{}!{}", gridcraft_formula::quote_sheet(&sh.name), body)
+            format!("{}!{}", lattice_formula::quote_sheet(&sh.name), body)
         }
     };
-    if gridcraft_formula::parse(&refers).is_err() {
+    if lattice_formula::parse(&refers).is_err() {
         return Err(EngineError::Other("There's a problem with this formula.".into()));
     }
     let comment = str_param(p, "comment").unwrap_or("").to_string();
@@ -300,7 +300,7 @@ fn name_manager(s: &mut Session, _: &Json) -> Result<Json> {
         .filter(|n| !n.hidden)
         .map(|n| {
             let sheet = n.scope.unwrap_or(d.wb.active_sheet);
-            let v = gridcraft_calc::evaluate(&d.wb, sheet, CellRef::default(), &n.formula);
+            let v = lattice_calc::evaluate(&d.wb, sheet, CellRef::default(), &n.formula);
             json!({"name": n.name, "refersTo": format!("={}", n.formula), "scope": n.scope.and_then(|i| d.wb.sheet(i)).map(|s| s.name.clone()).unwrap_or_else(|| "Workbook".into()), "value": crate::cmd::inspect::value_json(&v), "comment": n.comment})
         })
         .collect();
@@ -316,13 +316,13 @@ fn create_from_selection(s: &mut Session, p: &Json) -> Result<Json> {
     let replace = bool_param(p, "replace").unwrap_or(false);
     let d = s.doc()?;
     let sh = d.wb.active().ok_or(EngineError::NoDocument)?;
-    let q = gridcraft_formula::quote_sheet(&sh.name);
+    let q = lattice_formula::quote_sheet(&sh.name);
     let abs = |r: RangeRef| {
         format!(
             "{q}!${}${}:${}${}",
-            gridcraft_core::col_to_letters(r.start.col),
+            lattice_core::col_to_letters(r.start.col),
             r.start.row + 1,
-            gridcraft_core::col_to_letters(r.end.col),
+            lattice_core::col_to_letters(r.end.col),
             r.end.row + 1
         )
     };
@@ -434,20 +434,20 @@ fn evaluate_formula(s: &mut Session, p: &Json) -> Result<Json> {
                 .ok_or_else(|| EngineError::Other("The cell has no formula.".into()))?
         }
     };
-    let expr = gridcraft_formula::parse(&text).map_err(|e| EngineError::Other(e.to_string()))?;
+    let expr = lattice_formula::parse(&text).map_err(|e| EngineError::Other(e.to_string()))?;
     // Steps: each sub-expression (innermost first) with its value.
     let mut steps = Vec::new();
     let mut nodes = Vec::new();
     expr.walk(&mut |e| {
-        if matches!(e, gridcraft_formula::Expr::Call(..) | gridcraft_formula::Expr::Binary(..) | gridcraft_formula::Expr::Ref(_)) {
+        if matches!(e, lattice_formula::Expr::Call(..) | lattice_formula::Expr::Binary(..) | lattice_formula::Expr::Ref(_)) {
             nodes.push(e.clone());
         }
     });
     for e in nodes.into_iter().rev().take(200) {
-        let v = gridcraft_calc::recalc::evaluate_expr(&d.wb, sheet, at, &e);
-        steps.push(json!({"expression": gridcraft_formula::print(&e), "value": crate::cmd::inspect::value_json(&v)}));
+        let v = lattice_calc::recalc::evaluate_expr(&d.wb, sheet, at, &e);
+        steps.push(json!({"expression": lattice_formula::print(&e), "value": crate::cmd::inspect::value_json(&v)}));
     }
-    let result = gridcraft_calc::recalc::evaluate_expr(&d.wb, sheet, at, &expr);
+    let result = lattice_calc::recalc::evaluate_expr(&d.wb, sheet, at, &expr);
     Ok(json!({"formula": format!("={text}"), "steps": steps, "result": crate::cmd::inspect::value_json(&result)}))
 }
 
@@ -455,7 +455,7 @@ fn evaluate(s: &mut Session, p: &Json) -> Result<Json> {
     let d = s.doc()?;
     let f = str_param(p, "formula").ok_or_else(|| bad("formulas.evaluate", "missing `formula`"))?;
     let at = cell_param(p, "cell").unwrap_or(d.selection.active);
-    let v = gridcraft_calc::evaluate(&d.wb, d.wb.active_sheet, at, f);
+    let v = lattice_calc::evaluate(&d.wb, d.wb.active_sheet, at, f);
     Ok(crate::cmd::inspect::value_json(&v))
 }
 

@@ -1,4 +1,4 @@
-use gridcraft_core::{CellRef, Value};
+use lattice_core::{CellRef, Value};
 use serde_json::json;
 
 use crate::Session;
@@ -19,13 +19,13 @@ fn entering_empty_cells_preserves_whole_sheet_formatting() {
     s.execute("cell.set", json!({"cell": "A1", "input": "existing"})).unwrap();
     s.execute("selection.set", json!({"range": "A1:XFD1048576"})).unwrap();
     s.execute("home.alignCenter", json!({})).unwrap();
-    let border = gridcraft_model::BorderLine { style: gridcraft_model::BorderStyle::Thin, color: gridcraft_model::Color::Auto };
+    let border = lattice_model::BorderLine { style: lattice_model::BorderStyle::Thin, color: lattice_model::Color::Auto };
     s.execute("home.formatCells", json!({"style": {"borders": {"top": border, "bottom": border, "left": border, "right": border}}})).unwrap();
     let expected = {
         let d = s.doc().unwrap();
         d.wb.styles.get(d.wb.active().unwrap().style_id(CellRef::parse("B1").unwrap())).clone()
     };
-    assert_eq!(expected.align.h, gridcraft_model::HAlign::Center);
+    assert_eq!(expected.align.h, lattice_model::HAlign::Center);
     for (cell, input) in [("A1", "edited"), ("B1", "new"), ("C1", "=1+2"), ("XFD1048576", "edge")] {
         s.execute("cell.set", json!({"cell": cell, "input": input})).unwrap();
         let d = s.doc().unwrap();
@@ -42,7 +42,7 @@ fn entering_empty_cells_preserves_whole_sheet_formatting() {
     let d = s.doc().unwrap();
     assert_eq!(d.wb.styles.get(d.wb.active().unwrap().style_id(CellRef::parse("D1").unwrap())), &expected);
     assert_eq!(d.wb.active().unwrap().cells.len(), 7);
-    let (reopened, _) = gridcraft_xlsx::read_xlsx(&gridcraft_xlsx::write_xlsx(&d.wb).unwrap()).unwrap();
+    let (reopened, _) = lattice_xlsx::read_xlsx(&lattice_xlsx::write_xlsx(&d.wb).unwrap()).unwrap();
     for cell in ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "XFD1048576"] {
         assert_eq!(
             reopened.styles.get(reopened.active().unwrap().style_id(CellRef::parse(cell).unwrap())),
@@ -210,14 +210,14 @@ fn shape_text_edit_survives_xlsx_roundtrip() {
     let saved = s.execute("file.saveBytes", json!({"format": "xlsx"})).unwrap();
     s.execute("file.open", json!({"name": "edited.xlsx", "base64": saved["base64"]})).unwrap();
     let shape = &s.doc().unwrap().wb.active().unwrap().shapes[0];
-    assert_eq!(shape.kind, gridcraft_model::ShapeKind::TextBox);
+    assert_eq!(shape.kind, lattice_model::ShapeKind::TextBox);
     assert_eq!(shape.text, text);
 }
 
 #[test]
 fn no_border_clears_only_shared_edges_and_undo_restores_them() {
-    use gridcraft_core::RangeRef;
-    use gridcraft_model::{BorderLine, Borders};
+    use lattice_core::RangeRef;
+    use lattice_model::{BorderLine, Borders};
 
     for (range, neighbors) in [
         ("B2", &[("B1", "bottom"), ("B3", "top"), ("A2", "right"), ("C2", "left")][..]),
@@ -801,7 +801,7 @@ fn deleting_a_3d_span_end_sheet_keeps_the_rest() {
         s.execute("cell.set", json!({"cell": "B1", "input": "=Sheet1!A1"})).unwrap();
         s
     };
-    let gone = Value::Error(gridcraft_core::CellError::Ref);
+    let gone = Value::Error(lattice_core::CellError::Ref);
     for (deleted, total, direct) in [("Sheet1", 12.0, gone), ("Sheet3", 8.0, Value::Number(3.0)), ("Sheet2", 10.0, Value::Number(3.0))] {
         let mut s = book();
         s.execute("home.deleteSheet", json!({"sheet": deleted})).unwrap();
@@ -846,7 +846,7 @@ fn ods_fixture() -> Vec<u8> {
 #[test]
 fn ods_import_keeps_cached_values_and_reports_limits() {
     let bytes = ods_fixture();
-    assert_eq!(gridcraft_xlsx::sniff(&bytes), gridcraft_xlsx::Format::Ods);
+    assert_eq!(lattice_xlsx::sniff(&bytes), lattice_xlsx::Format::Ods);
     for name in ["source.ods", "source.xlsx"] {
         let mut s = s();
         let r = s.execute("file.open", json!({"name": name, "base64": crate::io::base64_encode(&bytes)})).unwrap();
@@ -868,7 +868,7 @@ fn ods_import_keeps_cached_values_and_reports_limits() {
 fn ods_import_never_reuses_source_as_save_target() {
     #[allow(clippy::disallowed_methods)] // native-only test: a unique temp dir name
     let nonce = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos();
-    let dir = std::env::temp_dir().join(format!("gridcraft-ods-{}-{nonce}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("lattice-ods-{}-{nonce}", std::process::id()));
     std::fs::create_dir(&dir).unwrap();
     let bytes = ods_fixture();
     for name in ["source.ods", "disguised.xlsx"] {
@@ -1002,7 +1002,7 @@ fn clearing_a_distant_blocker_unblocks_the_spill() {
     let mut s = s();
     s.execute("cell.set", json!({"cell": "A1", "input": "=SEQUENCE(100)"})).unwrap();
     s.execute("cell.set", json!({"cell": "A90", "input": "x"})).unwrap();
-    assert_eq!(v(&s, "A1"), Value::Error(gridcraft_core::CellError::Spill));
+    assert_eq!(v(&s, "A1"), Value::Error(lattice_core::CellError::Spill));
     s.execute("edit.clearContents", json!({"range": "A90"})).unwrap();
     assert_eq!((v(&s, "A1"), v(&s, "A100")), (Value::Number(1.0), Value::Number(100.0)));
 }
@@ -1012,10 +1012,10 @@ fn a_spill_that_goes_away_unblocks_another() {
     let mut s = s();
     s.execute("cell.set", json!({"cell": "F8", "input": "=SEQUENCE(5)"})).unwrap();
     s.execute("cell.set", json!({"cell": "E10", "input": "=SEQUENCE(1,3)"})).unwrap();
-    assert_eq!(v(&s, "E10"), Value::Error(gridcraft_core::CellError::Spill));
+    assert_eq!(v(&s, "E10"), Value::Error(lattice_core::CellError::Spill));
     // Blocking F8's array frees F10 for E10's.
     s.execute("cell.set", json!({"cell": "F9", "input": "0"})).unwrap();
-    assert_eq!(v(&s, "F8"), Value::Error(gridcraft_core::CellError::Spill));
+    assert_eq!(v(&s, "F8"), Value::Error(lattice_core::CellError::Spill));
     assert_eq!((v(&s, "E10"), v(&s, "G10")), (Value::Number(1.0), Value::Number(3.0)));
 }
 
@@ -1073,7 +1073,7 @@ fn chart_data(s: &mut Session) {
 
 #[test]
 fn every_chart_kind_survives_xlsx() {
-    use gridcraft_model::ChartKind;
+    use lattice_model::ChartKind;
     let kinds = [
         ("combo", ChartKind::Combo),
         ("stock", ChartKind::Stock),
@@ -1202,7 +1202,7 @@ fn ink_strokes_and_ink_to_shape() {
     s.execute("draw.stroke", json!({"points": pts})).unwrap();
     let sh = s.doc().unwrap().wb.active().unwrap().clone();
     assert_eq!(sh.shapes.len(), 1);
-    assert_eq!(sh.shapes[0].kind, gridcraft_model::ShapeKind::Ink);
+    assert_eq!(sh.shapes[0].kind, lattice_model::ShapeKind::Ink);
     let r = s.execute("draw.inkToShape", json!({})).unwrap();
     assert_eq!(r["kind"], "Rectangle");
     // An open stroke becomes a line.
@@ -1214,7 +1214,7 @@ fn ink_strokes_and_ink_to_shape() {
 #[test]
 fn xlsb_import_keeps_cached_values_and_reports_limits() {
     let bytes = xlsb_fixture();
-    assert_eq!(gridcraft_xlsx::sniff(&bytes), gridcraft_xlsx::Format::Xlsb);
+    assert_eq!(lattice_xlsx::sniff(&bytes), lattice_xlsx::Format::Xlsb);
     for name in ["source.xlsb", "source.xlsx"] {
         let mut s = s();
         let r = s.execute("file.open", json!({"name": name, "base64": crate::io::base64_encode(&bytes)})).unwrap();
@@ -1238,7 +1238,7 @@ fn xlsb_import_keeps_cached_values_and_reports_limits() {
 fn xlsb_import_never_reuses_source_as_save_target() {
     #[allow(clippy::disallowed_methods)] // native-only test: a unique temp dir name
     let nonce = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos();
-    let dir = std::env::temp_dir().join(format!("gridcraft-xlsb-{}-{nonce}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("lattice-xlsb-{}-{nonce}", std::process::id()));
     std::fs::create_dir(&dir).unwrap();
     let bytes = xlsb_fixture();
     for name in ["source.xlsb", "disguised.xlsx"] {
@@ -1281,13 +1281,13 @@ fn tiny_png() -> Vec<u8> {
     png
 }
 
-fn add_image(s: &mut Session, cell: &str, mode: gridcraft_model::AnchorMode) -> u32 {
+fn add_image(s: &mut Session, cell: &str, mode: lattice_model::AnchorMode) -> u32 {
     let d = s.doc_mut().unwrap();
     let wb = std::sync::Arc::make_mut(&mut d.wb);
     let id = wb.next_object_id();
-    wb.sheet_mut(0).unwrap().images.push(gridcraft_model::Image {
+    wb.sheet_mut(0).unwrap().images.push(lattice_model::Image {
         id,
-        anchor: gridcraft_model::Anchor { cell: CellRef::parse(cell).unwrap(), dx: 0.0, dy: 0.0, width: 40.0, height: 40.0, mode },
+        anchor: lattice_model::Anchor { cell: CellRef::parse(cell).unwrap(), dx: 0.0, dy: 0.0, width: 40.0, height: 40.0, mode },
         data: tiny_png(),
         mime: "image/png".into(),
         alt: String::new(),
@@ -1302,7 +1302,7 @@ fn image_cell(s: &Session, id: u32) -> Option<CellRef> {
 /// Issue #5: images anchored in cells follow their row when the sheet is sorted.
 #[test]
 fn sort_moves_anchored_images_with_their_rows() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [["Name", "Score"], ["b", 2], ["c", 3], ["a", 1]]})).unwrap();
     // One picture per data row, in its own row.
@@ -1320,7 +1320,7 @@ fn sort_moves_anchored_images_with_their_rows() {
 /// An `absolute`-pinned object stays exactly where it was drawn across a sort and a row delete.
 #[test]
 fn absolute_objects_ignore_sort_and_structural_edits() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [["Name", "Score"], ["b", 2], ["c", 3], ["a", 1]]})).unwrap();
     let pinned = add_image(&mut s, "A3", AnchorMode::Absolute);
@@ -1334,7 +1334,7 @@ fn absolute_objects_ignore_sort_and_structural_edits() {
 /// A "move but don't size" object follows its row across a sort but keeps its size.
 #[test]
 fn move_only_objects_follow_but_do_not_resize() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [["Name", "N"], ["b", 2], ["a", 1]]})).unwrap();
     let id = add_image(&mut s, "A2", AnchorMode::MoveOnly);
@@ -1349,7 +1349,7 @@ fn move_only_objects_follow_but_do_not_resize() {
 /// `object.setAnchorMode` changes how an object follows its cells.
 #[test]
 fn set_anchor_mode_changes_following() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [["Name", "N"], ["b", 2], ["a", 1]]})).unwrap();
     let id = add_image(&mut s, "A2", AnchorMode::MoveAndSize);
@@ -1367,7 +1367,7 @@ fn set_anchor_mode_changes_following() {
 /// the block (same rows, other columns) stays where it is.
 #[test]
 fn sort_leaves_objects_outside_the_block_alone() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [["Name", "Score"], ["b", 2], ["c", 3], ["a", 1]]})).unwrap();
     let beside = add_image(&mut s, "Z3", AnchorMode::MoveAndSize);
@@ -1386,17 +1386,17 @@ fn inserted_pictures_move_but_do_not_size() {
     let b64 = crate::io::base64_encode(&tiny_png());
     let id = s.execute("insert.picture", json!({"base64": b64, "at": "C3"})).unwrap()["image"].as_u64().unwrap() as u32;
     let mode = |s: &Session| s.doc().unwrap().wb.active().unwrap().images.iter().find(|i| i.id == id).unwrap().anchor.mode;
-    assert_eq!(mode(&s), gridcraft_model::AnchorMode::MoveOnly);
+    assert_eq!(mode(&s), lattice_model::AnchorMode::MoveOnly);
     let b64 = crate::io::base64_encode(&tiny_png());
     let id2 = s.execute("insert.picture", json!({"base64": b64, "mode": "absolute"})).unwrap()["image"].as_u64().unwrap() as u32;
     let m2 = s.doc().unwrap().wb.active().unwrap().images.iter().find(|i| i.id == id2).unwrap().anchor.mode;
-    assert_eq!(m2, gridcraft_model::AnchorMode::Absolute);
+    assert_eq!(m2, lattice_model::AnchorMode::Absolute);
 }
 
 /// `object.setAnchorMode` needs a real object kind.
 #[test]
 fn set_anchor_mode_rejects_unknown_kind() {
-    use gridcraft_model::AnchorMode;
+    use lattice_model::AnchorMode;
     let mut s = s();
     let id = add_image(&mut s, "A2", AnchorMode::MoveAndSize);
     for kind in [json!(""), json!("widget"), serde_json::Value::Null] {
@@ -1420,7 +1420,7 @@ fn insert_cell_picture(s: &mut Session, at: &str, alt: &str) {
         .unwrap();
 }
 
-fn cell_picture(s: &Session, at: &str) -> Option<std::sync::Arc<gridcraft_model::CellPicture>> {
+fn cell_picture(s: &Session, at: &str) -> Option<std::sync::Arc<lattice_model::CellPicture>> {
     s.doc().unwrap().wb.active().unwrap().cell_pictures.get(&CellRef::parse(at).unwrap()).cloned()
 }
 
@@ -1434,7 +1434,7 @@ fn cell_picture_insert_validates_content_preserves_style_and_replaces_with_undo(
         assert_eq!(v(&s, "B2"), Value::from("old"));
     }
     insert_cell_picture(&mut s, "B2", "Original picture");
-    assert_eq!(v(&s, "B2"), Value::Error(gridcraft_core::CellError::Value));
+    assert_eq!(v(&s, "B2"), Value::Error(lattice_core::CellError::Value));
     let state = s.execute("cell.get", json!({"cell": "B2"})).unwrap();
     assert_eq!(state["type"], "picture");
     assert_eq!(state["text"], "#VALUE!");
@@ -1479,7 +1479,7 @@ fn cell_picture_clipboard_clear_and_structural_edits_keep_complete_payload() {
     s.execute("edit.copy", json!({"range": "B2"})).unwrap();
     s.execute("edit.pasteSpecial", json!({"what": "values", "at": "C1", "operation": "add"})).unwrap();
     assert!(cell_picture(&s, "C1").is_none());
-    assert_eq!(v(&s, "C1"), Value::Error(gridcraft_core::CellError::Value));
+    assert_eq!(v(&s, "C1"), Value::Error(lattice_core::CellError::Value));
     s.execute("home.insertRows", json!({"rows": "2:2"})).unwrap();
     s.execute("home.insertColumns", json!({"cols": "B:B"})).unwrap();
     assert_eq!(cell_picture(&s, "C3").unwrap().alt, original.alt);
@@ -1510,7 +1510,7 @@ fn cell_picture_follows_sort_filter_and_blocks_formula_spills() {
     assert!(cell_picture(&s, "B3").is_some());
     insert_cell_picture(&mut s, "D2", "spill obstruction");
     s.execute("cell.set", json!({"cell": "D1", "input": "=SEQUENCE(2)"})).unwrap();
-    assert_eq!(v(&s, "D1"), Value::Error(gridcraft_core::CellError::Spill));
+    assert_eq!(v(&s, "D1"), Value::Error(lattice_core::CellError::Spill));
     s.execute("edit.clearContents", json!({"range": "D2"})).unwrap();
     assert_eq!(v(&s, "D1"), Value::Number(1.0));
     assert_eq!(v(&s, "D2"), Value::Number(2.0));
@@ -1583,13 +1583,13 @@ fn cell_picture_cut_uses_live_source_after_edit() {
             assert_eq!(v(&s, "D2"), Value::Empty);
         } else {
             assert_eq!(cell_picture(&s, "D2").unwrap().alt, "replacement");
-            assert_eq!(v(&s, "D2"), Value::Error(gridcraft_core::CellError::Value));
+            assert_eq!(v(&s, "D2"), Value::Error(lattice_core::CellError::Value));
         }
     }
 }
 
 fn ymd(y: i64, m: i64, d: i64) -> Value {
-    Value::Number(gridcraft_core::date::serial_from_ymd(gridcraft_core::DateSystem::D1900, y, m, d).unwrap())
+    Value::Number(lattice_core::date::serial_from_ymd(lattice_core::DateSystem::D1900, y, m, d).unwrap())
 }
 
 fn series_date(seed: &str, range: &str, unit: &str) -> Session {
@@ -1659,7 +1659,7 @@ fn notes_comments_and_links_survive_a_json_save() {
 /// icon; a rule without thresholds uses Excel's defaults (percent 33 and 67) (#235).
 #[test]
 fn icon_set_thresholds_from_files_pick_the_icon() {
-    use gridcraft_model::{CfRule, CfValueKind, CondFormat};
+    use lattice_model::{CfRule, CfValueKind, CondFormat};
     let mut s = s();
     s.execute("range.setValues", json!({"range": "A1", "values": [[0], [10], [20], [30], [100]]})).unwrap();
     s.execute("home.conditionalFormat", json!({"range": "A1:A5", "rule": {"type": "iconSet", "set": "3Arrows"}})).unwrap();
@@ -1671,7 +1671,7 @@ fn icon_set_thresholds_from_files_pick_the_icon() {
     assert_eq!([icon(&s, "A1"), icon(&s, "A4"), icon(&s, "A5")], [Some(0), Some(0), Some(2)]);
     let sh = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().wb).sheet_mut(0).unwrap();
     sh.cond_formats = vec![CondFormat {
-        ranges: vec![gridcraft_core::RangeRef::parse("A1:A5").unwrap()],
+        ranges: vec![lattice_core::RangeRef::parse("A1:A5").unwrap()],
         rule: CfRule::IconSet {
             set: "3Arrows".into(),
             thresholds: vec![CfValueKind::Percent(0.0), CfValueKind::Number(10.0), CfValueKind::Number(25.0)],

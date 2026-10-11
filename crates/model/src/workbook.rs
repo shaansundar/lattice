@@ -2,8 +2,8 @@
 
 use std::sync::Arc;
 
-use gridcraft_core::DateSystem;
-use gridcraft_formula::Expr;
+use lattice_core::DateSystem;
+use lattice_formula::Expr;
 use serde::{Deserialize, Serialize};
 
 use crate::cell::Formula;
@@ -179,10 +179,10 @@ impl Workbook {
             }
         }
         for n in self.names.iter_mut() {
-            if let Ok(e) = gridcraft_formula::parse(&n.formula) {
+            if let Ok(e) = lattice_formula::parse(&n.formula) {
                 let ne = spell_calls(e.clone(), &lambdas);
                 if ne != e {
-                    n.formula = gridcraft_formula::print(&ne);
+                    n.formula = lattice_formula::print(&ne);
                 }
             }
         }

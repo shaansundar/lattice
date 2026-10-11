@@ -2,10 +2,10 @@
 
 use egui::{Color32, Shape, vec2};
 use egui_kittest::kittest::Queryable;
-use gridcraft_engine::Session;
-use gridcraft_engine::core::{CellRef, Value};
-use gridcraft_engine::model::{BorderLine, BorderStyle, Borders, Color};
-use gridcraft_ui_egui::SheetApp;
+use lattice_engine::Session;
+use lattice_engine::core::{CellRef, Value};
+use lattice_engine::model::{BorderLine, BorderStyle, Borders, Color};
+use lattice_ui_egui::SheetApp;
 use serde_json::json;
 
 fn harness() -> egui_kittest::Harness<'static, SheetApp> {

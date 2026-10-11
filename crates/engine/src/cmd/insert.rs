@@ -1,8 +1,8 @@
 //! Insert tab: tables, charts, sparklines, pictures, shapes, hyperlinks, comments and notes,
 //! conditional formatting (Home › Styles) and symbols.
 
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::*;
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::*;
 use serde_json::{Value as Json, json};
 
 use super::*;
@@ -238,7 +238,7 @@ fn insert_table(s: &mut Session, p: &Json) -> Result<Json> {
                 })
                 .collect();
             for (i, c) in (r.start.col..=r.end.col).enumerate() {
-                sh.set_value(CellRef::new(r.start.row, c), gridcraft_core::Value::text(format!("Column{}", i + 1)));
+                sh.set_value(CellRef::new(r.start.row, c), lattice_core::Value::text(format!("Column{}", i + 1)));
             }
             cx.structural = true;
             RangeRef::new(r.start, CellRef::new(r.end.row + 1, r.end.col))
@@ -264,7 +264,7 @@ fn insert_table(s: &mut Session, p: &Json) -> Result<Json> {
             next_suffix.insert(key, k);
             taken.insert(n.to_ascii_lowercase());
             // Headers are text.
-            sh.set_value(CellRef::new(r.start.row, c), gridcraft_core::Value::text(n.as_str()));
+            sh.set_value(CellRef::new(r.start.row, c), lattice_core::Value::text(n.as_str()));
             names.push(n);
         }
         sh.tables.push(Table {
@@ -357,9 +357,9 @@ fn write_totals(sh: &mut Sheet, ti: usize) {
         let c = CellRef::new(row, t.range.start.col + i as u32);
         if let Some(code) = col.totals.subtotal_code() {
             let f = format!("=SUBTOTAL({code},{}[{}])", t.name, col.name);
-            sh.set_cell(c, Cell { formula: Some(std::sync::Arc::new(Formula::new(&f))), value: gridcraft_core::Value::Empty, style: sh.style_id(c) });
+            sh.set_cell(c, Cell { formula: Some(std::sync::Arc::new(Formula::new(&f))), value: lattice_core::Value::Empty, style: sh.style_id(c) });
         } else if let Some(l) = &col.totals_label {
-            sh.set_value(c, gridcraft_core::Value::text(l.as_str()));
+            sh.set_value(c, lattice_core::Value::text(l.as_str()));
         } else {
             sh.remove_cell(c);
         }
@@ -411,7 +411,7 @@ fn table_rename(s: &mut Session, p: &Json) -> Result<Json> {
     if name.is_empty()
         || name.contains(' ')
         || name.chars().next().is_some_and(|c| c.is_ascii_digit())
-        || gridcraft_core::CellRef::parse(&name).is_some()
+        || lattice_core::CellRef::parse(&name).is_some()
     {
         return Err(EngineError::Other("The name that you entered is not valid.".into()));
     }
@@ -431,11 +431,11 @@ fn table_rename(s: &mut Session, p: &Json) -> Result<Json> {
             for (c, f) in keys {
                 let Some(e) = f.expr() else { continue };
                 let ne = e.map(&mut |x| match x {
-                    gridcraft_formula::Expr::Struct(mut st) if st.table.eq_ignore_ascii_case(&old) => {
+                    lattice_formula::Expr::Struct(mut st) if st.table.eq_ignore_ascii_case(&old) => {
                         st.table = name.clone();
-                        gridcraft_formula::Expr::Struct(st)
+                        lattice_formula::Expr::Struct(st)
                     }
-                    gridcraft_formula::Expr::Name(n) if n.eq_ignore_ascii_case(&old) => gridcraft_formula::Expr::Name(name.clone()),
+                    lattice_formula::Expr::Name(n) if n.eq_ignore_ascii_case(&old) => lattice_formula::Expr::Name(name.clone()),
                     o => o,
                 });
                 if let Some(cell) = sh.cells.get_mut(c) {
@@ -503,17 +503,17 @@ pub fn chart_kind(t: &str, sub: &str) -> ChartKind {
 
 /// Builds series from a block: first row/column as names/categories when they're text.
 pub fn series_from_range(sh: &Sheet, r: RangeRef, by_rows: bool) -> Vec<Series> {
-    let q = gridcraft_formula::quote_sheet(&sh.name);
+    let q = lattice_formula::quote_sheet(&sh.name);
     let abs = |r: RangeRef| {
         format!(
             "{q}!${}${}:${}${}",
-            gridcraft_core::col_to_letters(r.start.col),
+            lattice_core::col_to_letters(r.start.col),
             r.start.row + 1,
-            gridcraft_core::col_to_letters(r.end.col),
+            lattice_core::col_to_letters(r.end.col),
             r.end.row + 1
         )
     };
-    let abs1 = |c: CellRef| format!("{q}!${}${}", gridcraft_core::col_to_letters(c.col), c.row + 1);
+    let abs1 = |c: CellRef| format!("{q}!${}${}", lattice_core::col_to_letters(c.col), c.row + 1);
     let is_text = |c: CellRef| sh.value(c).is_text() || sh.value(c).is_empty();
     let header_row = r.height() > 1
         && (r.start.col..=r.end.col).any(|c| sh.value(CellRef::new(r.start.row, c)).is_text())
@@ -580,7 +580,7 @@ fn insert_chart(s: &mut Session, p: &Json) -> Result<Json> {
     let at = cell_param(p, "at").unwrap_or_else(|| CellRef::new(r.start.row, r.end.col + 2));
     let title = str_param(p, "title").map(str::to_string).or_else(|| {
         if series.len() == 1 {
-            series[0].name.as_ref().map(|n| gridcraft_calc::evaluate(&d.wb, sheet, at, n).display())
+            series[0].name.as_ref().map(|n| lattice_calc::evaluate(&d.wb, sheet, at, n).display())
         } else {
             Some("Chart Title".into())
         }
@@ -604,7 +604,7 @@ fn insert_chart(s: &mut Session, p: &Json) -> Result<Json> {
         style: 1,
         x_title: None,
         y_title: None,
-        source: Some(format!("{}!{}", gridcraft_formula::quote_sheet(&sh.name), r.a1())),
+        source: Some(format!("{}!{}", lattice_formula::quote_sheet(&sh.name), r.a1())),
         by_rows,
     };
     edit(s, |cx| {
@@ -717,8 +717,8 @@ fn series_block(series: &[Series]) -> Option<(String, bool)> {
     let mut rows = 0;
     for s in series {
         for (i, f) in [Some(&s.values), s.categories.as_ref(), s.name.as_ref()].into_iter().flatten().enumerate() {
-            let Ok(gridcraft_formula::Expr::Ref(r)) = gridcraft_formula::parse(f) else { return None };
-            let gridcraft_formula::SheetSel::Named(n) = &r.sheet else { return None };
+            let Ok(lattice_formula::Expr::Ref(r)) = lattice_formula::parse(f) else { return None };
+            let lattice_formula::SheetSel::Named(n) = &r.sheet else { return None };
             if !sheet.get_or_insert_with(|| n.clone()).eq_ignore_ascii_case(n) {
                 return None;
             }
@@ -729,7 +729,7 @@ fn series_block(series: &[Series]) -> Option<(String, bool)> {
             bounds = Some(bounds.map_or(range, |b| b.union(&range)));
         }
     }
-    Some((format!("{}!{}", gridcraft_formula::quote_sheet(&sheet?), bounds?.a1()), rows > 0 && rows == series.len()))
+    Some((format!("{}!{}", lattice_formula::quote_sheet(&sheet?), bounds?.a1()), rows > 0 && rows == series.len()))
 }
 
 fn chart_delete(s: &mut Session, p: &Json) -> Result<Json> {
@@ -812,7 +812,7 @@ fn insert_picture(s: &mut Session, p: &Json) -> Result<Json> {
             width: f64_param(p, "width").map(|v| v as f32).unwrap_or(w as f32 * scale),
             height: f64_param(p, "height").map(|v| v as f32).unwrap_or(h as f32 * scale),
             // Excel inserts pictures as "Move but don't size with cells" (`editAs="oneCell"`).
-            mode: anchor_mode_param(p).unwrap_or(gridcraft_model::AnchorMode::MoveOnly),
+            mode: anchor_mode_param(p).unwrap_or(lattice_model::AnchorMode::MoveOnly),
         },
         data,
         mime,
@@ -1020,7 +1020,7 @@ fn insert_link(s: &mut Session, p: &Json) -> Result<Json> {
         });
         let sh = cx.sheet_mut(sheet)?;
         if let Some(t) = text.clone().or_else(|| sh.value(at).is_empty().then(|| target.clone())) {
-            sh.set_cell(at, Cell { value: gridcraft_core::Value::text(t.as_str()), formula: None, style: link_style });
+            sh.set_cell(at, Cell { value: lattice_core::Value::text(t.as_str()), formula: None, style: link_style });
         } else {
             sh.set_style(at, link_style);
         }
@@ -1170,7 +1170,7 @@ fn add_cf(s: &mut Session, p: &Json) -> Result<Json> {
             let a = rule.get("value").map(super::edit::json_to_input).unwrap_or_default();
             let b = rule.get("value2").map(super::edit::json_to_input);
             let quote = |v: String| {
-                if gridcraft_core::parse::parse_number_text(&v).is_some() || v.starts_with('=') {
+                if lattice_core::parse::parse_number_text(&v).is_some() || v.starts_with('=') {
                     v.trim_start_matches('=').to_string()
                 } else {
                     format!("\"{}\"", v.replace('"', "\"\""))

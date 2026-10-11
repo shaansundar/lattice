@@ -18,7 +18,7 @@
 
 use std::sync::mpsc::Sender;
 
-use gridcraft_engine::core::CellRef;
+use lattice_engine::core::CellRef;
 use serde_json::{Value as Json, json};
 
 use crate::SheetApp;
@@ -346,7 +346,7 @@ pub fn handle(app: &mut SheetApp, ctx: &egui::Context, method: &str, p: &Json) -
             ok(Json::Null)
         }
         // Anything else that names a command runs it.
-        other if gridcraft_engine::find_command(other).is_some() => wrap(app.run(other, p.clone())),
+        other if lattice_engine::find_command(other).is_some() => wrap(app.run(other, p.clone())),
         other => err(format!("unknown method `{other}`")),
     };
     ctx.request_repaint();
@@ -441,7 +441,7 @@ pub fn save_image(image: &egui::ColorImage, path: Option<&str>) -> Json {
             Ok(()) => json!({"ok": true, "result": {"path": p, "width": w, "height": h}}),
             Err(e) => json!({"ok": false, "error": e.to_string()}),
         },
-        None => json!({"ok": true, "result": {"base64": gridcraft_engine::io::base64_encode(&png), "width": w, "height": h}}),
+        None => json!({"ok": true, "result": {"base64": lattice_engine::io::base64_encode(&png), "width": w, "height": h}}),
     }
 }
 

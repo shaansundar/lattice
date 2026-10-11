@@ -1,13 +1,13 @@
 //! UI formula syntax boundary. Engine commands, control/API callers and XLSX keep English.
-use gridcraft_engine::formula::{self, FormulaLocale, ParseError};
-use gridcraft_engine::model::Workbook;
+use lattice_engine::formula::{self, FormulaLocale, ParseError};
+use lattice_engine::model::Workbook;
 
 pub(crate) fn canonical(
     text: &str,
     locale: FormulaLocale,
     wb: &Workbook,
     sheet: usize,
-    cell: gridcraft_engine::core::CellRef,
+    cell: lattice_engine::core::CellRef,
 ) -> Result<String, ParseError> {
     if locale == FormulaLocale::En || wb.sheet(sheet).is_some_and(|sh| wb.styles.get(sh.style_id(cell)).num_fmt.as_str() == "@") {
         return Ok(text.to_string());

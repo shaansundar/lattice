@@ -18,9 +18,9 @@ pub mod spelling;
 pub mod view;
 pub mod whatif;
 
-use gridcraft_calc::Key;
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::Workbook;
+use lattice_calc::Key;
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::Workbook;
 use serde::Serialize;
 use serde_json::Value as Json;
 
@@ -149,25 +149,25 @@ pub(crate) fn u32_param(p: &Json, key: &str) -> Option<u32> {
 
 /// An object anchor mode from Excel's wording or the model's: `"moveAndSize"`/`"twoCell"`,
 /// `"moveOnly"`/`"oneCell"`, `"absolute"`/`"don't move or size"` (case-insensitive).
-pub(crate) fn anchor_mode_param(p: &Json) -> Option<gridcraft_model::AnchorMode> {
+pub(crate) fn anchor_mode_param(p: &Json) -> Option<lattice_model::AnchorMode> {
     parse_anchor_mode(str_param(p, "mode").or_else(|| str_param(p, "anchorMode"))?)
 }
 
-pub(crate) fn parse_anchor_mode(s: &str) -> Option<gridcraft_model::AnchorMode> {
+pub(crate) fn parse_anchor_mode(s: &str) -> Option<lattice_model::AnchorMode> {
     match s.to_ascii_lowercase().replace([' ', '-', '_', '\''], "").as_str() {
-        "moveandsize" | "moveandsizeandcells" | "twocell" => Some(gridcraft_model::AnchorMode::MoveAndSize),
-        "moveonly" | "movebutdontsize" | "movebutdontsizewithcells" | "onecell" => Some(gridcraft_model::AnchorMode::MoveOnly),
-        "absolute" | "dontmoveorsize" | "dontmoveorsizewithcells" | "none" => Some(gridcraft_model::AnchorMode::Absolute),
+        "moveandsize" | "moveandsizeandcells" | "twocell" => Some(lattice_model::AnchorMode::MoveAndSize),
+        "moveonly" | "movebutdontsize" | "movebutdontsizewithcells" | "onecell" => Some(lattice_model::AnchorMode::MoveOnly),
+        "absolute" | "dontmoveorsize" | "dontmoveorsizewithcells" | "none" => Some(lattice_model::AnchorMode::Absolute),
         _ => None,
     }
 }
 
 /// The wire name of an anchor mode (matches the `mode` param of [`anchor_mode_param`]).
-pub(crate) fn anchor_mode_name(m: gridcraft_model::AnchorMode) -> &'static str {
+pub(crate) fn anchor_mode_name(m: lattice_model::AnchorMode) -> &'static str {
     match m {
-        gridcraft_model::AnchorMode::MoveAndSize => "moveAndSize",
-        gridcraft_model::AnchorMode::MoveOnly => "moveOnly",
-        gridcraft_model::AnchorMode::Absolute => "absolute",
+        lattice_model::AnchorMode::MoveAndSize => "moveAndSize",
+        lattice_model::AnchorMode::MoveOnly => "moveOnly",
+        lattice_model::AnchorMode::Absolute => "absolute",
     }
 }
 pub(crate) fn ok() -> Result<Json> {
@@ -248,10 +248,10 @@ pub(crate) fn edit<R>(s: &mut Session, f: impl FnOnce(&mut Ctx) -> Result<R>) ->
 }
 
 pub(crate) fn commit<R>(d: &mut DocState, f: impl FnOnce(&mut Ctx) -> Result<R>) -> Result<R> {
-    // `GRIDCRAFT_PROFILE` timing. Read the clock only when profiling, and never on wasm: there
+    // `LATTICE_PROFILE` timing. Read the clock only when profiling, and never on wasm: there
     // `Instant::now` traps (`RuntimeError: unreachable`), which broke every edit in the web app.
     #[allow(clippy::disallowed_methods)]
-    let t0 = if cfg!(target_arch = "wasm32") { None } else { std::env::var_os("GRIDCRAFT_PROFILE").map(|_| std::time::Instant::now()) };
+    let t0 = if cfg!(target_arch = "wasm32") { None } else { std::env::var_os("LATTICE_PROFILE").map(|_| std::time::Instant::now()) };
     let mut sel = d.selection.clone();
     let mut ctx = Ctx { wb: (*d.wb).clone(), changed: Vec::new(), structural: false, sel: &mut sel, fit_rows: Vec::new(), protection_checked: false };
     let r = f(&mut ctx)?;
@@ -311,8 +311,8 @@ fn check_protection(old: &Workbook, new: &Workbook) -> Result<()> {
 }
 
 /// Two cells hold the same value or formula (formats aside).
-fn same_content(a: Option<&gridcraft_model::Cell>, b: Option<&gridcraft_model::Cell>) -> bool {
-    let empty = |c: Option<&gridcraft_model::Cell>| c.is_none_or(|c| c.formula.is_none() && c.value.is_empty());
+fn same_content(a: Option<&lattice_model::Cell>, b: Option<&lattice_model::Cell>) -> bool {
+    let empty = |c: Option<&lattice_model::Cell>| c.is_none_or(|c| c.formula.is_none() && c.value.is_empty());
     match (a, b) {
         (Some(a), Some(b)) => match (&a.formula, &b.formula) {
             (Some(x), Some(y)) => x.text == y.text && x.array == y.array,
@@ -332,9 +332,9 @@ pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32) {
     }
     let default = sh.default_row_height;
     // Fast path: rows of default-size, unwrapped, single-line content keep the default height.
-    let plain = sh.cells.row(row, 0, gridcraft_core::MAX_COLS - 1).all(|(_, cell)| {
+    let plain = sh.cells.row(row, 0, lattice_core::MAX_COLS - 1).all(|(_, cell)| {
         let st = wb.styles.get(cell.style);
-        st.font.size <= gridcraft_model::DEFAULT_FONT_SIZE && !st.align.wrap && !cell.value.as_text().is_some_and(|t| t.contains('\n'))
+        st.font.size <= lattice_model::DEFAULT_FONT_SIZE && !st.align.wrap && !cell.value.as_text().is_some_and(|t| t.contains('\n'))
     });
     if plain {
         if sh.rows.get(&row).is_some_and(|i| i.size.is_some())
@@ -343,7 +343,7 @@ pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32) {
         {
             {
                 e.size = None;
-                if *e == gridcraft_model::LineInfo::default() {
+                if *e == lattice_model::LineInfo::default() {
                     shm.rows.remove(&row);
                 }
             }
@@ -351,10 +351,10 @@ pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32) {
         return;
     }
     let mut need: f32 = default;
-    for (c, cell) in sh.cells.row(row, 0, gridcraft_core::MAX_COLS - 1) {
+    for (c, cell) in sh.cells.row(row, 0, lattice_core::MAX_COLS - 1) {
         let st = wb.styles.get(cell.style);
         let size = st.font.size;
-        let line = (size * 1.8).round().max(default * size / gridcraft_model::DEFAULT_FONT_SIZE);
+        let line = (size * 1.8).round().max(default * size / lattice_model::DEFAULT_FONT_SIZE);
         let mut lines = 1.0f32;
         if !cell.value.is_empty() || cell.formula.is_some() {
             let text = crate::display::cell_text(wb, sh, CellRef::new(row, c));
@@ -368,7 +368,7 @@ pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32) {
             } else {
                 explicit
             };
-        } else if st.font.size <= gridcraft_model::DEFAULT_FONT_SIZE {
+        } else if st.font.size <= lattice_model::DEFAULT_FONT_SIZE {
             continue;
         }
         let h = if lines > 1.0 { (size * 96.0 / 72.0 * 1.22 * lines + 5.0).ceil() } else { line };
@@ -377,7 +377,7 @@ pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32) {
     let Some(shm) = wb.sheet_mut(si) else { return };
     let e = shm.rows.entry(row).or_default();
     e.size = if (need - default).abs() < 0.5 { None } else { Some(need) };
-    if *e == gridcraft_model::LineInfo::default() {
+    if *e == lattice_model::LineInfo::default() {
         shm.rows.remove(&row);
     }
 }
@@ -386,7 +386,7 @@ impl Ctx<'_> {
     pub fn sheet_index(&self) -> usize {
         self.wb.active_sheet
     }
-    pub fn sheet_mut(&mut self, i: usize) -> Result<&mut gridcraft_model::Sheet> {
+    pub fn sheet_mut(&mut self, i: usize) -> Result<&mut lattice_model::Sheet> {
         self.wb.sheet_mut(i).ok_or_else(|| EngineError::Other("no such sheet".into()))
     }
     pub fn touch(&mut self, sheet: usize, c: CellRef) {

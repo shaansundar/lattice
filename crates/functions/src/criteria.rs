@@ -2,8 +2,8 @@
 
 use std::cmp::Ordering;
 
-use gridcraft_core::parse::parse_number_text;
-use gridcraft_core::{CellError, Value, compare_numbers, compare_text};
+use lattice_core::parse::parse_number_text;
+use lattice_core::{CellError, Value, compare_numbers, compare_text};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Op {

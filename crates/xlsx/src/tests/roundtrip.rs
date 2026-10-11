@@ -4,8 +4,8 @@ use std::collections::BTreeMap;
 use std::io::Read;
 use std::sync::Arc;
 
-use gridcraft_core::{CellError, CellRef, DateSystem, RangeRef, Value};
-use gridcraft_model::*;
+use lattice_core::{CellError, CellRef, DateSystem, RangeRef, Value};
+use lattice_model::*;
 
 use crate::package::Package;
 use crate::{read_xlsx, write_xlsx};

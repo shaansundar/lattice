@@ -2,12 +2,12 @@
 
 use std::fmt::Write as _;
 
-use gridcraft_core::{CellRef, RangeRef};
-use gridcraft_model::{Sheet, Workbook};
+use lattice_core::{CellRef, RangeRef};
+use lattice_model::{Sheet, Workbook};
 
 use crate::{EngineError, Result};
 
-/// File formats GridCraft reads or writes.
+/// File formats Lattice reads or writes.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FileKind {
     Xlsx,
@@ -39,36 +39,36 @@ impl FileKind {
 /// don't say.
 pub fn open_bytes(name: &str, bytes: &[u8]) -> Result<(Workbook, Vec<String>)> {
     let kind = FileKind::from_path(name);
-    let sniffed = gridcraft_xlsx::sniff(bytes);
-    if sniffed == gridcraft_xlsx::Format::Encrypted {
+    let sniffed = lattice_xlsx::sniff(bytes);
+    if sniffed == lattice_xlsx::Format::Encrypted {
         return Err(EngineError::Other(format!(
-            "'{name}' is password-protected. GridCraft can't open encrypted workbooks yet; remove the password in Excel and try again."
+            "'{name}' is password-protected. Lattice can't open encrypted workbooks yet; remove the password in Excel and try again."
         )));
     }
-    if sniffed == gridcraft_xlsx::Format::LegacyBinary {
+    if sniffed == lattice_xlsx::Format::LegacyBinary {
         return Err(EngineError::Other(format!(
-            "'{name}' is an Excel 97-2003 (.xls) workbook or another legacy binary file. GridCraft doesn't open these yet; save it as .xlsx in Excel and try again."
+            "'{name}' is an Excel 97-2003 (.xls) workbook or another legacy binary file. Lattice doesn't open these yet; save it as .xlsx in Excel and try again."
         )));
     }
     // Content wins over the extension: an ODS or XLSB package is imported as what it is,
     // whatever it is called; the extension only decides when the bytes don't say.
     let import = match sniffed {
-        gridcraft_xlsx::Format::Ods => Some(FileKind::Ods),
-        gridcraft_xlsx::Format::Xlsb => Some(FileKind::Xlsb),
+        lattice_xlsx::Format::Ods => Some(FileKind::Ods),
+        lattice_xlsx::Format::Xlsb => Some(FileKind::Xlsb),
         _ => kind.filter(|k| matches!(k, FileKind::Ods | FileKind::Xlsb)),
     };
     if let Some(import) = import {
-        let read = if import == FileKind::Ods { gridcraft_xlsx::read_ods } else { gridcraft_xlsx::read_xlsb };
+        let read = if import == FileKind::Ods { lattice_xlsx::read_ods } else { lattice_xlsx::read_xlsb };
         let (wb, report) = read(bytes).map_err(|e| EngineError::Other(format!("We can't import '{name}': {e}")))?;
         return Ok((wb, report.warnings));
     }
-    if sniffed == gridcraft_xlsx::Format::Xlsx || kind == Some(FileKind::Xlsx) {
-        let (wb, report) = gridcraft_xlsx::read_xlsx(bytes).map_err(|e| EngineError::Other(format!("We can't open '{name}': {e}")))?;
+    if sniffed == lattice_xlsx::Format::Xlsx || kind == Some(FileKind::Xlsx) {
+        let (wb, report) = lattice_xlsx::read_xlsx(bytes).map_err(|e| EngineError::Other(format!("We can't open '{name}': {e}")))?;
         return Ok((wb, report.warnings));
     }
     match kind {
         Some(FileKind::Json) => {
-            let mut wb: Workbook = serde_json::from_slice(bytes).map_err(|e| EngineError::Other(format!("not a GridCraft JSON workbook: {e}")))?;
+            let mut wb: Workbook = serde_json::from_slice(bytes).map_err(|e| EngineError::Other(format!("not a Lattice JSON workbook: {e}")))?;
             wb.styles.rebuild_index();
             if wb.sheets.is_empty() {
                 wb = Workbook::new();
@@ -76,14 +76,14 @@ pub fn open_bytes(name: &str, bytes: &[u8]) -> Result<(Workbook, Vec<String>)> {
             Ok((wb, vec![]))
         }
         Some(FileKind::Tsv) => {
-            let opts = gridcraft_xlsx::CsvOptions { delimiter: b'\t', ..Default::default() };
-            let mut wb = gridcraft_xlsx::read_csv(bytes, &opts).map_err(|e| EngineError::Other(e.to_string()))?;
+            let opts = lattice_xlsx::CsvOptions { delimiter: b'\t', ..Default::default() };
+            let mut wb = lattice_xlsx::read_csv(bytes, &opts).map_err(|e| EngineError::Other(e.to_string()))?;
             rename_first_sheet(&mut wb, name);
             Ok((wb, vec![]))
         }
         _ => {
-            let opts = gridcraft_xlsx::CsvOptions { delimiter: 0, ..Default::default() };
-            let mut wb = gridcraft_xlsx::read_csv(bytes, &opts).map_err(|e| EngineError::Other(e.to_string()))?;
+            let opts = lattice_xlsx::CsvOptions { delimiter: 0, ..Default::default() };
+            let mut wb = lattice_xlsx::read_csv(bytes, &opts).map_err(|e| EngineError::Other(e.to_string()))?;
             rename_first_sheet(&mut wb, name);
             Ok((wb, vec![]))
         }
@@ -106,11 +106,11 @@ fn rename_first_sheet(wb: &mut Workbook, path: &str) {
 pub fn save_bytes(wb: &Workbook, path: &str) -> Result<Vec<u8>> {
     let sheet = wb.active_sheet;
     match FileKind::from_path(path).unwrap_or(FileKind::Xlsx) {
-        FileKind::Xlsx => gridcraft_xlsx::write_xlsx(wb).map_err(|e| EngineError::Other(e.to_string())),
+        FileKind::Xlsx => lattice_xlsx::write_xlsx(wb).map_err(|e| EngineError::Other(e.to_string())),
         FileKind::Xlsb => Err(EngineError::Other("XLSB is supported for data import only. Save as .xlsx or another supported export format.".into())),
         FileKind::Ods => Err(EngineError::Other("ODS is supported for data import only. Save as .xlsx or another supported export format.".into())),
-        FileKind::Csv => Ok(wb.sheet(sheet).map(|sh| gridcraft_xlsx::write_csv(sh, wb, b',')).unwrap_or_default()),
-        FileKind::Tsv => Ok(wb.sheet(sheet).map(|sh| gridcraft_xlsx::write_csv(sh, wb, b'\t')).unwrap_or_default()),
+        FileKind::Csv => Ok(wb.sheet(sheet).map(|sh| lattice_xlsx::write_csv(sh, wb, b',')).unwrap_or_default()),
+        FileKind::Tsv => Ok(wb.sheet(sheet).map(|sh| lattice_xlsx::write_csv(sh, wb, b'\t')).unwrap_or_default()),
         FileKind::Json => serde_json::to_vec_pretty(wb).map_err(|e| EngineError::Other(e.to_string())),
         FileKind::Html => Ok(to_html(wb, sheet).into_bytes()),
     }
@@ -132,16 +132,16 @@ fn html_cell_css(wb: &Workbook, sh: &Sheet, c: CellRef) -> String {
     if let Some(h) = st.font.color.hex(&wb.theme) {
         let _ = write!(css, "color:{h};");
     }
-    if st.fill.pattern != gridcraft_model::PatternType::None
+    if st.fill.pattern != lattice_model::PatternType::None
         && let Some(h) = st.fill.fg.hex(&wb.theme)
     {
         let _ = write!(css, "background:{h};");
     }
     let v = sh.value(c);
     let align = match st.align.h {
-        gridcraft_model::HAlign::Center => "center",
-        gridcraft_model::HAlign::Right => "right",
-        gridcraft_model::HAlign::Left => "left",
+        lattice_model::HAlign::Center => "center",
+        lattice_model::HAlign::Right => "right",
+        lattice_model::HAlign::Left => "left",
         _ if v.is_number() => "right",
         _ => "left",
     };

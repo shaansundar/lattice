@@ -1415,182 +1415,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gridcraft"
-version = "0.5.0"
-dependencies = [
- "arboard",
- "eframe",
- "egui",
- "fmv-macos-events",
- "gridcraft-engine",
- "gridcraft-ui-egui",
- "image",
- "log",
- "muda",
- "rfd",
- "serde_json",
- "winresource",
-]
-
-[[package]]
-name = "gridcraft-calc"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
- "gridcraft-formula",
- "gridcraft-functions",
- "gridcraft-model",
- "gridcraft-numfmt",
- "log",
-]
-
-[[package]]
-name = "gridcraft-chart"
-version = "0.5.0"
-dependencies = [
- "gridcraft-calc",
- "gridcraft-core",
- "gridcraft-model",
- "gridcraft-numfmt",
- "serde",
-]
-
-[[package]]
-name = "gridcraft-cli"
-version = "0.5.0"
-dependencies = [
- "gridcraft-engine",
- "gridcraft-mcp",
- "log",
- "serde_json",
-]
-
-[[package]]
-name = "gridcraft-core"
-version = "0.5.0"
-dependencies = [
- "serde",
- "serde_json",
- "thiserror 2.0.21",
-]
-
-[[package]]
-name = "gridcraft-engine"
-version = "0.5.0"
-dependencies = [
- "gridcraft-calc",
- "gridcraft-chart",
- "gridcraft-core",
- "gridcraft-formula",
- "gridcraft-functions",
- "gridcraft-model",
- "gridcraft-numfmt",
- "gridcraft-pdf",
- "gridcraft-xlsx",
- "image",
- "log",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "zip",
-]
-
-[[package]]
-name = "gridcraft-formula"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
- "serde",
- "thiserror 2.0.21",
-]
-
-[[package]]
-name = "gridcraft-functions"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
- "regex",
-]
-
-[[package]]
-name = "gridcraft-mcp"
-version = "0.5.0"
-dependencies = [
- "gridcraft-engine",
- "log",
- "serde_json",
-]
-
-[[package]]
-name = "gridcraft-model"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
- "gridcraft-formula",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
-]
-
-[[package]]
-name = "gridcraft-numfmt"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
-]
-
-[[package]]
-name = "gridcraft-pdf"
-version = "0.5.0"
-
-[[package]]
-name = "gridcraft-ui-egui"
-version = "0.5.0"
-dependencies = [
- "egui",
- "egui_kittest",
- "gridcraft-chart",
- "gridcraft-engine",
- "image",
- "log",
- "serde",
- "serde_json",
- "skrifa",
- "sys-locale",
- "toml",
- "web-sys",
-]
-
-[[package]]
-name = "gridcraft-web"
-version = "0.5.0"
-dependencies = [
- "eframe",
- "egui",
- "gridcraft-engine",
- "gridcraft-ui-egui",
- "js-sys",
- "log",
- "rfd",
- "serde_json",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
-]
-
-[[package]]
-name = "gridcraft-xlsx"
-version = "0.5.0"
-dependencies = [
- "gridcraft-core",
- "gridcraft-formula",
- "gridcraft-model",
- "quick-xml",
- "thiserror 2.0.21",
- "zip",
-]
-
-[[package]]
 name = "guillotiere"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1850,6 +1674,182 @@ dependencies = [
  "euclid",
  "polycool",
  "smallvec",
+]
+
+[[package]]
+name = "lattice"
+version = "0.5.0"
+dependencies = [
+ "arboard",
+ "eframe",
+ "egui",
+ "fmv-macos-events",
+ "image",
+ "lattice-engine",
+ "lattice-ui-egui",
+ "log",
+ "muda",
+ "rfd",
+ "serde_json",
+ "winresource",
+]
+
+[[package]]
+name = "lattice-calc"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+ "lattice-formula",
+ "lattice-functions",
+ "lattice-model",
+ "lattice-numfmt",
+ "log",
+]
+
+[[package]]
+name = "lattice-chart"
+version = "0.5.0"
+dependencies = [
+ "lattice-calc",
+ "lattice-core",
+ "lattice-model",
+ "lattice-numfmt",
+ "serde",
+]
+
+[[package]]
+name = "lattice-cli"
+version = "0.5.0"
+dependencies = [
+ "lattice-engine",
+ "lattice-mcp",
+ "log",
+ "serde_json",
+]
+
+[[package]]
+name = "lattice-core"
+version = "0.5.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "lattice-engine"
+version = "0.5.0"
+dependencies = [
+ "image",
+ "lattice-calc",
+ "lattice-chart",
+ "lattice-core",
+ "lattice-formula",
+ "lattice-functions",
+ "lattice-model",
+ "lattice-numfmt",
+ "lattice-pdf",
+ "lattice-xlsx",
+ "log",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.21",
+ "zip",
+]
+
+[[package]]
+name = "lattice-formula"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+ "serde",
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "lattice-functions"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+ "regex",
+]
+
+[[package]]
+name = "lattice-mcp"
+version = "0.5.0"
+dependencies = [
+ "lattice-engine",
+ "log",
+ "serde_json",
+]
+
+[[package]]
+name = "lattice-model"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+ "lattice-formula",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "lattice-numfmt"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+]
+
+[[package]]
+name = "lattice-pdf"
+version = "0.5.0"
+
+[[package]]
+name = "lattice-ui-egui"
+version = "0.5.0"
+dependencies = [
+ "egui",
+ "egui_kittest",
+ "image",
+ "lattice-chart",
+ "lattice-engine",
+ "log",
+ "serde",
+ "serde_json",
+ "skrifa",
+ "sys-locale",
+ "toml",
+ "web-sys",
+]
+
+[[package]]
+name = "lattice-web"
+version = "0.5.0"
+dependencies = [
+ "eframe",
+ "egui",
+ "js-sys",
+ "lattice-engine",
+ "lattice-ui-egui",
+ "log",
+ "rfd",
+ "serde_json",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+]
+
+[[package]]
+name = "lattice-xlsx"
+version = "0.5.0"
+dependencies = [
+ "lattice-core",
+ "lattice-formula",
+ "lattice-model",
+ "quick-xml",
+ "thiserror 2.0.21",
+ "zip",
 ]
 
 [[package]]
@@ -4387,7 +4387,7 @@ checksum = "e450f9b2ed1dff33c94c12589a87338689467b9c4f5d8a5710bd09a847d2c8a7"
 name = "xtask"
 version = "0.5.0"
 dependencies = [
- "gridcraft-engine",
+ "lattice-engine",
  "serde_json",
 ]
 

@@ -3,8 +3,8 @@
 
 use std::fmt::Write as _;
 
-use gridcraft_core::{CellRef, MAX_COLS, MAX_ROWS};
-use gridcraft_model::{Anchor, AnchorMode, Color, Image, Shape, ShapeKind, Sheet, Theme};
+use lattice_core::{CellRef, MAX_COLS, MAX_ROWS};
+use lattice_model::{Anchor, AnchorMode, Color, Image, Shape, ShapeKind, Sheet, Theme};
 
 use crate::IoError;
 use crate::read::Ctx;
@@ -267,7 +267,7 @@ pub fn srgb(c: &Color, theme: &Theme) -> Option<String> {
 /// One drawing object to write.
 pub enum Obj<'a> {
     Image(&'a Image, String),
-    Chart(&'a gridcraft_model::Chart, String),
+    Chart(&'a lattice_model::Chart, String),
     Shape(&'a Shape),
 }
 
