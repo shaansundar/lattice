@@ -8,6 +8,7 @@
 //! - [`parse`]: Gemma-4 tool calls and thinking channel out of the model's output.
 //! - [`docs`]: the `lattice_docs` tool over the documentation bundled into this build.
 //! - [`harness`]: one model tool call → guardrails → the engine → one observation.
+//! - [`models`], [`download`], [`install`]: which model suits this machine, installing it, and starting the runtime.
 //!
 //! Everything here mirrors the Python reference harness the model was trained against; the golden fixtures in
 //! `tests/golden/` keep them byte-identical.
@@ -17,8 +18,10 @@
 pub mod agent;
 pub mod chat;
 pub mod docs;
+pub mod download;
 pub mod harness;
 pub mod install;
+pub mod models;
 pub mod observe;
 pub mod parse;
 pub mod prompt;

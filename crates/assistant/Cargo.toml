@@ -14,3 +14,5 @@ lattice-mcp = { workspace = true }
 serde_json = { workspace = true }
 regex = { workspace = true }
 log = { workspace = true }
+ureq = { workspace = true }
+sha2 = { workspace = true }

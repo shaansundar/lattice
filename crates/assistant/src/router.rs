@@ -57,10 +57,7 @@ pub fn detect_tier() -> Tier {
         Ok("e2b") => return Tier::E2B,
         _ => {}
     }
-    match total_ram_bytes() {
-        Some(b) if b >= 15 * (1 << 30) => Tier::E4B,
-        _ => Tier::E2B,
-    }
+    crate::models::recommend().tier
 }
 
 /// GPU layers to offload: all on Apple Silicon (Metal), none elsewhere unless `LATTICE_ASSISTANT_GPU_LAYERS` is set.
@@ -71,7 +68,8 @@ pub fn gpu_layers() -> u32 {
     if cfg!(all(target_os = "macos", target_arch = "aarch64")) { 99 } else { 0 }
 }
 
-fn total_ram_bytes() -> Option<u64> {
+/// Physical memory, when the OS reports it.
+pub fn total_ram_bytes() -> Option<u64> {
     #[cfg(target_os = "linux")]
     {
         let s = std::fs::read_to_string("/proc/meminfo").ok()?;

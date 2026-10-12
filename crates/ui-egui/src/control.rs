@@ -179,6 +179,13 @@ pub fn handle(app: &mut SheetApp, ctx: &egui::Context, method: &str, p: &Json) -
                 ("app.language.japanese", "Interface Language: Japanese", ""),
                 ("assistant.toggle", "Assistant", "{open?: bool} shows or hides the Assistant pane (desktop)"),
                 ("assistant.ask", "Ask Assistant", "{prompt} asks the built-in assistant; it works on the active workbook (desktop)"),
+                ("assistant.models", "Assistant Models", "installed, downloading and recommended models, and the runtime state (desktop)"),
+                ("assistant.install", "Download Assistant Model", "{tier: \"e4b\"|\"e2b\"|\"both\"} downloads and verifies a model (desktop)"),
+                ("assistant.importModel", "Import Assistant Model", "{tier, path} verifies a model file you already have and installs it (desktop)"),
+                ("assistant.cancelInstall", "Cancel Model Download", "{tier?} stops a download; it resumes next time (desktop)"),
+                ("assistant.removeModel", "Remove Assistant Model", "{tier} deletes a downloaded model (desktop)"),
+                ("assistant.useModel", "Use Assistant Model", "{tier} switches the assistant to an installed model (desktop)"),
+                ("assistant.manageModels", "Manage Assistant Models", "{open?: bool} shows the model setup screen (desktop)"),
             ] {
                 v.push(json!({"id": id, "label": label, "params": params, "enabled": true, "ui": true}));
             }
