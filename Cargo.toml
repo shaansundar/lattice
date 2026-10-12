@@ -23,6 +23,7 @@ lattice-chart = { path = "crates/chart" }
 lattice-engine = { path = "crates/engine" }
 lattice-ui-egui = { path = "crates/ui-egui" }
 lattice-mcp = { path = "crates/mcp" }
+lattice-assistant = { path = "crates/assistant" }
 lattice-pdf = { path = "crates/pdf" }
 
 # foundation

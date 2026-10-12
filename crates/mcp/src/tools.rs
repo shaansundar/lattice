@@ -393,7 +393,8 @@ fn type_matches(t: &str, v: &Value) -> bool {
 
 /// Validates `args` against the tool's schema: unknown tool, missing required properties and
 /// top-level type mismatches are JSON-RPC "invalid params" errors.
-pub(crate) fn check_arguments(name: &str, args: &Value) -> Result<(), String> {
+/// Validate tool arguments against the tool's input schema (what `tools/call` checks before running a tool).
+pub fn check_arguments(name: &str, args: &Value) -> Result<(), String> {
     let defs = tool_definitions();
     let def = defs.iter().find(|d| d["name"] == name).ok_or_else(|| format!("unknown tool `{name}`"))?;
     let schema = &def["inputSchema"];

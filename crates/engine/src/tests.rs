@@ -1683,3 +1683,52 @@ fn icon_set_thresholds_from_files_pick_the_icon() {
     }];
     assert_eq!([icon(&s, "A1"), icon(&s, "A2"), icon(&s, "A3"), icon(&s, "A4")], [Some(0), Some(1), Some(1), Some(2)]);
 }
+
+#[test]
+fn squash_history_merges_one_request_into_one_undo_step() {
+    let mut s = s();
+    s.execute("cell.set", json!({"cell": "A1", "input": "before"})).unwrap();
+    let start = s.active().unwrap().wb.clone();
+    s.execute("cell.set", json!({"cell": "A1", "input": "x"})).unwrap();
+    s.execute("cell.set", json!({"cell": "B1", "input": "=A1"})).unwrap();
+    s.execute("home.bold", json!({"range": "A1:B1"})).unwrap();
+    let d = s.active_mut().unwrap();
+    assert_eq!(d.squash_history_since(&start, "Assistant: fill row 1"), 3);
+    assert_eq!(s.execute("history.list", json!({})).unwrap()["undo"][0], "Assistant: fill row 1");
+    s.execute("edit.undo", json!({})).unwrap();
+    assert_eq!(v(&s, "A1"), Value::from("before"));
+    assert_eq!(v(&s, "B1"), Value::Empty);
+    // One redo replays the whole request.
+    s.execute("edit.redo", json!({})).unwrap();
+    assert_eq!(v(&s, "A1"), Value::from("x"));
+}
+
+#[test]
+fn squash_history_is_a_no_op_when_start_is_gone() {
+    let mut s = s();
+    let start = s.active().unwrap().wb.clone();
+    s.execute("cell.set", json!({"cell": "A1", "input": "1"})).unwrap();
+    s.execute("edit.undo", json!({})).unwrap();
+    s.execute("cell.set", json!({"cell": "A2", "input": "2"})).unwrap();
+    let other = std::sync::Arc::new((*start).clone());
+    assert_eq!(s.active_mut().unwrap().squash_history_since(&other, "x"), 0, "matched by identity, not equality");
+    // Survives the history limit: the start snapshot was trimmed away, nothing is merged.
+    for i in 0..150 {
+        s.execute("cell.set", json!({"cell": "C1", "input": i.to_string()})).unwrap();
+    }
+    assert_eq!(s.active_mut().unwrap().squash_history_since(&start, "x"), 0);
+}
+
+#[test]
+fn history_squash_command_merges_the_last_steps() {
+    let mut s = s();
+    for c in ["A1", "A2", "A3"] {
+        s.execute("cell.set", json!({"cell": c, "input": "1"})).unwrap();
+    }
+    assert_eq!(s.execute("history.squash", json!({"count": 2, "label": "Two cells"})).unwrap()["merged"], 2);
+    let h = s.execute("history.list", json!({})).unwrap();
+    assert_eq!(h["undo"][0], "Two cells");
+    assert_eq!(h["undo"].as_array().map(Vec::len), Some(2));
+    assert_eq!(s.execute("history.squash", json!({"count": 99})).unwrap()["merged"], 0);
+    assert!(s.execute("history.squash", json!({})).is_err());
+}

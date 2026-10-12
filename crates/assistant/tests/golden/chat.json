@@ -1,0 +1,443 @@
+{
+ "full_off": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_0",
+      "type": "function",
+      "function": {
+       "name": "sort_range",
+       "arguments": {
+        "keys": [
+         "B desc",
+         {
+          "column": "C",
+          "order": "asc"
+         }
+        ],
+        "range": "A1:C9",
+        "header": true
+       }
+      }
+     },
+     {
+      "id": "call_1",
+      "type": "function",
+      "function": {
+       "name": "execute_command",
+       "arguments": {
+        "command": "home.bold",
+        "params": {
+         "range": "A1:C1",
+         "on": true,
+         "size": 11.5,
+         "n": 3,
+         "x": null
+        }
+       }
+      }
+     }
+    ]
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_0",
+    "name": "sort_range",
+    "content": "OK {\"sorted\":\"A2:C9\"}"
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_1",
+    "name": "execute_command",
+    "content": "OK"
+   },
+   {
+    "role": "assistant",
+    "content": "Sorted A2:C9 by B and bolded the header."
+   }
+  ],
+  "thinking": false,
+  "gen": false,
+  "md5": "895b09bfc780ba8c476e5000a9cad75a"
+ },
+ "gen_after_user_off": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   }
+  ],
+  "thinking": false,
+  "gen": true,
+  "md5": "ae69e954c150b6d9b8de89b8ee61ff59"
+ },
+ "gen_after_tools_off": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_0",
+      "type": "function",
+      "function": {
+       "name": "sort_range",
+       "arguments": {
+        "keys": [
+         "B desc",
+         {
+          "column": "C",
+          "order": "asc"
+         }
+        ],
+        "range": "A1:C9",
+        "header": true
+       }
+      }
+     },
+     {
+      "id": "call_1",
+      "type": "function",
+      "function": {
+       "name": "execute_command",
+       "arguments": {
+        "command": "home.bold",
+        "params": {
+         "range": "A1:C1",
+         "on": true,
+         "size": 11.5,
+         "n": 3,
+         "x": null
+        }
+       }
+      }
+     }
+    ]
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_0",
+    "name": "sort_range",
+    "content": "OK {\"sorted\":\"A2:C9\"}"
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_1",
+    "name": "execute_command",
+    "content": "OK"
+   }
+  ],
+  "thinking": false,
+  "gen": true,
+  "md5": "2fb77db79e3e310306dcffedff4d2815"
+ },
+ "full_on": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_0",
+      "type": "function",
+      "function": {
+       "name": "sort_range",
+       "arguments": {
+        "keys": [
+         "B desc",
+         {
+          "column": "C",
+          "order": "asc"
+         }
+        ],
+        "range": "A1:C9",
+        "header": true
+       }
+      }
+     },
+     {
+      "id": "call_1",
+      "type": "function",
+      "function": {
+       "name": "execute_command",
+       "arguments": {
+        "command": "home.bold",
+        "params": {
+         "range": "A1:C1",
+         "on": true,
+         "size": 11.5,
+         "n": 3,
+         "x": null
+        }
+       }
+      }
+     }
+    ],
+    "reasoning_content": "I'll sort first, then format the header."
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_0",
+    "name": "sort_range",
+    "content": "OK {\"sorted\":\"A2:C9\"}"
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_1",
+    "name": "execute_command",
+    "content": "OK"
+   },
+   {
+    "role": "assistant",
+    "content": "Sorted A2:C9 by B and bolded the header.",
+    "reasoning_content": "Both calls succeeded."
+   }
+  ],
+  "thinking": true,
+  "gen": false,
+  "md5": "91bd0bf04a3ca827c9a1126224a7739d"
+ },
+ "gen_after_user_on": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   }
+  ],
+  "thinking": true,
+  "gen": true,
+  "md5": "ee0d3fb73aee06019bedaae2bc0d4a7d"
+ },
+ "gen_after_tools_on": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_0",
+      "type": "function",
+      "function": {
+       "name": "sort_range",
+       "arguments": {
+        "keys": [
+         "B desc",
+         {
+          "column": "C",
+          "order": "asc"
+         }
+        ],
+        "range": "A1:C9",
+        "header": true
+       }
+      }
+     },
+     {
+      "id": "call_1",
+      "type": "function",
+      "function": {
+       "name": "execute_command",
+       "arguments": {
+        "command": "home.bold",
+        "params": {
+         "range": "A1:C1",
+         "on": true,
+         "size": 11.5,
+         "n": 3,
+         "x": null
+        }
+       }
+      }
+     }
+    ],
+    "reasoning_content": "I'll sort first, then format the header."
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_0",
+    "name": "sort_range",
+    "content": "OK {\"sorted\":\"A2:C9\"}"
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_1",
+    "name": "execute_command",
+    "content": "OK"
+   }
+  ],
+  "thinking": true,
+  "gen": true,
+  "md5": "f42a2f66a947ae3a1e5d692ec9ee2ba3"
+ },
+ "values_types": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_2",
+      "type": "function",
+      "function": {
+       "name": "write_range",
+       "arguments": {
+        "range": "A1",
+        "values": [
+         [
+          "x",
+          1,
+          2.5,
+          true,
+          null
+         ],
+         [
+          "=SUM(B1:C1)",
+          -3,
+          1e-05,
+          false,
+          "é"
+         ]
+        ]
+       }
+      }
+     }
+    ]
+   },
+   {
+    "role": "tool",
+    "tool_call_id": "call_2",
+    "name": "write_range",
+    "content": "OK {\"cells\":10}"
+   },
+   {
+    "role": "assistant",
+    "content": "Sorted A2:C9 by B and bolded the header."
+   }
+  ],
+  "thinking": false,
+  "gen": false,
+  "md5": "f60103b0bcaa34fded2ad4cc260e6075"
+ },
+ "pending_call": {
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are the assistant.\nTools:\n- read_range(range?)"
+   },
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "call_0",
+      "type": "function",
+      "function": {
+       "name": "sort_range",
+       "arguments": {
+        "keys": [
+         "B desc",
+         {
+          "column": "C",
+          "order": "asc"
+         }
+        ],
+        "range": "A1:C9",
+        "header": true
+       }
+      }
+     },
+     {
+      "id": "call_1",
+      "type": "function",
+      "function": {
+       "name": "execute_command",
+       "arguments": {
+        "command": "home.bold",
+        "params": {
+         "range": "A1:C1",
+         "on": true,
+         "size": 11.5,
+         "n": 3,
+         "x": null
+        }
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "thinking": false,
+  "gen": false,
+  "md5": "da6a896814f69c9f4d86bab76db6920b"
+ },
+ "no_system_on": {
+  "messages": [
+   {
+    "role": "user",
+    "content": "<workbook>\nWorkbook \"Book1\"\n</workbook>\n\nSort by B, then bold A1."
+   },
+   {
+    "role": "assistant",
+    "content": "Sorted A2:C9 by B and bolded the header."
+   }
+  ],
+  "thinking": true,
+  "gen": false,
+  "md5": "aa0606392eedb3bafc2307ee7fd3a99f"
+ }
+}

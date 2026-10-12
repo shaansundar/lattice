@@ -782,6 +782,13 @@ fn home(app: &mut SheetApp, ui: &mut Ui) {
             ],
         );
     });
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        sep(ui);
+        if big_button(ui, Icon::Sparkle, "Assistant", "Assistant: ask about this workbook or have it make changes", false).clicked() {
+            act(app, "assistant.toggle", json!({}));
+        }
+    }
 }
 
 fn font_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style) {

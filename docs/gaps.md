@@ -135,8 +135,10 @@ No alpha blockers: every core workflow passes the [alpha gate](roadmap.md#alpha-
   function API. **Estimate:** 25–40 h plus an owner decision.
 
 ### 22. AI features (F)
-- No in-app assistant, natural-language formulas or Analyze Data; agent control via MCP is
-  already strong. **Estimate:** 30–50 h; model choice needs the owner.
+- **In progress (2026-10-12):** a local, fine-tuned in-app assistant (workbook agent, natural-language and explained
+  formulas, data Q&A, Lattice how-to) ships in desktop builds once its model files are packaged
+  ([assistant.md](assistant.md)). Still missing: a `COPILOT()`-style cell function, Analyze Data's chart suggestions
+  and release packaging of the model. **Estimate:** 10–20 h remaining.
 
 ### 23. Mobile (platform)
 - No iOS, iPadOS or Android layout. **Estimate:** 30–60 h.

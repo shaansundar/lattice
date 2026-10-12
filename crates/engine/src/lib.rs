@@ -102,6 +102,20 @@ static NEXT_UID: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::ne
 const UNDO_LIMIT: usize = 100;
 
 impl DocState {
+    /// Merge every undo entry recorded since the workbook was `start` into one entry labelled `label`, so a single
+    /// Undo restores `start` (e.g. all the edits of one assistant request). `start` is matched by identity, which
+    /// stays correct when the history was trimmed at its limit. Returns how many entries were merged (0 when `start`
+    /// is no longer in the history, e.g. after an undo past it).
+    pub fn squash_history_since(&mut self, start: &Arc<Workbook>, label: &str) -> usize {
+        let Some(i) = self.undo.iter().rposition(|e| Arc::ptr_eq(&e.wb, start)) else { return 0 };
+        let merged = self.undo.len() - i;
+        self.undo.truncate(i + 1);
+        if let Some(e) = self.undo.get_mut(i) {
+            e.label = label.to_string();
+        }
+        merged
+    }
+
     pub fn new(mut wb: Workbook, path: Option<String>, title: String) -> DocState {
         let mut calc = Calc::new();
         calc.recalc_all(&mut wb);

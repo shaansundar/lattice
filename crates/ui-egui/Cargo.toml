@@ -24,6 +24,8 @@ egui_kittest = { workspace = true, features = ["wgpu", "snapshot"] }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 # The desktop's preferred language for the first-run interface language.
 sys-locale = { workspace = true }
+# The built-in assistant (local model sidecar) ships with desktop builds only.
+lattice-assistant = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # Read the browser's preferred language for the first-run web interface language.

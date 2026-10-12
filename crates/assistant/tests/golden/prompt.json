@@ -1,0 +1,805 @@
+{
+ "system": "You are the assistant built into Lattice, a spreadsheet app. You work on the user's open workbook with tools; your changes apply directly and the user can undo each request in one step.\n- The message starts with a snapshot of the workbook. Read more with read_range or inspect_workbook when you need it.\n- Prefer formulas over typed results so values stay live, and change only the cells the request is about.\n- Use the specific tools when they fit; every other Lattice action is execute_command with a command id (look ids and params up with list_commands). Use only worksheet functions Lattice has (list_functions).\n- Questions about Lattice itself (features, shortcuts, lattice-cli, MCP, scripting): search lattice_docs.\n- Questions about the data: read or compute what you need (evaluate_formula) and answer with the numbers.\n- Finish with one or two plain sentences: what you changed, or the answer. No tool call after that.\nTools:\n- inspect_workbook() \u2014 Summary of the workbook: sheets, used ranges, tables, charts, names, selection.\n- read_range(range?, sheet?) \u2014 Read cells as a grid; formula cells show =FORMULA\u2192value. Default: the used range.\n- get_cell(cell) \u2014 One cell: value, formula, display text, style.\n- set_cell(cell, input) \u2014 Enter one cell as if typed: number, text or =formula.\n- write_range(range, values) \u2014 Write rows of values from the top-left cell of range; strings starting with = are formulas.\n- evaluate_formula(formula, cell?) \u2014 Compute a formula without changing any cell.\n- format_range(range, bold?, italic?, underline?, fontName?, fontSize?, fontColor?, fillColor?, numberFormat?, horizontalAlign?, wrapText?, borders?) \u2014 Apply several formats to a range in one call.\n- sort_range(keys, range?, header?) \u2014 Sort rows by one or more columns, most significant first.\n- filter(column, range?, values?, custom?, top?, blanks?, clear?) \u2014 Filter rows by a column (turns on AutoFilter when needed).\n- create_table(range, header?, name?, style?) \u2014 Format a range as a table (structured references, banded rows, filter buttons).\n- insert_chart(range, type, subtype?, title?, at?) \u2014 Insert a chart from a data range including headers.\n- execute_command(command, params?) \u2014 Run any Lattice command by id (every ribbon/menu action, undo, files). Look ids and params up with list_commands. file.*, app.*, window.* and sheet deletion ask the user first.\n- list_commands(search?) \u2014 Search Lattice commands: id, label, ribbon path, params.\n- list_functions(search?, category?) \u2014 Search worksheet functions Lattice supports: signature and description.\n- lattice_docs(search) \u2014 Search Lattice's documentation: features, shortcuts, lattice-cli, MCP, scripting, file formats.",
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "inspect_workbook",
+    "description": "Summary of the workbook: sheets, used ranges, tables, charts, names, selection.",
+    "parameters": {
+     "type": "object",
+     "properties": {},
+     "required": []
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "read_range",
+    "description": "Read cells as a grid; formula cells show =FORMULA\u2192value. Default: the used range.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "range": {
+       "type": "string",
+       "description": "e.g. A1:D10, B:B, Sheet2!A1:C3"
+      },
+      "sheet": {
+       "type": "string",
+       "description": "Sheet name (default active)"
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "get_cell",
+    "description": "One cell: value, formula, display text, style.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "cell": {
+       "type": "string",
+       "description": "e.g. B7 or Sheet2!C3"
+      }
+     },
+     "required": [
+      "cell"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "set_cell",
+    "description": "Enter one cell as if typed: number, text or =formula.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "cell": {
+       "type": "string"
+      },
+      "input": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "cell",
+      "input"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "write_range",
+    "description": "Write rows of values from the top-left cell of range; strings starting with = are formulas.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "range": {
+       "type": "string",
+       "description": "Top-left cell or range"
+      },
+      "values": {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "items": {
+         "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+         ]
+        }
+       }
+      }
+     },
+     "required": [
+      "range",
+      "values"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "evaluate_formula",
+    "description": "Compute a formula without changing any cell.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "formula": {
+       "type": "string"
+      },
+      "cell": {
+       "type": "string",
+       "description": "Evaluate as if in this cell"
+      }
+     },
+     "required": [
+      "formula"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "format_range",
+    "description": "Apply several formats to a range in one call.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "range": {
+       "type": "string"
+      },
+      "bold": {
+       "type": "boolean"
+      },
+      "italic": {
+       "type": "boolean"
+      },
+      "underline": {
+       "type": "boolean"
+      },
+      "fontName": {
+       "type": "string"
+      },
+      "fontSize": {
+       "type": "number"
+      },
+      "fontColor": {
+       "type": "string",
+       "description": "#RRGGBB or auto"
+      },
+      "fillColor": {
+       "type": "string",
+       "description": "#RRGGBB or none"
+      },
+      "numberFormat": {
+       "type": "string",
+       "description": "Name (Currency, Percentage, Short Date\u2026) or code"
+      },
+      "horizontalAlign": {
+       "type": "string",
+       "enum": [
+        "left",
+        "center",
+        "right",
+        "justify"
+       ]
+      },
+      "wrapText": {
+       "type": "boolean"
+      },
+      "borders": {
+       "type": "string",
+       "description": "Preset: all, outside, thickOutside, bottom, top, none\u2026"
+      }
+     },
+     "required": [
+      "range"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "sort_range",
+    "description": "Sort rows by one or more columns, most significant first.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "keys": {
+       "type": "array",
+       "description": "e.g. [\"B\"], [\"C desc\"] or [{\"column\":\"C\",\"order\":\"desc\"}]",
+       "items": {
+        "type": [
+         "string",
+         "object"
+        ]
+       }
+      },
+      "range": {
+       "type": "string"
+      },
+      "header": {
+       "type": "boolean"
+      }
+     },
+     "required": [
+      "keys"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "filter",
+    "description": "Filter rows by a column (turns on AutoFilter when needed).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "column": {
+       "type": "string",
+       "description": "Column letter"
+      },
+      "range": {
+       "type": "string"
+      },
+      "values": {
+       "type": "array",
+       "items": {
+        "type": [
+         "string",
+         "number",
+         "boolean"
+        ]
+       },
+       "description": "Values to keep"
+      },
+      "custom": {
+       "type": "object",
+       "description": "{op, value, op2?, value2?, and?}"
+      },
+      "top": {
+       "type": "object",
+       "description": "{count, bottom?, percent?}"
+      },
+      "blanks": {
+       "type": "boolean"
+      },
+      "clear": {
+       "type": "boolean"
+      }
+     },
+     "required": [
+      "column"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "create_table",
+    "description": "Format a range as a table (structured references, banded rows, filter buttons).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "range": {
+       "type": "string"
+      },
+      "header": {
+       "type": "boolean"
+      },
+      "name": {
+       "type": "string"
+      },
+      "style": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "range"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "insert_chart",
+    "description": "Insert a chart from a data range including headers.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "range": {
+       "type": "string"
+      },
+      "type": {
+       "type": "string",
+       "enum": [
+        "column",
+        "bar",
+        "line",
+        "pie",
+        "doughnut",
+        "area",
+        "scatter",
+        "bubble",
+        "radar",
+        "combo",
+        "histogram",
+        "waterfall",
+        "funnel",
+        "treemap",
+        "sunburst",
+        "boxWhisker",
+        "stock"
+       ]
+      },
+      "subtype": {
+       "type": "string",
+       "enum": [
+        "clustered",
+        "stacked",
+        "stacked100",
+        "markers"
+       ]
+      },
+      "title": {
+       "type": "string"
+      },
+      "at": {
+       "type": "string",
+       "description": "Top-left anchor cell"
+      }
+     },
+     "required": [
+      "range",
+      "type"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "execute_command",
+    "description": "Run any Lattice command by id (every ribbon/menu action, undo, files). Look ids and params up with list_commands. file.*, app.*, window.* and sheet deletion ask the user first.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "command": {
+       "type": "string",
+       "description": "e.g. edit.fillDown, view.freezePanes, data.removeDuplicates"
+      },
+      "params": {
+       "type": "object"
+      }
+     },
+     "required": [
+      "command"
+     ]
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "list_commands",
+    "description": "Search Lattice commands: id, label, ribbon path, params.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "search": {
+       "type": "string"
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "list_functions",
+    "description": "Search worksheet functions Lattice supports: signature and description.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "search": {
+       "type": "string"
+      },
+      "category": {
+       "type": "string"
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "lattice_docs",
+    "description": "Search Lattice's documentation: features, shortcuts, lattice-cli, MCP, scripting, file formats.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "search": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "search"
+     ]
+    }
+   }
+  }
+ ],
+ "context": {
+  "workbook": {
+   "activeCell": "A1",
+   "activeSheet": 0,
+   "calcMode": "Automatic",
+   "dirty": true,
+   "mode": "Ready",
+   "names": [],
+   "path": null,
+   "redo": [],
+   "selection": "A1",
+   "sheets": [
+    {
+     "autofilter": null,
+     "cells": 72,
+     "charts": [
+      {
+       "at": "K3",
+       "id": 2,
+       "kind": "ColumnClustered",
+       "series": 4,
+       "title": "Revenue by Region"
+      },
+      {
+       "at": "K19",
+       "id": 3,
+       "kind": "Pie",
+       "series": 1,
+       "title": "Share of Annual Total"
+      }
+     ],
+     "comments": 1,
+     "conditionalFormats": 2,
+     "freeze": [
+      4,
+      2
+     ],
+     "images": 0,
+     "merges": [],
+     "name": "Sales",
+     "protected": false,
+     "shapes": 0,
+     "tabColor": null,
+     "tables": [
+      {
+       "columns": [
+        "Region",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Total",
+        "Growth",
+        "Trend"
+       ],
+       "name": "Sales",
+       "range": "B4:I11",
+       "style": "TableStyleMedium2",
+       "totals": true
+      }
+     ],
+     "usedRange": "B2:L32",
+     "validations": 0,
+     "visibility": "Visible",
+     "zoom": 100
+    }
+   ],
+   "theme": "Craft",
+   "title": "Quarterly Sales Dashboard",
+   "undo": [
+    "Freeze Panes",
+    "Fill Color",
+    "Bold",
+    "Set Values",
+    "Enter Cell"
+   ]
+  },
+  "preview_range": "B2:K13",
+  "formulas": [
+   [
+    "Quarterly Sales Dashboard",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "Fiscal year 2026 \u00b7 all figures in USD",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "Region",
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4",
+    "Total",
+    "Growth",
+    "Trend",
+    null,
+    null
+   ],
+   [
+    "North",
+    48200.0,
+    51340.0,
+    56010.0,
+    61870.0,
+    "=SUM(C5:F5)",
+    "=F5/C5-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "South",
+    39150.0,
+    37980.0,
+    42400.0,
+    45120.0,
+    "=SUM(C6:F6)",
+    "=F6/C6-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "East",
+    55300.0,
+    58910.0,
+    57230.0,
+    63480.0,
+    "=SUM(C7:F7)",
+    "=F7/C7-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "West",
+    61020.0,
+    64400.0,
+    70150.0,
+    76390.0,
+    "=SUM(C8:F8)",
+    "=F8/C8-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "Central",
+    28740.0,
+    31260.0,
+    33980.0,
+    36510.0,
+    "=SUM(C9:F9)",
+    "=F9/C9-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "Online",
+    72410.0,
+    81630.0,
+    95220.0,
+    112840.0,
+    "=SUM(C10:F10)",
+    "=F10/C10-1",
+    null,
+    null,
+    null
+   ],
+   [
+    "Total",
+    "=SUBTOTAL(109,Sales[Q1])",
+    "=SUBTOTAL(109,Sales[Q2])",
+    "=SUBTOTAL(109,Sales[Q3])",
+    "=SUBTOTAL(109,Sales[Q4])",
+    "=SUBTOTAL(109,Sales[Total])",
+    "=SUBTOTAL(101,Sales[Growth])",
+    null,
+    null,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  ],
+  "formatted": [
+   [
+    "Quarterly Sales Dashboard",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   [
+    "Fiscal year 2026 \u00b7 all figures in USD",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   [
+    "Region",
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4",
+    "Total",
+    "Growth",
+    "Trend",
+    "",
+    ""
+   ],
+   [
+    "North",
+    "$48,200",
+    "$51,340",
+    "$56,010",
+    "$61,870",
+    "$217,420",
+    "28.4%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "South",
+    "$39,150",
+    "$37,980",
+    "$42,400",
+    "$45,120",
+    "$164,650",
+    "15.2%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "East",
+    "$55,300",
+    "$58,910",
+    "$57,230",
+    "$63,480",
+    "$234,920",
+    "14.8%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "West",
+    "$61,020",
+    "$64,400",
+    "$70,150",
+    "$76,390",
+    "$271,960",
+    "25.2%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "Central",
+    "$28,740",
+    "$31,260",
+    "$33,980",
+    "$36,510",
+    "$130,490",
+    "27.0%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "Online",
+    "$72,410",
+    "$81,630",
+    "$95,220",
+    "$112,840",
+    "$362,100",
+    "55.8%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "Total",
+    "$304,820",
+    "$325,520",
+    "$354,990",
+    "$396,210",
+    "$1,381,540",
+    "27.7%",
+    "",
+    "",
+    ""
+   ],
+   [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
+  ],
+  "text": "<workbook>\nWorkbook \"Quarterly Sales Dashboard\" (unsaved changes) \u00b7 active sheet 'Sales' \u00b7 selection A1 (active cell A1)\n- 'Sales' used B2:L32 \u00b7 table Sales B4:I11 [Region, Q1, Q2, Q3, Q4, Total, Growth, Trend] \u00b7 charts: #2 columnclustered \"Revenue by Region\" at K3, #3 pie \"Share of Annual Total\" at K19 \u00b7 frozen 4 rows, 2 columns \u00b7 conditional formats 2 \u00b7 comments 1\n'Sales'!B2:K13\n| row | B | C | D | E | F | G | H | I | J | K |\n| 2 | Quarterly Sales Dashboard |  |  |  |  |  |  |  |  |  |\n| 3 | Fiscal year 2026 \u00b7 all figures in USD |  |  |  |  |  |  |  |  |  |\n| 4 | Region | Q1 | Q2 | Q3 | Q4 | Total | Growth | Trend |  |  |\n| 5 | North | $48,200 | $51,340 | $56,010 | $61,870 | =SUM(C5:F5)\u2192$217,420 | =F5/C5-1\u219228.4% |  |  |  |\n| 6 | South | $39,150 | $37,980 | $42,400 | $45,120 | =SUM(C6:F6)\u2192$164,650 | =F6/C6-1\u219215.2% |  |  |  |\n| 7 | East | $55,300 | $58,910 | $57,230 | $63,480 | =SUM(C7:F7)\u2192$234,920 | =F7/C7-1\u219214.8% |  |  |  |\n| 8 | West | $61,020 | $64,400 | $70,150 | $76,390 | =SUM(C8:F8)\u2192$271,960 | =F8/C8-1\u219225.2% |  |  |  |\n| 9 | Central | $28,740 | $31,260 | $33,980 | $36,510 | =SUM(C9:F9)\u2192$130,490 | =F9/C9-1\u219227.0% |  |  |  |\n| 10 | Online | $72,410 | $81,630 | $95,220 | $112,840 | =SUM(C10:F10)\u2192$362,100 | =F10/C10-1\u219255.8% |  |  |  |\n| 11 | Total | =SUBTOTAL(109,Sales[Q1])\u2192$304,820 | =SUBTOTAL(109,Sales[Q2])\u2192$325,520 | =SUBTOTAL(109,Sales[Q3])\u2192$354,990 | =SUBTOTAL(109,Sales[Q4])\u2192$396,210 | =SUBTOTAL(109,Sales[Total])\u2192$1,381,540 | =SUBTOTAL(101,Sales[Growth])\u219227.7% |  |  |  |\n| 12 |  |  |  |  |  |  |  |  |  |  |\n| 13 |  |  |  |  |  |  |  |  |  |  |\n</workbook>"
+ }
+}

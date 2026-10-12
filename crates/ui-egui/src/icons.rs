@@ -66,6 +66,7 @@ pub enum Icon {
     PageBreak,
     Minus,
     Table,
+    Sparkle,
     PivotTable,
     Chart,
     ChartBar,
@@ -421,6 +422,11 @@ pub fn paint(p: &Painter, rect: Rect, icon: Icon, c: Color32) {
             g.line(&[(3.0, 8.0), (13.0, 8.0)], c, 1.3);
         }
         Icon::Minus => g.line(&[(3.0, 8.0), (13.0, 8.0)], c, 1.3),
+        Icon::Sparkle => {
+            g.line(&[(7.0, 2.0), (8.3, 6.2), (12.5, 7.5), (8.3, 8.8), (7.0, 13.0), (5.7, 8.8), (1.5, 7.5), (5.7, 6.2), (7.0, 2.0)], c, 1.2);
+            g.line(&[(12.5, 1.5), (12.5, 4.5)], c, 1.1);
+            g.line(&[(11.0, 3.0), (14.0, 3.0)], c, 1.1);
+        }
         Icon::Normal | Icon::Gridlines | Icon::Sheet => {
             g.rect(2.0, 2.5, 12.0, 11.0, None, Some(c));
             g.stroke(&[(6.0, 2.5), (6.0, 13.5)], c);

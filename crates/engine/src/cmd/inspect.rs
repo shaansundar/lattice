@@ -12,6 +12,8 @@ pub fn specs() -> Vec<CommandSpec> {
         cmd!(query "cell.get", "Get Cell", [], None, "{cell?, sheet?} → value, formula, display text, style, comment, link", has_doc, cell_get),
         cmd!(query "selection.stats", "Selection Statistics", [], None, "{} → count, sum, average, min, max", has_doc, sel_stats),
         cmd!(query "history.list", "Undo History", [], None, "{} → undo/redo labels", has_doc, history),
+        // Not journaled (replaying it would merge unrelated steps) and records no undo step of its own.
+        cmd!(query "history.squash", "Merge Undo Steps", [], None, "{count: 2.., label?} merges the last `count` undo steps into one → {merged}", has_doc, history_squash),
         cmd!(query "app.commands", "List Commands", [], None, "{search?} → ids, labels, params", always, list_commands),
     ]
 }
@@ -144,6 +146,18 @@ fn sel_stats(s: &mut Session, _: &Json) -> Result<Json> {
     let sh = d.wb.active().ok_or(EngineError::NoDocument)?;
     let st = crate::display::stats(sh, &d.selection.ranges);
     serde_json::to_value(st).map_err(|e| EngineError::Other(e.to_string()))
+}
+
+fn history_squash(s: &mut Session, p: &Json) -> Result<Json> {
+    let count = u32_param(p, "count").ok_or_else(|| EngineError::BadParams { cmd: "history.squash".into(), msg: "missing `count`".into() })? as usize;
+    let d = s.doc_mut()?;
+    if count < 2 || count > d.undo.len() {
+        return Ok(json!({"merged": 0}));
+    }
+    let start = d.undo.get(d.undo.len() - count).map(|e| e.wb.clone());
+    let label = str_param(p, "label").map(str::to_string).or_else(|| d.undo.last().map(|e| e.label.clone())).unwrap_or_default();
+    let merged = start.map(|w| d.squash_history_since(&w, &label)).unwrap_or(0);
+    Ok(json!({"merged": merged}))
 }
 
 fn history(s: &mut Session, _: &Json) -> Result<Json> {

@@ -6,6 +6,8 @@
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
 #![forbid(unsafe_code)]
 
+#[cfg(not(target_arch = "wasm32"))]
+pub mod assistant_pane;
 mod border_preview;
 mod cell_pictures;
 pub mod chartview;
@@ -162,6 +164,9 @@ pub struct SheetApp {
     /// Chart selected on the sheet (id).
     pub selected_chart: Option<u32>,
     pub started: f64,
+    /// The built-in assistant (desktop builds).
+    #[cfg(not(target_arch = "wasm32"))]
+    pub assistant: assistant_pane::AssistantPane,
 }
 
 impl SheetApp {
@@ -194,6 +199,8 @@ impl SheetApp {
             shots: control::Shots::default(),
             selected_chart: None,
             started: now_ms(),
+            #[cfg(not(target_arch = "wasm32"))]
+            assistant: Default::default(),
         }
     }
 
@@ -348,6 +355,15 @@ impl SheetApp {
                 self.message = None;
                 Ok(Json::Null)
             }
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.toggle" => {
+                self.assistant.open = p.get("open").and_then(Json::as_bool).unwrap_or(!self.assistant.open);
+                Ok(json!({"open": self.assistant.open}))
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.ask" => assistant_pane::ask(self, p.get("prompt").and_then(Json::as_str).unwrap_or("")),
+            #[cfg(target_arch = "wasm32")]
+            "assistant.toggle" | "assistant.ask" => Err("the assistant is available in the desktop app".into()),
             _ => return None,
         };
         Some(r)
@@ -616,6 +632,8 @@ impl SheetApp {
         }
         tabs::sheet_tabs(self, ui);
         pivot_pane::show(self, ui);
+        #[cfg(not(target_arch = "wasm32"))]
+        assistant_pane::show(self, ui);
         panes::show(self, ui);
         egui::CentralPanel::default().frame(egui::Frame::NONE.fill(t.grid_bg)).show(ui, |ui| {
             let g0 = now_ms();

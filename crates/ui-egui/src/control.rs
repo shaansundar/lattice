@@ -177,6 +177,8 @@ pub fn handle(app: &mut SheetApp, ctx: &egui::Context, method: &str, p: &Json) -
                 ("app.language.set", "Interface Language", "{language: \"en\"|\"zh\"|\"ja\"|\"ko\"|\"ru\"|\"pt\"} (alias: code)"),
                 ("app.language.english", "Interface Language: English", ""),
                 ("app.language.japanese", "Interface Language: Japanese", ""),
+                ("assistant.toggle", "Assistant", "{open?: bool} shows or hides the Assistant pane (desktop)"),
+                ("assistant.ask", "Ask Assistant", "{prompt} asks the built-in assistant; it works on the active workbook (desktop)"),
             ] {
                 v.push(json!({"id": id, "label": label, "params": params, "enabled": true, "ui": true}));
             }

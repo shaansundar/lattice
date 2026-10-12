@@ -2,7 +2,7 @@
 //!
 //! `cargo run --release -p lattice-ui-egui --example snapshot -- [--sample sales] [--in file.xlsx]
 //!  [--size 1440x900] [--scale 2] [--cmd 'id={json}']... [--tab Insert] [--dark] [--language en|zh|ja|ko|ru|pt]
-//!  [--dialog 'name={json}'] out.png`
+//!  [--dialog 'name={json}'] [--ui-cmd 'id={json}']... out.png`
 
 use lattice_engine::Session;
 use lattice_ui_egui::SheetApp;
@@ -15,6 +15,7 @@ fn main() {
     let mut size = (1440.0f32, 900.0f32);
     let mut scale = 2.0f32;
     let mut cmds: Vec<String> = vec![];
+    let mut ui_cmds: Vec<String> = vec![];
     let mut tab = None;
     let mut dark = false;
     let mut pane: Option<String> = None;
@@ -54,6 +55,12 @@ fn main() {
                 tab = args.get(i).cloned();
             }
             "--dark" => dark = true,
+            "--ui-cmd" => {
+                i += 1;
+                if let Some(c) = args.get(i) {
+                    ui_cmds.push(c.clone());
+                }
+            }
             "--pane" => {
                 i += 1;
                 pane = args.get(i).cloned();
@@ -108,6 +115,16 @@ fn main() {
                 }
                 app.grid.pane = pane;
                 app.selected_chart = chart;
+                // Commands through the app (UI-only ones such as `assistant.toggle` included).
+                for c in &ui_cmds {
+                    let (id, p) = c
+                        .split_once('=')
+                        .map(|(a, b)| (a.to_string(), serde_json::from_str(b).unwrap_or(json!({}))))
+                        .unwrap_or((c.clone(), json!({})));
+                    if let Err(e) = app.run(&id, p) {
+                        eprintln!("{id}: {e}");
+                    }
+                }
                 if let Some(d) = &dialog {
                     let (name, p) =
                         d.split_once('=').map(|(a, b)| (a, serde_json::from_str(b).unwrap_or(json!({})))).unwrap_or((d.as_str(), json!({})));

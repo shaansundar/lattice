@@ -1,0 +1,179 @@
+[
+ {
+  "text": "<|tool_call>call:read_range{range:<|\"|>A1:B3<|\"|>,sheet:<|\"|>S<|\"|>}<tool_call|>",
+  "calls": [
+   {
+    "name": "read_range",
+    "arguments": {
+     "range": "A1:B3",
+     "sheet": "S"
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:read_range{range:<|\"|>A1:B3<|\"|>,sheet:<|\"|>S<|\"|>}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:set_cell{cell:<|\"|>B2<|\"|>,input:<|\"|>=SUM(A1:A9)<|\"|>}<tool_call|><|tool_call>call:get_cell{cell:<|\"|>B2<|\"|>}<tool_call|>",
+  "calls": [
+   {
+    "name": "set_cell",
+    "arguments": {
+     "cell": "B2",
+     "input": "=SUM(A1:A9)"
+    }
+   },
+   {
+    "name": "get_cell",
+    "arguments": {
+     "cell": "B2"
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:set_cell{cell:<|\"|>B2<|\"|>,input:<|\"|>=SUM(A1:A9)<|\"|>}<tool_call|><|tool_call>call:get_cell{cell:<|\"|>B2<|\"|>}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:write_range{range:<|\"|>A1<|\"|>,values:[[<|\"|>x<|\"|>,1,true],[null,2.5,<|\"|>=A1<|\"|>]]}<tool_call|>",
+  "calls": [
+   {
+    "name": "write_range",
+    "arguments": {
+     "range": "A1",
+     "values": [
+      [
+       "x",
+       1,
+       true
+      ],
+      [
+       null,
+       2.5,
+       "=A1"
+      ]
+     ]
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:write_range{range:<|\"|>A1<|\"|>,values:[[<|\"|>x<|\"|>,1,true],[null,2.5,<|\"|>=A1<|\"|>]]}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:execute_command{command:<|\"|>home.bold<|\"|>,params:{range:<|\"|>A1:C1<|\"|>,on:true}}<tool_call|>",
+  "calls": [
+   {
+    "name": "execute_command",
+    "arguments": {
+     "command": "home.bold",
+     "params": {
+      "range": "A1:C1",
+      "on": true
+     }
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:execute_command{command:<|\"|>home.bold<|\"|>,params:{range:<|\"|>A1:C1<|\"|>,on:true}}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:sort_range{keys:[<|\"|>C desc<|\"|>,{column:<|\"|>B<|\"|>,order:<|\"|>asc<|\"|>}],header:true}<tool_call|>",
+  "calls": [
+   {
+    "name": "sort_range",
+    "arguments": {
+     "keys": [
+      "C desc",
+      {
+       "column": "B",
+       "order": "asc"
+      }
+     ],
+     "header": true
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:sort_range{keys:[<|\"|>C desc<|\"|>,{column:<|\"|>B<|\"|>,order:<|\"|>asc<|\"|>}],header:true}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:broken{range:<|\"|>A1",
+  "calls": [],
+  "thinking": [
+   "",
+   "<|tool_call>call:broken{range:<|\"|>A1",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:x{a:}<tool_call|>",
+  "calls": [],
+  "thinking": [
+   "",
+   "<|tool_call>call:x{a:}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "no tool call here, just an answer.",
+  "calls": [],
+  "thinking": [
+   "",
+   "no tool call here, just an answer.",
+   true
+  ]
+ },
+ {
+  "text": "<|channel>thought\nI should read first.<channel|><|tool_call>call:inspect_workbook{}<tool_call|>",
+  "calls": [
+   {
+    "name": "inspect_workbook",
+    "arguments": {}
+   }
+  ],
+  "thinking": [
+   "I should read first.",
+   "<|tool_call>call:inspect_workbook{}<tool_call|>",
+   true
+  ]
+ },
+ {
+  "text": "thought\nhalf a thought with no close",
+  "calls": [],
+  "thinking": [
+   "",
+   "thought\nhalf a thought with no close",
+   true
+  ]
+ },
+ {
+  "text": "<|tool_call>call:evaluate_formula{formula:\"=SUM(A1:A3)\"}<tool_call|>",
+  "calls": [
+   {
+    "name": "evaluate_formula",
+    "arguments": {
+     "formula": "=SUM(A1:A3)"
+    }
+   }
+  ],
+  "thinking": [
+   "",
+   "<|tool_call>call:evaluate_formula{formula:\"=SUM(A1:A3)\"}<tool_call|>",
+   true
+  ]
+ }
+]

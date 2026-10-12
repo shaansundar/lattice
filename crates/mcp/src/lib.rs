@@ -22,7 +22,7 @@ mod tools;
 pub use backend::{Backend, Remote};
 pub use headless::Headless;
 pub use server::{COMMANDS_URI, FUNCTIONS_URI, PROTOCOL_VERSION, SUPPORTED_VERSIONS, Server, WORKBOOK_URI};
-pub use tools::{ToolResult, call_tool, tool_definitions};
+pub use tools::{ToolResult, call_tool, check_arguments, tool_definitions};
 
 /// Default control-channel port of the desktop app.
 pub const DEFAULT_PORT: u16 = 7979;

@@ -1695,6 +1695,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "lattice-assistant"
+version = "0.5.0"
+dependencies = [
+ "lattice-engine",
+ "lattice-mcp",
+ "log",
+ "regex",
+ "serde_json",
+]
+
+[[package]]
 name = "lattice-calc"
 version = "0.5.0"
 dependencies = [
@@ -1812,6 +1823,7 @@ dependencies = [
  "egui",
  "egui_kittest",
  "image",
+ "lattice-assistant",
  "lattice-chart",
  "lattice-engine",
  "log",
