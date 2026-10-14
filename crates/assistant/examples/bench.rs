@@ -36,7 +36,9 @@ fn main() {
     let gpu_layers = get("--gpu-layers").and_then(|t| t.parse().ok()).unwrap_or(0);
     let resume = args.iter().any(|a| a == "--resume");
     if jobs_path.is_empty() || out_path.is_empty() || (model.is_empty() && !args.iter().any(|a| a == "--prompt-only")) {
-        eprintln!("usage: bench --model X.gguf --jobs jobs.jsonl --out results.jsonl [--server llama-server] [--threads N] [--gpu-layers N] [--resume]");
+        eprintln!(
+            "usage: bench --model X.gguf --jobs jobs.jsonl --out results.jsonl [--server llama-server] [--threads N] [--gpu-layers N] [--resume]"
+        );
         std::process::exit(2);
     }
 
