@@ -68,14 +68,12 @@ fn main() {
 
     // Jobs already in the output file are skipped on --resume (a long run can be stopped and continued).
     let mut done = std::collections::HashSet::new();
-    if resume {
-        if let Ok(text) = fs::read_to_string(&out_path) {
-            for line in text.lines() {
-                if let Ok(v) = serde_json::from_str::<Value>(line) {
-                    if let Some(id) = v["id"].as_str() {
-                        done.insert(id.to_string());
-                    }
-                }
+    if resume && let Ok(text) = fs::read_to_string(&out_path) {
+        for line in text.lines() {
+            if let Ok(v) = serde_json::from_str::<Value>(line)
+                && let Some(id) = v["id"].as_str()
+            {
+                done.insert(id.to_string());
             }
         }
     }
@@ -148,15 +146,15 @@ fn main() {
 /// Loads the job's starting workbook (a sample or a file). Returns the error text when that fails.
 fn setup_workbook(job: &Value, host: &mut lattice_mcp::Headless) -> Option<String> {
     let mut setup_error = None;
-    if let Some(sample) = job["sample"].as_str() {
-        if let Err(e) = ToolHost::call(host, "new_workbook", &json!({"sample": sample})) {
-            setup_error = Some(format!("new_workbook: {e}"));
-        }
+    if let Some(sample) = job["sample"].as_str()
+        && let Err(e) = ToolHost::call(host, "new_workbook", &json!({"sample": sample}))
+    {
+        setup_error = Some(format!("new_workbook: {e}"));
     }
-    if let Some(path) = job["open"].as_str() {
-        if let Err(e) = ToolHost::call(host, "open_workbook", &json!({"path": path})) {
-            setup_error = Some(format!("open_workbook: {e}"));
-        }
+    if let Some(path) = job["open"].as_str()
+        && let Err(e) = ToolHost::call(host, "open_workbook", &json!({"path": path}))
+    {
+        setup_error = Some(format!("open_workbook: {e}"));
     }
     setup_error
 }
@@ -196,10 +194,10 @@ fn run_job(job: &Value, generator: &Arc<dyn Generator>, h: &Harness) -> Value {
     let turns = transcript.iter().filter(|m| m["role"] == "assistant").count();
 
     let mut save_error = None;
-    if let Some(path) = job["save"].as_str() {
-        if let Err(e) = ToolHost::call(&mut host, "save_workbook", &json!({"path": path})) {
-            save_error = Some(e);
-        }
+    if let Some(path) = job["save"].as_str()
+        && let Err(e) = ToolHost::call(&mut host, "save_workbook", &json!({"path": path}))
+    {
+        save_error = Some(e);
     }
 
     let end = match (&answer, &failed) {
