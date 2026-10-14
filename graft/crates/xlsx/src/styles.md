@@ -1,0 +1,31 @@
+# crates/xlsx/src/styles.rs
+
+- StylesIn · struct · L19-L29 — pub struct StylesIn
+- read_color · function · L31-L49 — pub fn read_color(e: &El, palette: &[u32]) -> Color
+- opt_color · function · L51-L53 — fn opt_color(e: Option<&El>, palette: &[u32]) -> Color
+- bool_prop · function · L56-L58 — fn bool_prop(e: &El, name: &str) -> bool
+- read_font · function · L60-L93 — pub fn read_font(e: &El, palette: &[u32]) -> Font
+- pattern_from · function · L95-L117 — fn pattern_from(s: &str) -> PatternType
+- pattern_name · function · L119-L141 — fn pattern_name(p: PatternType) -> &'static str
+- read_fill · function · L145-L170 — pub fn read_fill(e: &El, palette: &[u32], dxf: bool) -> Fill
+- border_style · function · L172-L189 — fn border_style(s: &str) -> BorderStyle
+- border_style_name · function · L191-L208 — fn border_style_name(s: BorderStyle) -> &'static str
+- read_line · function · L210-L217 — fn read_line(e: Option<&El>, palette: &[u32]) -> BorderLine
+- read_border · function · L219-L229 — pub fn read_border(e: &El, palette: &[u32]) -> Borders
+- read_alignment · function · L231-L264 — fn read_alignment(a: &El) -> Alignment
+- read_protection · function · L266-L268 — fn read_protection(p: &El) -> Protection
+- num_fmt_code · function · L270-L275 — fn num_fmt_code(id: u32, custom: &HashMap<u32, String>) -> NumFmt
+- read_xf · function · L277-L298 — fn read_xf(xf: &El, fonts: &[Font], fills: &[Fill], borders: &[Borders], fmts: &HashMap<u32, String>) -> Style
+- read_styles · function · L300-L374 — pub fn read_styles(root: &El) -> StylesIn
+- color_attrs · function · L378-L390 — pub fn color_attrs(c: &Color) -> String
+- font_xml · function · L392-L428 — fn font_xml(f: &Font, dxf: bool) -> String
+- fill_xml · function · L430-L451 — fn fill_xml(f: &Fill, dxf: bool) -> String
+- line_xml · function · L453-L459 — fn line_xml(tag: &str, l: &BorderLine) -> String
+- border_xml · function · L461-L478 — fn border_xml(b: &Borders) -> String
+- alignment_xml · function · L480-L528 — fn alignment_xml(a: &Alignment) -> Option<String>
+- protection_xml · function · L530-L535 — fn protection_xml(p: &Protection) -> Option<String>
+- intern · function · L538-L546 — fn intern<T: Clone + Eq + std::hash::Hash>(list: &mut Vec<T>, map: &mut HashMap<T, u32>, item: &T) -> u32
+- NumFmts · struct · L549-L552 — struct NumFmts
+- id · function · L555-L566 — fn id(&mut self, code: &str) -> u32
+- write_styles · function · L573-L707 — pub fn write_styles(wb: &Workbook, dxfs: &[Style], extra_fmts: &[String]) -> (String, HashMap<String, u32>)
+- dxf_id · function · L710-L716 — pub fn dxf_id(dxfs: &mut Vec<Style>, s: &Style) -> u32

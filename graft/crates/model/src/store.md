@@ -1,0 +1,30 @@
+# crates/model/src/store.rs
+
+- BAND · constant · L14-L14 — const BAND: u32 = 64;
+- Band · struct · L17-L20 — struct Band
+- CellStore · struct · L23-L26 — pub struct CellStore
+- new · function · L29-L31 — pub fn new() -> Self
+- len · function · L32-L34 — pub fn len(&self) -> usize
+- is_empty · function · L35-L37 — pub fn is_empty(&self) -> bool
+- get · function · L38-L40 — pub fn get(&self, c: CellRef) -> Option<&Cell>
+- get_mut · function · L42-L48 — pub fn get_mut(&mut self, c: CellRef) -> Option<&mut Cell>
+- set · function · L50-L59 — pub fn set(&mut self, c: CellRef, cell: Cell)
+- remove · function · L60-L79 — pub fn remove(&mut self, c: CellRef) -> Option<Cell>
+- iter_range · function · L81-L88 — pub fn iter_range(&self, r: RangeRef) -> impl Iterator<Item = (CellRef, &Cell)> + '_
+- iter · function · L89-L93 — pub fn iter(&self) -> impl Iterator<Item = (CellRef, &Cell)> + '_
+- row · function · L95-L97 — pub fn row(&self, row: u32, c0: u32, c1: u32) -> impl Iterator<Item = (u32, &Cell)> + '_
+- used_range · function · L99-L118 — pub fn used_range(&self) -> Option<RangeRef>
+- has · function · L120-L122 — pub fn has(&self, c: CellRef) -> bool
+- diff · function · L126-L156 — pub fn diff(&self, other: &CellStore) -> Vec<CellRef>
+- take_range · function · L158-L161 — pub fn take_range(&mut self, r: RangeRef) -> Vec<(CellRef, Cell)>
+- shift_rows · function · L164-L175 — pub fn shift_rows(&mut self, from: u32, delta: i64)
+- shift_cols · function · L176-L185 — pub fn shift_cols(&mut self, from: u32, delta: i64)
+- shift_cols_in_rows · function · L188-L197 — pub fn shift_cols_in_rows(&mut self, r0: u32, r1: u32, from: u32, delta: i64)
+- shift_rows_in_cols · function · L199-L208 — pub fn shift_rows_in_cols(&mut self, c0: u32, c1: u32, from: u32, delta: i64)
+- tests · module · L212-L283 — mod tests
+- c · function · L216-L218 — fn c(r: u32, col: u32) -> CellRef
+- set_get_remove · function · L221-L233 — fn set_get_remove()
+- cow_snapshots · function · L236-L245 — fn cow_snapshots()
+- diff_visits_changed_bands · function · L248-L259 — fn diff_visits_changed_bands()
+- range_iteration_order · function · L262-L270 — fn range_iteration_order()
+- shifting · function · L273-L282 — fn shifting()

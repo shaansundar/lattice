@@ -1,0 +1,22 @@
+# crates/xlsx/src/tests/xlsb_tests.rs
+
+- ROOT · constant · L8-L8 — const ROOT: &str = r#"<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="book" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="records/book.bin"/></Relationships>"#;
+- RELS · constant · L9-L9 — const RELS: &str = r#"<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="one" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="../data/one.bin"/><Relationship Id="two" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="../data/two.bin"/><Relationship Id="strings" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="../text/strings.bin"/></Relationships>"#;
+- TYPES · constant · L10-L10 — const TYPES: &str = r#"<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Override PartName="/records/book.bin" ContentType="application/vnd.ms-excel.sheet.binary.macroEnabled.main"/><Override PartName="/data/one.bin" ContentType="application/vnd.ms-excel.worksheet"/><Override PartName="/data/two.bin" ContentType="application/vnd.ms-excel.worksheet"/><Override PartName="/text/strings.bin" ContentType="application/vnd.ms-excel.sharedStrings"/></Types>"#;
+- record · function · L12-L30 — fn record(id: u16, bytes: &[u8]) -> Vec<u8>
+- wide · function · L31-L38 — fn wide(text: &str) -> Vec<u8>
+- rich · function · L39-L50 — fn rich(text: &str, extras: bool) -> Vec<u8>
+- row · function · L51-L55 — fn row(r: u32) -> Vec<u8>
+- cell · function · L56-L67 — fn cell(id: u16, col: u32, value: &[u8]) -> Vec<u8>
+- worksheet · function · L68-L77 — fn worksheet(data: &[u8], tail: &[u8]) -> Vec<u8>
+- book · function · L78-L95 — fn book(date1904: bool) -> Vec<u8>
+- sst · function · L96-L101 — fn sst() -> Vec<u8>
+- package · function · L102-L112 — fn package(book: &[u8], sheet: &[u8], strings: &[u8], roots: &str, rels: &str, types: &str) -> Vec<u8>
+- file · function · L113-L115 — fn file(sheet: &[u8]) -> Vec<u8>
+- text · function · L116-L118 — fn text(s: &str) -> Value
+- xlsb_scalar_caches_rk_unicode_visibility_and_epochs_survive_xlsx_save · function · L121-L186 — fn xlsb_scalar_caches_rk_unicode_visibility_and_epochs_survive_xlsx_save()
+- xlsb_extension_blocks_are_skipped_with_strict_boundaries_and_record_framing · function · L189-L221 — fn xlsb_extension_blocks_are_skipped_with_strict_boundaries_and_record_framing()
+- xlsb_bad_values_strings_and_coordinates_fail_without_silent_data_loss · function · L224-L250 — fn xlsb_bad_values_strings_and_coordinates_fail_without_silent_data_loss()
+- xlsb_requires_internal_typed_relationships_and_sniffs_only_root_workbook · function · L253-L291 — fn xlsb_requires_internal_typed_relationships_and_sniffs_only_root_workbook()
+- xlsb_declared_counts_and_decoded_text_are_bounded · function · L294-L306 — fn xlsb_declared_counts_and_decoded_text_are_bounded()
+- xlsb_phonetic_runs_use_documented_size_and_tolerate_padding · function · L309-L326 — fn xlsb_phonetic_runs_use_documented_size_and_tolerate_padding()

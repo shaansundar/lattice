@@ -1,0 +1,34 @@
+# crates/ui-egui/src/credits.rs
+
+- Contributor · struct · L11-L24 — pub struct Contributor
+- Model · struct · L27-L34 — pub struct Model
+- NameMode · enum · L40-L45 — pub enum NameMode
+- ALL · constant · L48-L48 — pub const ALL: [NameMode; 3] = [NameMode::Username, NameMode::DisplayName, NameMode::RealName];
+- label · function · L50-L56 — pub fn label(self) -> &'static str
+- SortKey · enum · L60-L72 — pub enum SortKey
+- ALL · constant · L75-L86 — pub const ALL: [SortKey; 10] = [
+- label · function · L89-L102 — pub fn label(self) -> (&'static str, &'static str)
+- default_ascending · function · L105-L107 — pub fn default_ascending(self) -> bool
+- name · function · L111-L118 — pub fn name(&self, mode: NameMode) -> String
+- lines_delta · function · L120-L122 — pub fn lines_delta(&self) -> i128
+- summary · function · L125-L139 — pub fn summary(&self) -> String
+- name_key · function · L143-L145 — fn name_key(name: &str) -> String
+- compare · function · L147-L161 — fn compare(a: &Contributor, b: &Contributor, mode: NameMode, key: SortKey) -> Ordering
+- dated · function · L163-L165 — fn dated(d: &str) -> (bool, &str)
+- sorted · function · L168-L176 — pub fn sorted(list: &[Contributor], mode: NameMode, key: SortKey, ascending: bool) -> Vec<&Contributor>
+- group · function · L178-L188 — fn group(n: u64) -> String
+- signed · function · L190-L193 — fn signed(n: i128) -> String
+- day · function · L195-L197 — fn day(iso: &str) -> &str
+- View · struct · L200-L205 — struct View
+- default · function · L208-L210 — fn default() -> Self
+- contributors_ui · function · L214-L265 — pub fn contributors_ui(ui: &mut egui::Ui)
+- table · function · L267-L295 — fn table(ui: &mut egui::Ui, list: &[&Contributor], v: &mut View)
+- models_ui · function · L298-L321 — pub fn models_ui(ui: &mut egui::Ui)
+- tests · module · L324-L399 — mod tests
+- c · function · L327-L348 — fn c(
+- people · function · L350-L357 — fn people() -> [Contributor; 4]
+- logins · function · L359-L361 — fn logins(v: &[&Contributor]) -> Vec<&'static str>
+- names_fall_back_to_the_username · function · L364-L369 — fn names_fall_back_to_the_username()
+- alphabetical_ignores_at_and_case · function · L372-L380 — fn alphabetical_ignores_at_and_case()
+- delta_and_dates · function · L383-L389 — fn delta_and_dates()
+- formatting · function · L392-L398 — fn formatting()

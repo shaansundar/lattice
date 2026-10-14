@@ -1,0 +1,26 @@
+# crates/assistant/src/runtime.rs
+
+- MAX_HEADER_BYTES · constant · L17-L17 — const MAX_HEADER_BYTES: usize = 64 * 1024;
+- MAX_BODY_BYTES · constant · L18-L18 — const MAX_BODY_BYTES: usize = 16 * 1024 * 1024;
+- RuntimeConfig · struct · L21-L32 — pub struct RuntimeConfig
+- GenParams · struct · L35-L39 — pub struct GenParams
+- default · function · L42-L44 — fn default() -> Self
+- GenOutput · struct · L48-L54 — pub struct GenOutput
+- Generator · interface · L57-L59 — pub trait Generator: Send + Sync
+- generate · function · L58-L58 — fn generate(&self, prompt: &str, params: &GenParams, on_text: &mut dyn FnMut(&str) -> bool) -> Result<GenOutput, String>;
+- LlamaServer · struct · L61-L64 — pub struct LlamaServer
+- spawn · function · L68-L103 — pub fn spawn(cfg: &RuntimeConfig, ready_timeout: Duration) -> Result<Self, String>
+- STEP · constant · L90-L90 — const STEP: Duration = Duration::from_millis(250);
+- is_running · function · L105-L107 — pub fn is_running(&mut self) -> bool
+- stop · function · L109-L112 — pub fn stop(&mut self)
+- request · function · L115-L141 — fn request(&self, method: &str, path: &str, body: Option<&Value>, on_body: &mut dyn FnMut(&[u8]) -> bool) -> Result<(u16, Vec<u8>), String>
+- drop · function · L145-L147 — fn drop(&mut self)
+- read_head · function · L150-L177 — fn read_head(r: &mut impl BufRead) -> Result<(u16, bool, Option<usize>), String>
+- read_chunked · function · L179-L201 — fn read_chunked(r: &mut impl BufRead, on: &mut dyn FnMut(&[u8]) -> bool) -> Result<(), String>
+- SseParser · struct · L205-L207 — pub struct SseParser
+- feed · function · L210-L226 — pub fn feed(&mut self, bytes: &[u8]) -> Vec<Value>
+- generate · function · L230-L258 — fn generate(&self, prompt: &str, params: &GenParams, on_text: &mut dyn FnMut(&str) -> bool) -> Result<GenOutput, String>
+- tests · module · L262-L296 — mod tests
+- sse_parser_handles_split_and_junk · function · L266-L272 — fn sse_parser_handles_split_and_junk()
+- http_head_and_chunked_body · function · L275-L288 — fn http_head_and_chunked_body()
+- missing_runtime_is_an_error_not_a_crash · function · L291-L295 — fn missing_runtime_is_an_error_not_a_crash()

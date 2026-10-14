@@ -1,0 +1,25 @@
+# crates/ui-egui/src/dialogs.rs
+
+- Field · enum · L14-L20 — pub enum Field
+- Dialog · struct · L23-L36 — pub struct Dialog
+- name · function · L39-L41 — pub fn name(&self) -> &str
+- form · function · L43-L57 — fn form(name: &str, title: &str, command: &'static str, fields: Vec<Field>, defaults: Json) -> Dialog
+- custom · function · L59-L73 — fn custom(name: &str, title: &str, defaults: Json) -> Dialog
+- open · function · L75-L591 — pub fn open(app: &mut SheetApp, name: &str, params: Json) -> Option<Dialog>
+- abs · function · L594-L597 — fn abs(r: &lattice_engine::core::RangeRef) -> String
+- build_params · function · L600-L648 — fn build_params(d: &Dialog) -> Json
+- show · function · L650-L890 — pub fn show(app: &mut SheetApp, ctx: &egui::Context)
+- paste_special_shortcuts · function · L893-L955 — fn paste_special_shortcuts(d: &mut Dialog, ctx: &egui::Context)
+- ok_cancel · function · L957-L968 — fn ok_cancel(ui: &mut egui::Ui, confirm: &mut bool, open: &mut bool)
+- form · function · L970-L1027 — fn form(ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool, open: &mut bool)
+- about · function · L1031-L1051 — fn about(ui: &mut egui::Ui, d: &mut Dialog)
+- format_cells · function · L1053-L1260 — fn format_cells(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- insert_function · function · L1262-L1315 — fn insert_function(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- find · function · L1317-L1405 — fn find(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog)
+- go_to · function · L1407-L1433 — fn go_to(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- sort · function · L1435-L1486 — fn sort(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- name_manager · function · L1488-L1512 — fn name_manager(app: &mut SheetApp, ui: &mut egui::Ui)
+- manage_rules · function · L1514-L1539 — fn manage_rules(app: &mut SheetApp, ui: &mut egui::Ui)
+- command_search · function · L1541-L1578 — fn command_search(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- goal_seek · function · L1580-L1608 — fn goal_seek(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, confirm: &mut bool)
+- spelling · function · L1610-L1661 — fn spelling(app: &mut SheetApp, ui: &mut egui::Ui, d: &mut Dialog, open: &mut bool)

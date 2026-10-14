@@ -1,0 +1,111 @@
+# crates/functions/src/engineering.rs
+
+- base_source · function · L16-L30 — fn base_source(a: &[Arg]) -> R<String>
+- parse_base · function · L33-L51 — fn parse_base(s: &str, radix: u32) -> R<i64>
+- format_base · function · L54-L84 — fn format_base(v: i64, radix: u32, places: Option<f64>) -> R<Value>
+- to_radix · function · L86-L97 — fn to_radix(mut v: i64, radix: u32) -> String
+- places_arg · function · L99-L101 — fn places_arg(a: &[Arg]) -> R<Option<f64>>
+- convert_base · function · L103-L111 — fn convert_base(a: &[Arg], from: u32, to: u32) -> R<Value>
+- dec_to · function · L113-L123 — fn dec_to(a: &[Arg], to: u32) -> R<Value>
+- base_fn · function · L125-L131 — macro_rules! base_fn
+- dec2bin · function · L142-L144 — fn dec2bin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dec2oct · function · L145-L147 — fn dec2oct(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dec2hex · function · L148-L150 — fn dec2hex(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- BIT_LIMIT · constant · L155-L155 — const BIT_LIMIT: f64 = 281_474_976_710_656.0; // 2^48
+- bit_operand · function · L157-L163 — fn bit_operand(a: &[Arg], i: usize) -> R<u64>
+- bitand · function · L165-L167 — fn bitand(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- bitor · function · L168-L170 — fn bitor(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- bitxor · function · L171-L173 — fn bitxor(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- shift · function · L175-L192 — fn shift(a: &[Arg], left: bool) -> R<Value>
+- bitlshift · function · L193-L195 — fn bitlshift(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- bitrshift · function · L196-L198 — fn bitrshift(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- Dim · enum · L204-L218 — enum Dim
+- Pre · enum · L222-L226 — enum Pre
+- Unit · struct · L228-L233 — struct Unit
+- u · function · L235-L237 — const fn u(names: &'static [&'static str], dim: Dim, factor: f64, pre: Pre) -> Unit
+- IN · constant · L239-L239 — const IN: f64 = 0.0254;
+- FT · constant · L240-L240 — const FT: f64 = 0.3048;
+- YD · constant · L241-L241 — const YD: f64 = 0.9144;
+- MI · constant · L242-L242 — const MI: f64 = 1609.344;
+- NMI · constant · L243-L243 — const NMI: f64 = 1852.0;
+- LY · constant · L244-L244 — const LY: f64 = 9_460_730_472_580_800.0;
+- PICA_PT · constant · L245-L245 — const PICA_PT: f64 = 0.0254 / 72.0;
+- PICA · constant · L246-L246 — const PICA: f64 = 0.0254 / 6.0;
+- GAL · constant · L247-L247 — const GAL: f64 = 0.003_785_411_784;
+- UNITS · constant · L249-L366 — const UNITS: &[Unit] = &[
+- SI_PREFIXES · constant · L368-L390 — const SI_PREFIXES: &[(&str, f64)] = &[
+- BIN_PREFIXES · constant · L392-L401 — const BIN_PREFIXES: &[(&str, f64)] = &[
+- find_unit · function · L403-L405 — fn find_unit(name: &str) -> Option<&'static Unit>
+- resolve · function · L408-L433 — fn resolve(name: &str) -> Option<(&'static Unit, f64)>
+- to_kelvin · function · L435-L443 — fn to_kelvin(name: &str, x: f64) -> f64
+- from_kelvin · function · L445-L453 — fn from_kelvin(name: &str, k: f64) -> f64
+- convert · function · L455-L475 — fn convert(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- delta · function · L480-L484 — fn delta(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- gestep · function · L485-L489 — fn gestep(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- erf_fn · function · L490-L497 — fn erf_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- erf_precise · function · L498-L500 — fn erf_precise(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- erfc_fn · function · L501-L503 — fn erfc_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- Cx · struct · L509-L512 — struct Cx
+- new · function · L515-L517 — fn new(re: f64, im: f64) -> Cx
+- add · function · L518-L520 — fn add(self, o: Cx) -> Cx
+- sub · function · L521-L523 — fn sub(self, o: Cx) -> Cx
+- mul · function · L524-L526 — fn mul(self, o: Cx) -> Cx
+- div · function · L527-L533 — fn div(self, o: Cx) -> R<Cx>
+- abs · function · L534-L536 — fn abs(self) -> f64
+- arg · function · L537-L539 — fn arg(self) -> f64
+- exp · function · L540-L543 — fn exp(self) -> Cx
+- ln · function · L544-L549 — fn ln(self) -> R<Cx>
+- sin · function · L550-L552 — fn sin(self) -> Cx
+- cos · function · L553-L555 — fn cos(self) -> Cx
+- sinh · function · L556-L558 — fn sinh(self) -> Cx
+- cosh · function · L559-L561 — fn cosh(self) -> Cx
+- powf · function · L562-L569 — fn powf(self, n: f64) -> R<Cx>
+- ONE · constant · L572-L572 — const ONE: Cx = Cx { re: 1.0, im: 0.0 };
+- parse_real · function · L575-L584 — fn parse_real(s: &str) -> Option<f64>
+- parse_complex · function · L587-L621 — fn parse_complex(s: &str) -> R<(Cx, Option<char>)>
+- cx_of · function · L623-L632 — fn cx_of(v: &Value) -> R<(Cx, Option<char>)>
+- cx_arg · function · L634-L636 — fn cx_arg(a: &[Arg], i: usize) -> R<(Cx, Option<char>)>
+- merge_suffix · function · L638-L644 — fn merge_suffix(acc: Option<char>, s: Option<char>) -> R<Option<char>>
+- fmt_complex · function · L646-L670 — fn fmt_complex(z: Cx, suffix: char) -> R<Value>
+- clean · function · L673-L676 — fn clean(x: f64) -> f64
+- complex · function · L678-L688 — fn complex(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- im_unary · function · L690-L693 — fn im_unary(a: &[Arg], f: fn(Cx) -> R<Cx>) -> R<Value>
+- im_real_fn · function · L695-L698 — fn im_real_fn(a: &[Arg], f: fn(Cx) -> R<f64>) -> R<Value>
+- im1 · function · L700-L706 — macro_rules! im1
+- imabs · function · L725-L727 — fn imabs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- imreal · function · L728-L730 — fn imreal(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- imaginary · function · L731-L733 — fn imaginary(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- imargument · function · L734-L736 — fn imargument(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- im_binary · function · L738-L743 — fn im_binary(a: &[Arg], f: fn(Cx, Cx) -> R<Cx>) -> R<Value>
+- imdiv · function · L744-L746 — fn imdiv(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- imsub · function · L747-L749 — fn imsub(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- impower · function · L750-L764 — fn impower(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- im_fold · function · L766-L781 — fn im_fold(a: &[Arg], init: Cx, f: fn(Cx, Cx) -> Cx) -> R<Value>
+- imsum · function · L782-L784 — fn imsum(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- improduct · function · L785-L787 — fn improduct(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- MAX_BESSEL_POINTS · constant · L792-L792 — const MAX_BESSEL_POINTS: f64 = 4_000_000.0;
+- bessel_j · function · L796-L810 — fn bessel_j(n: u32, x: f64) -> Option<f64>
+- hankel · function · L813-L842 — fn hankel(n: u32, x: f64) -> Option<(f64, f64)>
+- EULER · constant · L844-L844 — const EULER: f64 = std::f64::consts::EULER_GAMMA;
+- bessel_j_all · function · L848-L876 — fn bessel_j_all(x: f64) -> Vec<f64>
+- bessel_y01 · function · L879-L902 — fn bessel_y01(x: f64) -> Option<(f64, f64)>
+- bessel_y · function · L904-L919 — fn bessel_y(n: u32, x: f64) -> Option<f64>
+- bessel_i · function · L922-L947 — fn bessel_i(n: u32, x: f64) -> Option<f64>
+- bessel_k · function · L951-L981 — fn bessel_k(n: u32, x: f64) -> Option<f64>
+- LnCosh · interface · L983-L985 — trait LnCosh
+- ln_cosh_safe · function · L984-L984 — fn ln_cosh_safe(self) -> f64;
+- ln_cosh_safe · function · L988-L991 — fn ln_cosh_safe(self) -> f64
+- bessel_args · function · L994-L1004 — fn bessel_args(a: &[Arg]) -> R<(f64, u32)>
+- besselj · function · L1006-L1009 — fn besselj(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- bessely · function · L1010-L1016 — fn bessely(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- besseli · function · L1017-L1020 — fn besseli(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- besselk · function · L1021-L1027 — fn besselk(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L1029-L1122 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L1125-L1341 — mod tests
+- cx · function · L1132-L1138 — fn cx(v: Value, re: f64, im: f64)
+- base_conversions · function · L1141-L1180 — fn base_conversions()
+- bits · function · L1183-L1195 — fn bits()
+- convert_units · function · L1198-L1222 — fn convert_units()
+- delta_gestep_erf · function · L1225-L1237 — fn delta_gestep_erf()
+- complex_numbers · function · L1240-L1294 — fn complex_numbers()
+- bessel · function · L1297-L1340 — fn bessel()

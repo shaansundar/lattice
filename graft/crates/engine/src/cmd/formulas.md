@@ -1,0 +1,21 @@
+# crates/engine/src/cmd/formulas.rs
+
+- specs · function · L9-L69 — pub fn specs() -> Vec<CommandSpec>
+- auto_sum · function · L71-L131 — fn auto_sum(s: &mut Session, p: &Json) -> Result<Json>
+- insert_function · function · L133-L144 — fn insert_function(s: &mut Session, p: &Json) -> Result<Json>
+- function_list · function · L146-L197 — pub fn function_list() -> Vec<Json>
+- list_functions · function · L199-L213 — fn list_functions(_: &mut Session, p: &Json) -> Result<Json>
+- valid_name · function · L215-L225 — fn valid_name(n: &str) -> bool
+- is_r1c1 · function · L229-L239 — fn is_r1c1(n: &str) -> bool
+- define_name · function · L241-L274 — fn define_name(s: &mut Session, p: &Json) -> Result<Json>
+- delete_name · function · L276-L292 — fn delete_name(s: &mut Session, p: &Json) -> Result<Json>
+- name_manager · function · L294-L308 — fn name_manager(s: &mut Session, _: &Json) -> Result<Json>
+- create_from_selection · function · L310-L372 — fn create_from_selection(s: &mut Session, p: &Json) -> Result<Json>
+- trace_precedents · function · L374-L380 — fn trace_precedents(s: &mut Session, p: &Json) -> Result<Json>
+- trace_dependents · function · L382-L391 — fn trace_dependents(s: &mut Session, p: &Json) -> Result<Json>
+- show_formulas · function · L393-L401 — fn show_formulas(s: &mut Session, p: &Json) -> Result<Json>
+- error_checking · function · L403-L421 — fn error_checking(s: &mut Session, _: &Json) -> Result<Json>
+- evaluate_formula · function · L423-L452 — fn evaluate_formula(s: &mut Session, p: &Json) -> Result<Json>
+- evaluate · function · L454-L460 — fn evaluate(s: &mut Session, p: &Json) -> Result<Json>
+- calc_now · function · L462-L468 — fn calc_now(s: &mut Session, _: &Json) -> Result<Json>
+- calc_options · function · L470-L495 — fn calc_options(s: &mut Session, p: &Json) -> Result<Json>

@@ -1,0 +1,42 @@
+# crates/core/src/addr.rs
+
+- MAX_ROWS · constant · L10-L10 — pub const MAX_ROWS: u32 = 1_048_576;
+- MAX_COLS · constant · L11-L11 — pub const MAX_COLS: u32 = 16_384;
+- CellRef · struct · L15-L18 — pub struct CellRef
+- new · function · L21-L23 — pub const fn new(row: u32, col: u32) -> Self
+- a1 · function · L25-L27 — pub fn a1(&self) -> String
+- is_valid · function · L28-L30 — pub fn is_valid(&self) -> bool
+- offset · function · L32-L36 — pub fn offset(&self, dr: i64, dc: i64) -> Option<CellRef>
+- offset_clamped · function · L38-L42 — pub fn offset_clamped(&self, dr: i64, dc: i64) -> CellRef
+- parse · function · L44-L50 — pub fn parse(s: &str) -> Option<CellRef>
+- fmt · function · L54-L56 — fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
+- parse_a1_prefix · function · L60-L91 — pub fn parse_a1_prefix(s: &str) -> Option<(u32, u32, bool, bool, &str)>
+- col_to_letters · function · L94-L104 — pub fn col_to_letters(col: u32) -> String
+- letters_to_col · function · L107-L122 — pub fn letters_to_col(s: &str) -> Option<u32>
+- RangeRef · struct · L126-L129 — pub struct RangeRef
+- new · function · L132-L134 — pub fn new(a: CellRef, b: CellRef) -> Self
+- cell · function · L135-L137 — pub fn cell(c: CellRef) -> Self
+- rows · function · L139-L141 — pub fn rows(r0: u32, r1: u32) -> Self
+- cols · function · L143-L145 — pub fn cols(c0: u32, c1: u32) -> Self
+- all · function · L146-L148 — pub fn all() -> Self
+- height · function · L149-L151 — pub fn height(&self) -> u32
+- width · function · L152-L154 — pub fn width(&self) -> u32
+- count · function · L155-L157 — pub fn count(&self) -> u64
+- is_single · function · L158-L160 — pub fn is_single(&self) -> bool
+- is_full_rows · function · L161-L163 — pub fn is_full_rows(&self) -> bool
+- is_full_cols · function · L164-L166 — pub fn is_full_cols(&self) -> bool
+- contains · function · L167-L169 — pub fn contains(&self, c: CellRef) -> bool
+- contains_range · function · L170-L172 — pub fn contains_range(&self, o: &RangeRef) -> bool
+- intersects · function · L173-L175 — pub fn intersects(&self, o: &RangeRef) -> bool
+- intersection · function · L176-L184 — pub fn intersection(&self, o: &RangeRef) -> Option<RangeRef>
+- union · function · L185-L190 — pub fn union(&self, o: &RangeRef) -> RangeRef
+- iter · function · L192-L195 — pub fn iter(&self) -> impl Iterator<Item = CellRef> + '_
+- a1 · function · L197-L205 — pub fn a1(&self) -> String
+- parse · function · L207-L224 — pub fn parse(s: &str) -> Option<RangeRef>
+- fmt · function · L228-L230 — fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
+- tests · module · L234-L295 — mod tests
+- letters_roundtrip · function · L238-L246 — fn letters_roundtrip()
+- parse_cells · function · L249-L258 — fn parse_cells()
+- ranges · function · L261-L273 — fn ranges()
+- extreme_offsets · function · L276-L288 — fn extreme_offsets()
+- offsets · function · L291-L294 — fn offsets()

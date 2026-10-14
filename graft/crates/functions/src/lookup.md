@@ -1,0 +1,43 @@
+# crates/functions/src/lookup.rs
+
+- needle · function · L18-L24 — fn needle(args: &[Arg], i: usize) -> R<Value>
+- same_type · function · L26-L28 — fn same_type(a: &Value, b: &Value) -> bool
+- find_exact · function · L31-L34 — fn find_exact(x: &Value, hay: &[Value], wild: bool, reverse: bool) -> Option<usize>
+- bsearch_last · function · L39-L55 — fn bsearch_last(x: &Value, hay: &[Value], desc: bool) -> Option<usize>
+- bsearch_first · function · L58-L73 — fn bsearch_first(x: &Value, hay: &[Value], desc: bool) -> Option<usize>
+- vector · function · L76-L78 — fn vector(a: &Array) -> Option<Vec<Value>>
+- column · function · L80-L82 — fn column(a: &Array, c: usize) -> Vec<Value>
+- row · function · L84-L86 — fn row(a: &Array, r: usize) -> Vec<Value>
+- cell_result · function · L89-L91 — fn cell_result(v: Value) -> Value
+- vh_lookup · function · L96-L116 — fn vh_lookup(args: &[Arg], vertical: bool) -> R<Value>
+- vlookup · function · L118-L120 — fn vlookup(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- hlookup · function · L122-L124 — fn hlookup(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- lookup · function · L126-L161 — fn lookup(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- match_fn · function · L163-L179 — fn match_fn(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- xsearch · function · L185-L246 — fn xsearch(x: &Value, hay: &[Value], match_mode: i64, search_mode: i64) -> R<Option<usize>>
+- bsearch_exact · function · L248-L252 — fn bsearch_exact(x: &Value, hay: &[Value], desc: bool) -> Option<usize>
+- xlookup · function · L254-L298 — fn xlookup(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- xmatch · function · L300-L310 — fn xmatch(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- index · function · L315-L356 — fn index(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- rows_fn · function · L358-L364 — fn rows_fn(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- columns_fn · function · L366-L372 — fn columns_fn(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- transpose · function · L374-L379 — fn transpose(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- quote_sheet · function · L381-L385 — fn quote_sheet(s: &str) -> String
+- address · function · L387-L417 — fn address(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- XL · constant · L419-L419 — const XL: &[bool] = &[true, false, false, false, false, false];
+- VL · constant · L420-L420 — const VL: &[bool] = &[true, false, true, true];
+- ML · constant · L421-L421 — const ML: &[bool] = &[true, false, true, true];
+- IDX · constant · L422-L422 — const IDX: &[bool] = &[false, true, true, true];
+- specs · function · L424-L511 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L514-L690 — mod tests
+- table · function · L519-L526 — fn table() -> Value
+- names · function · L528-L530 — fn names() -> Value
+- vlookup · function · L533-L553 — fn vlookup()
+- hlookup · function · L556-L561 — fn hlookup()
+- lookup_fn · function · L564-L575 — fn lookup_fn()
+- match_fn · function · L578-L596 — fn match_fn()
+- xlookup · function · L599-L633 — fn xlookup()
+- table_rows3 · function · L635-L637 — fn table_rows3() -> Value
+- xmatch · function · L640-L650 — fn xmatch()
+- index · function · L653-L668 — fn index()
+- shape_and_address · function · L671-L689 — fn shape_and_address()

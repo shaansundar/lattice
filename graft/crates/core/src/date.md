@@ -1,0 +1,21 @@
+# crates/core/src/date.rs
+
+- DateSystem · enum · L10-L14 — pub enum DateSystem
+- DateTime · struct · L18-L29 — pub struct DateTime
+- days_from_civil · function · L32-L40 — pub fn days_from_civil(y: i32, m: u32, d: u32) -> i64
+- civil_from_days · function · L42-L53 — pub fn civil_from_days(z: i64) -> (i32, u32, u32)
+- UNIX_1899_12_30 · constant · L55-L55 — const UNIX_1899_12_30: i64 = -25569; // days_from_civil(1899, 12, 30)
+- UNIX_1904_01_01 · constant · L56-L56 — const UNIX_1904_01_01: i64 = -24107;
+- is_leap · function · L58-L60 — pub fn is_leap(y: i32) -> bool
+- days_in_month · function · L62-L70 — pub fn days_in_month(y: i32, m: u32) -> u32
+- days_in_month_in · function · L74-L76 — pub fn days_in_month_in(sys: DateSystem, y: i32, m: u32) -> u32
+- serial_from_ymd · function · L82-L104 — pub fn serial_from_ymd(sys: DateSystem, year: i64, month: i64, day: i64) -> Option<f64>
+- datetime_from_serial · function · L107-L148 — pub fn datetime_from_serial(sys: DateSystem, serial: f64) -> Option<DateTime>
+- time_fraction · function · L151-L153 — pub fn time_fraction(h: f64, m: f64, s: f64) -> f64
+- MONTHS · constant · L155-L156 — pub const MONTHS: [&str; 12] =
+- WEEKDAYS · constant · L157-L157 — pub const WEEKDAYS: [&str; 7] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+- tests · module · L160-L241 — mod tests
+- known_serials · function · L164-L177 — fn known_serials()
+- fictitious_1900_02_29 · function · L180-L215 — fn fictitious_1900_02_29()
+- hostile_month_and_day · function · L218-L225 — fn hostile_month_and_day()
+- roundtrip · function · L228-L240 — fn roundtrip()

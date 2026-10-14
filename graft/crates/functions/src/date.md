@@ -1,0 +1,66 @@
+# crates/functions/src/date.rs
+
+- MAX_SERIAL · constant · L10-L10 — const MAX_SERIAL: f64 = 2_958_465.0;
+- ND · constant · L12-L12 — const ND: &[bool] = &[true, true, false];
+- NDI · constant · L13-L13 — const NDI: &[bool] = &[true, true, true, false];
+- serial_arg · function · L16-L22 — fn serial_arg(a: &[Arg], i: usize) -> R<f64>
+- day_arg · function · L24-L26 — fn day_arg(a: &[Arg], i: usize) -> R<i64>
+- dt · function · L28-L30 — fn dt(sys: DateSystem, serial: f64) -> R<DateTime>
+- ymd_serial · function · L32-L34 — fn ymd_serial(sys: DateSystem, y: i64, m: i64, d: i64) -> R<i64>
+- weekday0 · function · L37-L42 — fn weekday0(sys: DateSystem, serial: i64) -> usize
+- date · function · L44-L52 — fn date(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- time · function · L54-L66 — fn time(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- part · function · L68-L71 — fn part(a: &[Arg], c: &mut dyn Ctx, f: fn(&DateTime) -> f64) -> R<Value>
+- year · function · L73-L75 — fn year(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- month · function · L76-L78 — fn month(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- day · function · L79-L81 — fn day(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- day_seconds · function · L84-L88 — fn day_seconds(a: &[Arg]) -> R<i64>
+- hour · function · L90-L92 — fn hour(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- minute · function · L93-L95 — fn minute(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- second · function · L96-L98 — fn second(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- now · function · L100-L102 — fn now(_a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- today · function · L103-L105 — fn today(_a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- weekday · function · L107-L119 — fn weekday(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- isoweek · function · L121-L127 — fn isoweek(sys: DateSystem, s: i64) -> R<i64>
+- weeknum · function · L129-L144 — fn weeknum(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- isoweeknum · function · L146-L148 — fn isoweeknum(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- months_arg · function · L150-L156 — fn months_arg(a: &[Arg], i: usize) -> R<i64>
+- edate · function · L158-L169 — fn edate(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- eomonth · function · L171-L181 — fn eomonth(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- datedif · function · L183-L217 — fn datedif(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- parsed_text · function · L219-L232 — fn parsed_text(a: &[Arg], c: &mut dyn Ctx) -> R<(f64, &'static str)>
+- datevalue · function · L234-L240 — fn datevalue(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- timevalue · function · L242-L245 — fn timevalue(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- days · function · L247-L249 — fn days(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- last_of_feb · function · L251-L253 — fn last_of_feb(d: &DateTime) -> bool
+- days360 · function · L255-L261 — fn days360(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- days360_core · function · L263-L277 — fn days360_core(d1: &DateTime, d2: &DateTime, european: bool) -> i64
+- weekend_mask · function · L280-L311 — fn weekend_mask(v: Option<&Arg>) -> R<[bool; 7]>
+- holidays · function · L313-L333 — fn holidays(v: Option<&Arg>) -> R<Vec<i64>>
+- count_workdays · function · L336-L349 — fn count_workdays(sys: DateSystem, a: i64, b: i64, mask: &[bool; 7]) -> i64
+- networkdays_core · function · L351-L360 — fn networkdays_core(a: &[Arg], c: &mut dyn Ctx, mask: [bool; 7], hol: Option<&Arg>) -> R<Value>
+- networkdays · function · L362-L364 — fn networkdays(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- networkdays_intl · function · L366-L369 — fn networkdays_intl(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- advance · function · L372-L383 — fn advance(sys: DateSystem, start: i64, n: i64, dir: i64, mask: &[bool; 7], per_week: i64) -> i64
+- workday_core · function · L385-L414 — fn workday_core(a: &[Arg], c: &mut dyn Ctx, mask: [bool; 7], hol: Option<&Arg>) -> R<Value>
+- workday · function · L416-L418 — fn workday(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- workday_intl · function · L420-L423 — fn workday_intl(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- yearfrac_core · function · L426-L469 — pub(crate) fn yearfrac_core(sys: DateSystem, s: i64, e: i64, basis: i64) -> R<f64>
+- feb29_between · function · L471-L473 — fn feb29_between(sys: DateSystem, s: i64, e: i64, d1: &DateTime, d2: &DateTime) -> bool
+- yearfrac · function · L475-L480 — fn yearfrac(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- specs · function · L482-L564 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L567-L800 — mod tests
+- d · function · L572-L577 — fn d(y: f64, m: f64, dd: f64) -> f64
+- construct · function · L580-L592 — fn construct()
+- time_negative · function · L595-L598 — fn time_negative()
+- parts · function · L601-L617 — fn parts()
+- weekdays · function · L620-L641 — fn weekdays()
+- month_math · function · L644-L653 — fn month_math()
+- fictitious_1900_02_29 · function · L656-L683 — fn fictitious_1900_02_29()
+- datedif_units · function · L686-L699 — fn datedif_units()
+- text_conversion · function · L702-L712 — fn text_conversion()
+- day_counts · function · L715-L724 — fn day_counts()
+- working_days · function · L727-L753 — fn working_days()
+- yearfrac_bases · function · L756-L771 — fn yearfrac_bases()
+- date_lifting · function · L774-L777 — fn date_lifting()
+- system_1904 · function · L780-L799 — fn system_1904()

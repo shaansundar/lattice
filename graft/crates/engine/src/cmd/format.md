@@ -1,0 +1,47 @@
+# crates/engine/src/cmd/format.rs
+
+- specs · function · L9-L200 — pub fn specs() -> Vec<CommandSpec>
+- ACCOUNTING · constant · L202-L202 — const ACCOUNTING: &str = "_(\"$\"* #,##0.00_);_(\"$\"* \\(#,##0.00\\);_(\"$\"* \"-\"??_);_(@_)";
+- COMMA · constant · L203-L203 — const COMMA: &str = "_(* #,##0.00_);_(* \\(#,##0.00\\);_(* \"-\"??_);_(@_)";
+- with · function · L205-L209 — fn with(p: &Json, key: &str, v: Json) -> Json
+- apply_style · function · L212-L262 — pub(crate) fn apply_style(s: &mut Session, p: &Json, f: impl Fn(&mut Style)) -> Result<Json>
+- active_style · function · L265-L269 — pub(crate) fn active_style(s: &Session) -> Result<Style>
+- toggle · function · L271-L278 — fn toggle(s: &mut Session, p: &Json, get: fn(&Style) -> bool, set: fn(&mut Style, bool)) -> Result<Json>
+- underline · function · L280-L293 — fn underline(s: &mut Session, p: &Json) -> Result<Json>
+- font_name · function · L295-L298 — fn font_name(s: &mut Session, p: &Json) -> Result<Json>
+- font_size · function · L300-L307 — fn font_size(s: &mut Session, p: &Json) -> Result<Json>
+- SIZES · constant · L309-L309 — const SIZES: [f32; 16] = [8.0, 9.0, 10.0, 11.0, 12.0, 14.0, 16.0, 18.0, 20.0, 24.0, 28.0, 36.0, 48.0, 72.0, 96.0, 409.0];
+- step_font · function · L311-L317 — fn step_font(s: &mut Session, p: &Json, up: bool) -> Result<Json>
+- color_param · function · L319-L332 — pub(crate) fn color_param(v: Option<&Json>) -> Option<Color>
+- font_color · function · L334-L337 — fn font_color(s: &mut Session, p: &Json) -> Result<Json>
+- fill_color · function · L339-L342 — fn fill_color(s: &mut Session, p: &Json) -> Result<Json>
+- border_style · function · L344-L360 — fn border_style(name: &str) -> BorderStyle
+- borders · function · L362-L486 — fn borders(s: &mut Session, p: &Json) -> Result<Json>
+- format_cells · function · L488-L505 — fn format_cells(s: &mut Session, p: &Json) -> Result<Json>
+- merge_json · function · L508-L519 — pub(crate) fn merge_json(mut base: Json, patch: &Json) -> Json
+- halign · function · L521-L526 — fn halign(s: &mut Session, p: &Json, a: HAlign) -> Result<Json>
+- valign · function · L528-L530 — fn valign(s: &mut Session, p: &Json, a: VAlign) -> Result<Json>
+- indent · function · L532-L539 — fn indent(s: &mut Session, p: &Json, d: i32) -> Result<Json>
+- orientation · function · L541-L555 — fn orientation(s: &mut Session, p: &Json) -> Result<Json>
+- merge · function · L557-L603 — fn merge(s: &mut Session, p: &Json, how: &str) -> Result<Json>
+- format_code_for · function · L606-L622 — pub fn format_code_for(name: &str) -> &str
+- number_format · function · L624-L630 — fn number_format(s: &mut Session, p: &Json) -> Result<Json>
+- set_fmt · function · L632-L635 — fn set_fmt(s: &mut Session, p: &Json, code: &str) -> Result<Json>
+- adjust_decimals · function · L638-L701 — pub fn adjust_decimals(code: &str, value: &lattice_core::Value, delta: i32) -> String
+- decimals · function · L703-L710 — fn decimals(s: &mut Session, p: &Json, delta: i32) -> Result<Json>
+- builtin_cell_style · function · L713-L831 — pub fn builtin_cell_style(name: &str, theme: &Theme) -> Option<Style>
+- CELL_STYLE_NAMES · constant · L833-L881 — pub const CELL_STYLE_NAMES: &[&str] = &[
+- cell_style · function · L883-L906 — fn cell_style(s: &mut Session, p: &Json) -> Result<Json>
+- line_targets · function · L910-L917 — fn line_targets(s: &Session, p: &Json, rows: bool) -> Result<Vec<(u32, u32)>>
+- row_height · function · L919-L938 — fn row_height(s: &mut Session, p: &Json) -> Result<Json>
+- col_width · function · L940-L962 — fn col_width(s: &mut Session, p: &Json) -> Result<Json>
+- chars_to_points · function · L965-L973 — pub fn chars_to_points(c: f64) -> f64
+- points_to_chars · function · L975-L977 — pub fn points_to_chars(px: f64) -> f64
+- approx_text_width · function · L981-L995 — pub fn approx_text_width(text: &str, size: f32, bold: bool) -> f32
+- autofit_cols · function · L997-L1032 — fn autofit_cols(s: &mut Session, p: &Json) -> Result<Json>
+- autofit_rows · function · L1034-L1052 — fn autofit_rows(s: &mut Session, p: &Json) -> Result<Json>
+- default_width · function · L1054-L1061 — fn default_width(s: &mut Session, p: &Json) -> Result<Json>
+- hide · function · L1063-L1087 — fn hide(s: &mut Session, p: &Json, rows: bool, on: bool) -> Result<Json>
+- tests · module · L1090-L1110 — mod tests
+- decimal_steps · function · L1094-L1103 — fn decimal_steps()
+- width_units · function · L1106-L1109 — fn width_units()

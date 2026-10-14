@@ -1,0 +1,26 @@
+# crates/ui-egui/src/control.rs
+
+- ControlResponse · type · L26-L26 — pub type ControlResponse = Json;
+- ControlRequest · struct · L28-L32 — pub struct ControlRequest
+- new · function · L35-L38 — pub fn new(method: impl Into<String>, params: Json) -> (Self, std::sync::mpsc::Receiver<ControlResponse>)
+- Outcome · enum · L41-L44 — pub enum Outcome
+- Shots · struct · L47-L51 — pub struct Shots
+- ok · function · L53-L55 — fn ok(v: Json) -> Outcome
+- err · function · L56-L58 — fn err(e: impl std::fmt::Display) -> Outcome
+- wrap · function · L59-L64 — fn wrap(r: Result<Json, String>) -> Outcome
+- inspect · function · L66-L83 — pub fn inspect(app: &SheetApp, ctx: &egui::Context) -> Json
+- key_from · function · L85-L106 — fn key_from(name: &str) -> Option<egui::Key>
+- modifiers · function · L108-L117 — fn modifiers(p: &Json) -> egui::Modifiers
+- cell_center · function · L119-L125 — fn cell_center(app: &SheetApp, c: CellRef) -> Option<egui::Pos2>
+- push_click · function · L127-L135 — fn push_click(app: &mut SheetApp, pos: egui::Pos2, button: egui::PointerButton, count: u32, m: egui::Modifiers)
+- push_drag · function · L137-L145 — fn push_drag(app: &mut SheetApp, a: egui::Pos2, b: egui::Pos2, steps: usize, m: egui::Modifiers)
+- filter_commands · function · L148-L156 — fn filter_commands(commands: Vec<Json>, search: Option<&str>) -> Vec<Json>
+- handle · function · L158-L356 — pub fn handle(app: &mut SheetApp, ctx: &egui::Context, method: &str, p: &Json) -> Outcome
+- poll · function · L358-L378 — pub fn poll(app: &mut SheetApp, ctx: &egui::Context)
+- issue_screenshots · function · L380-L394 — pub fn issue_screenshots(app: &mut SheetApp, ctx: &egui::Context)
+- collect_screenshots · function · L396-L427 — pub fn collect_screenshots(app: &mut SheetApp, ctx: &egui::Context)
+- save_image · function · L430-L448 — pub fn save_image(image: &egui::ColorImage, path: Option<&str>) -> Json
+- tests · module · L451-L475 — mod tests
+- sample · function · L454-L460 — fn sample() -> Vec<Json>
+- ids · function · L462-L464 — fn ids(v: &[Json]) -> Vec<&str>
+- search_filters_case_insensitively · function · L467-L474 — fn search_filters_case_insensitively()

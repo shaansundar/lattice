@@ -1,0 +1,22 @@
+# crates/xlsx/src/richdata.rs
+
+- NS_RICH · constant · L16-L16 — const NS_RICH: &str = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata";
+- NS_IMAGE_REL · constant · L17-L17 — const NS_IMAGE_REL: &str = "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel";
+- RICH_EXT · constant · L18-L18 — const RICH_EXT: &str = "{3E2802C4-A4D2-4D8B-9148-E3BE6C30E623}";
+- MAX_IMAGE · constant · L19-L19 — const MAX_IMAGE: u64 = 16 * 1024 * 1024;
+- MAX_IMAGES_TOTAL · constant · L20-L20 — const MAX_IMAGES_TOTAL: usize = 128 * 1024 * 1024;
+- MAX_RECORDS · constant · L21-L21 — const MAX_RECORDS: usize = 100_000;
+- MAX_XML · constant · L22-L22 — const MAX_XML: u64 = 16 * 1024 * 1024;
+- MAX_PIXELS · constant · L23-L23 — const MAX_PIXELS: u64 = 16_000_000;
+- image_type · function · L26-L38 — fn image_type(data: &[u8]) -> Option<(&'static str, &'static str)>
+- jpeg_dimensions · function · L40-L70 — fn jpeg_dimensions(data: &[u8]) -> Option<(u32, u32)>
+- part · function · L72-L86 — fn part(cx: &mut Ctx<'_>, rels: &[Rel], kind: &str) -> Option<String>
+- read_xml · function · L88-L104 — fn read_xml(cx: &mut Ctx<'_>, path: &str, root: &str) -> Result<Option<El>, IoError>
+- entries · function · L106-L115 — fn entries<'a>(cx: &mut Ctx<'_>, el: &'a El, child: &'a str) -> Result<Vec<&'a El>, IoError>
+- read · function · L118-L189 — pub fn read(cx: &mut Ctx<'_>, workbook_rels: &[Rel]) -> Result<Vec<Option<Arc<CellPicture>>>, IoError>
+- read_value · function · L191-L255 — fn read_value(
+- PicturesOut · struct · L259-L262 — pub struct PicturesOut
+- is_empty · function · L265-L267 — pub fn is_empty(&self) -> bool
+- index · function · L268-L277 — pub fn index(&mut self, picture: &Arc<CellPicture>) -> u32
+- write · function · L280-L340 — pub fn write(out: &mut Out, workbook_rels: &mut Rels) -> Result<(), IoError>
+- metadata · function · L342-L368 — fn metadata(count: usize, dynamic: bool) -> String

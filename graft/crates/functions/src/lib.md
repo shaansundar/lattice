@@ -1,0 +1,38 @@
+# crates/functions/src/lib.rs
+
+- f · function · L24-L61 — macro_rules! f
+- criteria · module · L63-L63 — pub(crate) mod criteria;
+- database · module · L64-L64 — pub(crate) mod database;
+- date · module · L65-L65 — pub(crate) mod date;
+- dynamic · module · L66-L66 — pub(crate) mod dynamic;
+- engineering · module · L67-L67 — pub(crate) mod engineering;
+- financial · module · L68-L68 — pub(crate) mod financial;
+- info · module · L69-L69 — pub(crate) mod info;
+- lift · module · L70-L70 — pub(crate) mod lift;
+- lookup · module · L71-L71 — pub(crate) mod lookup;
+- math · module · L72-L72 — pub(crate) mod math;
+- special · module · L73-L73 — pub(crate) mod special;
+- stat · module · L74-L74 — pub(crate) mod stat;
+- text · module · L75-L75 — pub(crate) mod text;
+- util · module · L76-L76 — pub(crate) mod util;
+- Arg · struct · L83-L86 — pub struct Arg
+- val · function · L90-L92 — pub fn val(value: impl Into<Value>) -> Arg
+- reference · function · L94-L96 — pub fn reference(value: impl Into<Value>) -> Arg
+- Ctx · interface · L100-L106 — pub trait Ctx
+- date_system · function · L101-L101 — fn date_system(&self) -> DateSystem;
+- now_serial · function · L103-L103 — fn now_serial(&self) -> f64;
+- random · function · L105-L105 — fn random(&mut self) -> f64;
+- FnImpl · type · L108-L108 — pub type FnImpl = fn(&[Arg], &mut dyn Ctx) -> Value;
+- Category · enum · L111-L125 — pub enum Category
+- FnSpec · struct · L127-L143 — pub struct FnSpec
+- fmt · function · L146-L148 — fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+- is_scalar_arg · function · L153-L158 — pub fn is_scalar_arg(&self, i: usize) -> bool
+- VAR · constant · L162-L162 — pub(crate) const VAR: usize = usize::MAX;
+- registry · function · L164-L188 — fn registry() -> &'static (Vec<FnSpec>, HashMap<&'static str, usize>)
+- REG · constant · L165-L165 — static REG: OnceLock<(Vec<FnSpec>, HashMap<&'static str, usize>)> = OnceLock::new();
+- lookup · function · L191-L204 — pub fn lookup(name: &str) -> Option<&'static FnSpec>
+- all · function · L207-L209 — pub fn all() -> &'static [FnSpec]
+- call · function · L212-L217 — pub fn call(spec: &FnSpec, args: &[Arg], ctx: &mut dyn Ctx) -> Value
+- tests · module · L220-L279 — mod tests
+- registry_is_consistent · function · L224-L239 — fn registry_is_consistent()
+- hostile_inputs_never_panic · function · L242-L278 — fn hostile_inputs_never_panic()

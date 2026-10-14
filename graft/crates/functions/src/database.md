@@ -1,0 +1,30 @@
+# crates/functions/src/database.rs
+
+- find_column · function · L18-L25 — fn find_column(db: &Array, label: &str) -> Option<usize>
+- field_index · function · L28-L46 — fn field_index(db: &Array, a: &[Arg]) -> R<Option<usize>>
+- cell_criterion · function · L49-L65 — fn cell_criterion(v: &Value) -> Option<Criterion>
+- matching_records · function · L68-L97 — fn matching_records(db: &Array, crit: &Array) -> Vec<usize>
+- Selection · struct · L99-L103 — struct Selection<'a>
+- select · function · L105-L119 — fn select(a: &[Arg]) -> R<Selection<'_>>
+- field_numbers · function · L122-L126 — fn field_numbers(a: &[Arg]) -> R<Vec<f64>>
+- dsum · function · L128-L130 — fn dsum(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- daverage · function · L132-L138 — fn daverage(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dcount · function · L140-L147 — fn dcount(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dcounta · function · L149-L156 — fn dcounta(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dget · function · L158-L166 — fn dget(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dmax · function · L168-L171 — fn dmax(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dmin · function · L173-L176 — fn dmin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dproduct · function · L178-L184 — fn dproduct(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- variance · function · L186-L195 — fn variance(v: &[f64], sample: bool) -> R<f64>
+- dvar · function · L197-L199 — fn dvar(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dvarp · function · L201-L203 — fn dvarp(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dstdev · function · L205-L207 — fn dstdev(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dstdevp · function · L209-L211 — fn dstdevp(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L213-L291 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L294-L374 — mod tests
+- db · function · L299-L309 — fn db() -> Value
+- crit · function · L312-L318 — fn crit() -> Value
+- d · function · L320-L322 — fn d(f: &str, field: crate::Arg) -> Value
+- orchard · function · L325-L341 — fn orchard()
+- simple_criteria · function · L344-L358 — fn simple_criteria()
+- dget_and_empty · function · L361-L373 — fn dget_and_empty()

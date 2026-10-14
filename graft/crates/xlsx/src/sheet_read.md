@@ -1,0 +1,27 @@
+# crates/xlsx/src/sheet_read.rs
+
+- Shared · struct · L22-L26 — struct Shared
+- RowState · struct · L29-L37 — struct RowState
+- MAX_HYPERLINK_CELLS · constant · L39-L39 — const MAX_HYPERLINK_CELLS: u64 = 10_000;
+- read_sheet · function · L41-L202 — pub fn read_sheet(cx: &mut Ctx<'_>, part: &str, name: &str) -> Result<Sheet, IoError>
+- read_views · function · L204-L232 — fn read_views(e: &El, sheet: &mut Sheet)
+- read_cols · function · L234-L266 — fn read_cols(cx: &Ctx<'_>, e: &El, sheet: &mut Sheet)
+- read_row · function · L268-L321 — fn read_row(cx: &mut Ctx<'_>, sheet: &mut Sheet, st: &mut RowState, row: &El)
+- read_cell · function · L323-L387 — fn read_cell(cx: &mut Ctx<'_>, sheet: &mut Sheet, st: &mut RowState, c: &El, pos: CellRef)
+- read_formula · function · L389-L439 — fn read_formula(cx: &mut Ctx<'_>, st: &mut RowState, f: &El, pos: CellRef, dynamic: bool) -> Option<Formula>
+- parse_iso_datetime · function · L442-L473 — pub fn parse_iso_datetime(s: &str, sys: DateSystem) -> Option<f64>
+- parse_sqref · function · L475-L477 — pub fn parse_sqref(s: Option<&str>) -> Vec<RangeRef>
+- cf_op · function · L479-L490 — fn cf_op(s: Option<&str>) -> CfOperator
+- cfvo · function · L492-L503 — fn cfvo(e: &El) -> CfValueKind
+- cfvos · function · L506-L519 — fn cfvos(e: &El) -> Vec<CfValueKind>
+- read_cf · function · L521-L591 — fn read_cf(cx: &mut Ctx<'_>, e: &El, sheet: &mut Sheet)
+- read_validation · function · L594-L642 — fn read_validation(v: &El) -> Option<Validation>
+- read_hyperlinks · function · L644-L668 — fn read_hyperlinks(e: &El, rels: &[Rel], sheet: &mut Sheet)
+- filter_op · function · L670-L679 — fn filter_op(s: Option<&str>) -> &'static str
+- read_autofilter · function · L681-L719 — pub fn read_autofilter(cx: &mut Ctx<'_>, e: &El) -> Option<AutoFilter>
+- read_table · function · L721-L773 — pub fn read_table(x: &El) -> Option<Table>
+- read_comments · function · L775-L790 — fn read_comments(x: &El, sheet: &mut Sheet)
+- read_threaded · function · L792-L818 — fn read_threaded(cx: &Ctx<'_>, x: &El, sheet: &mut Sheet)
+- read_ext · function · L821-L854 — fn read_ext(cx: &mut Ctx<'_>, e: &El, sheet: &mut Sheet)
+- tests · module · L857-L869 — mod tests
+- iso_dates · function · L861-L868 — fn iso_dates()

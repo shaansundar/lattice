@@ -1,0 +1,27 @@
+# crates/formula/src/parser.rs
+
+- ParseError · struct · L13-L16 — pub struct ParseError
+- MAX_DEPTH · constant · L18-L18 — pub(crate) const MAX_DEPTH: usize = 256;
+- parse · function · L22-L24 — pub fn parse(src: &str) -> Result<Expr, ParseError>
+- parse_syntax · function · L26-L36 — pub(crate) fn parse_syntax(src: &str, locale: crate::FormulaLocale) -> Result<Expr, ParseError>
+- describe · function · L38-L45 — fn describe(t: &Tok) -> String
+- significant_spaces · function · L49-L63 — fn significant_spaces(toks: Vec<Token>) -> Vec<Token>
+- Parser · struct · L65-L70 — struct Parser
+- word_is_cols · function · L72-L75 — fn word_is_cols(w: &str) -> Option<(u32, bool)>
+- word_is_row · function · L77-L81 — fn word_is_row(w: &str) -> Option<(u32, bool)>
+- word_is_cell · function · L83-L89 — fn word_is_cell(w: &str) -> Option<Anchor>
+- normalize_function_name · function · L92-L100 — pub fn normalize_function_name(name: &str) -> String
+- peek · function · L103-L105 — fn peek(&self) -> &Tok
+- peek_at · function · L106-L108 — fn peek_at(&self, k: usize) -> &Tok
+- pos · function · L109-L111 — fn pos(&self) -> usize
+- next · function · L112-L118 — fn next(&mut self) -> Tok
+- err · function · L119-L121 — fn err(&self, msg: impl Into<String>) -> ParseError
+- expect · function · L122-L129 — fn expect(&mut self, t: Tok) -> Result<(), ParseError>
+- binop · function · L131-L150 — fn binop(&self, allow_union: bool) -> Option<BinOp>
+- expr · function · L152-L188 — fn expr(&mut self, min_bp: u8, allow_union: bool) -> Result<Expr, ParseError>
+- args · function · L190-L212 — fn args(&mut self) -> Result<Vec<Expr>, ParseError>
+- prefix · function · L214-L271 — fn prefix(&mut self, allow_union: bool) -> Result<Expr, ParseError>
+- reference_from_word · function · L274-L322 — fn reference_from_word(&mut self, sheet: SheetSel, w: &str) -> Result<Expr, ParseError>
+- array · function · L324-L360 — fn array(&mut self) -> Result<Expr, ParseError>
+- combine · function · L364-L373 — fn combine(op: BinOp, lhs: Expr, rhs: Expr) -> Expr
+- parse_struct · function · L376-L477 — pub fn parse_struct(table: &str, body: &str) -> StructRef

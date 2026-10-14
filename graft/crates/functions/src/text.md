@@ -1,0 +1,74 @@
+# crates/functions/src/text.rs
+
+- TJ · constant · L12-L12 — const TJ: &[bool] = &[false, true, false];
+- TB · constant · L13-L13 — const TB: &[bool] = &[true, false, true, true, true, false];
+- TS · constant · L14-L14 — const TS: &[bool] = &[true, false, false, true, true, false];
+- ATT · constant · L15-L15 — const ATT: &[bool] = &[false, true];
+- chars · function · L17-L19 — fn chars(s: &str) -> Vec<char>
+- check_len · function · L21-L26 — fn check_len(s: String) -> R<Value>
+- push_capped · function · L29-L35 — fn push_capped(out: &mut String, piece: &str) -> R<()>
+- concatenate · function · L37-L43 — fn concatenate(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- concat · function · L45-L53 — fn concat(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- textjoin · function · L55-L76 — fn textjoin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- count_arg · function · L78-L84 — fn count_arg(a: &[Arg], i: usize, default: f64) -> R<usize>
+- left · function · L86-L90 — fn left(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- right · function · L92-L96 — fn right(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- mid · function · L98-L107 — fn mid(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- len · function · L109-L111 — fn len(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- lower · function · L113-L115 — fn lower(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- upper · function · L117-L119 — fn upper(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- proper · function · L121-L139 — fn proper(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- trim · function · L141-L144 — fn trim(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- clean · function · L146-L148 — fn clean(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- substitute · function · L150-L180 — fn substitute(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- replace · function · L182-L196 — fn replace(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- rept · function · L198-L210 — fn rept(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- find_impl · function · L212-L234 — fn find_impl(a: &[Arg], wild: bool) -> R<Value>
+- find · function · L236-L238 — fn find(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- search · function · L240-L242 — fn search(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- exact · function · L244-L246 — fn exact(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- CP1252 · constant · L249-L252 — const CP1252: [u32; 32] = [
+- char_fn · function · L254-L262 — fn char_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- code · function · L264-L276 — fn code(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- unichar · function · L278-L287 — fn unichar(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- unicode · function · L289-L293 — fn unicode(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- value · function · L295-L308 — fn value(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- numbervalue · function · L310-L348 — fn numbervalue(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- format_fixed · function · L351-L377 — fn format_fixed(x: f64, decimals: i64, commas: bool) -> String
+- rounded · function · L379-L391 — fn rounded(a: &[Arg], default_dec: f64) -> R<(f64, i64)>
+- fixed · function · L393-L398 — fn fixed(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dollar · function · L400-L404 — fn dollar(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- t_fn · function · L406-L412 — fn t_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- identity · function · L414-L416 — fn identity(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- fold · function · L419-L421 — fn fold(c: &[char]) -> Vec<char>
+- delimiters · function · L424-L426 — fn delimiters(v: &Value) -> R<Vec<Vec<char>>>
+- find_matches · function · L431-L450 — fn find_matches(text: &[char], delims: &[Vec<char>], insensitive: bool) -> Vec<(usize, usize)>
+- text_before_after · function · L452-L480 — fn text_before_after(a: &[Arg], before: bool) -> R<Value>
+- textbefore · function · L482-L484 — fn textbefore(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- textafter · function · L486-L488 — fn textafter(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- split_by · function · L490-L502 — fn split_by(s: &[char], delims: &[Vec<char>], insensitive: bool) -> Vec<Vec<char>>
+- textsplit · function · L504-L541 — fn textsplit(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- value_text · function · L543-L551 — fn value_text(v: &Value, strict: bool) -> String
+- format_arg · function · L553-L559 — fn format_arg(a: &[Arg], i: usize) -> R<bool>
+- valuetotext · function · L561-L564 — fn valuetotext(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- arraytotext · function · L566-L587 — fn arraytotext(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- build_regex · function · L589-L600 — fn build_regex(pattern: &str, insensitive: bool) -> R<regex::Regex>
+- case_arg · function · L602-L608 — fn case_arg(a: &[Arg], i: usize) -> R<bool>
+- regextest · function · L610-L614 — fn regextest(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- regexextract · function · L616-L639 — fn regexextract(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- convert_replacement · function · L642-L663 — fn convert_replacement(r: &str) -> String
+- regexreplace · function · L665-L683 — fn regexreplace(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L685-L851 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L854-L1043 — mod tests
+- concat_family · function · L860-L869 — fn concat_family()
+- row_t · function · L871-L873 — fn row_t(xs: &[&str]) -> Value
+- slicing · function · L876-L890 — fn slicing()
+- case_and_cleanup · function · L893-L900 — fn case_and_cleanup()
+- substitute_replace_rept · function · L903-L916 — fn substitute_replace_rept()
+- find_search · function · L919-L933 — fn find_search()
+- codes · function · L936-L948 — fn codes()
+- numbers_from_text · function · L951-L973 — fn numbers_from_text()
+- before_after · function · L976-L991 — fn before_after()
+- split · function · L994-L1011 — fn split()
+- to_text · function · L1014-L1023 — fn to_text()
+- regex · function · L1026-L1042 — fn regex()

@@ -1,0 +1,56 @@
+# crates/ui-egui/src/grid.rs
+
+- COL_HEADER_H · constant · L18-L18 — pub const COL_HEADER_H: f32 = 21.0;
+- DISPLAY_SCALE · constant · L21-L21 — pub const DISPLAY_SCALE: f32 = 0.8;
+- Drag · enum · L24-L55 — pub enum Drag
+- GridState · struct · L58-L87 — pub struct GridState
+- autosave · function · L90-L92 — pub fn autosave(&self) -> bool
+- toggle_autosave · function · L93-L95 — pub fn toggle_autosave(&mut self)
+- Geo · struct · L100-L114 — pub struct Geo
+- new · function · L117-L131 — pub fn new(sh: &Sheet, rect: Rect, scroll: egui::Vec2) -> Geo
+- x · function · L132-L138 — pub fn x(&self, _sh: &Sheet, col: u32) -> f32
+- y · function · L139-L145 — pub fn y(&self, _sh: &Sheet, row: u32) -> f32
+- cell_rect · function · L146-L151 — pub fn cell_rect(&self, sh: &Sheet, c: CellRef) -> Rect
+- range_rect · function · L152-L156 — pub fn range_rect(&self, sh: &Sheet, r: RangeRef) -> Rect
+- col_at · function · L157-L164 — pub fn col_at(&self, _sh: &Sheet, x: f32) -> u32
+- row_at · function · L165-L172 — pub fn row_at(&self, _sh: &Sheet, y: f32) -> u32
+- cell_at · function · L173-L175 — pub fn cell_at(&self, sh: &Sheet, p: Pos2) -> CellRef
+- scroll_rows · function · L177-L182 — fn scroll_rows(&self, _sh: &Sheet) -> (u32, u32)
+- scroll_cols · function · L183-L188 — fn scroll_cols(&self, _sh: &Sheet) -> (u32, u32)
+- Look · struct · L192-L196 — struct Look
+- col32 · function · L198-L200 — fn col32(c: Color, wb: &Workbook, default: Color32) -> Color32
+- numfmt_color · function · L202-L215 — fn numfmt_color(c: lattice_engine::numfmt::FormatColor) -> Color32
+- look · function · L217-L276 — fn look(wb: &Workbook, si: usize, sh: &Sheet, c: CellRef, cf: &mut CfCache) -> (Look, Option<CfLook>)
+- display_text · function · L279-L311 — fn display_text(
+- show · function · L313-L434 — pub fn show(app: &mut SheetApp, ui: &mut egui::Ui)
+- vertical_scrollbar · function · L438-L483 — fn vertical_scrollbar(app: &mut SheetApp, ui: &mut egui::Ui, sh: &Sheet, geo: &Geo, right: f32, limit: f32, t: &Tokens)
+- paint_quadrant · function · L486-L830 — fn paint_quadrant(p: &Painter, geo: &Geo, wb: &Workbook, si: usize, sh: &Sheet, rows: (u32, u32), cols: (u32, u32), cf: &mut CfCache, t: &Tokens)
+- filter_button_rect · function · L832-L836 — pub fn filter_button_rect(geo: &Geo, sh: &Sheet, c: CellRef) -> Rect
+- paint_border · function · L838-L864 — pub(crate) fn paint_border(p: &Painter, pts: [Pos2; 2], style: BorderStyle, col: Color32)
+- paint_cf_icon · function · L866-L902 — fn paint_cf_icon(p: &Painter, r: Rect, set: &str, idx: usize)
+- paint_selection · function · L904-L974 — fn paint_selection(p: &Painter, geo: &Geo, sh: &Sheet, sel: &lattice_engine::Selection, t: &Tokens, app: &SheetApp)
+- paint_headers · function · L976-L1046 — fn paint_headers(p: &Painter, geo: &Geo, sh: &Sheet, sel: &lattice_engine::Selection, t: &Tokens, quads: &[((u32, u32), (u32, u32), Rect)])
+- interact · function · L1050-L1489 — fn interact(app: &mut SheetApp, ui: &mut egui::Ui, resp: &egui::Response, geo: &Geo, sh: &Sheet, wb: &Workbook)
+- select_to_pointer · function · L1491-L1518 — fn select_to_pointer(app: &mut SheetApp, geo: &Geo, sh: &Sheet, wb: &Workbook, p: Pos2)
+- coalesce_last_undo · function · L1520-L1530 — fn coalesce_last_undo(app: &mut SheetApp)
+- scroll_by · function · L1532-L1538 — fn scroll_by(app: &mut SheetApp, d: egui::Vec2)
+- fill_target · function · L1540-L1561 — fn fill_target(src: RangeRef, pc: CellRef) -> RangeRef
+- on_border · function · L1563-L1567 — fn on_border(r: Rect, p: Pos2) -> bool
+- col_edge · function · L1569-L1578 — fn col_edge(geo: &Geo, sh: &Sheet, x: f32) -> Option<(u32, f32)>
+- row_edge · function · L1580-L1589 — fn row_edge(geo: &Geo, sh: &Sheet, y: f32) -> Option<(u32, f32)>
+- is_filter_button · function · L1591-L1599 — fn is_filter_button(sh: &Sheet, geo: &Geo, p: Pos2) -> bool
+- object_anchor · function · L1601-L1607 — fn object_anchor(sh: &Sheet, kind: &str, id: u32) -> Option<lattice_engine::model::Anchor>
+- follow_link · function · L1609-L1619 — pub fn follow_link(app: &mut SheetApp, target: &str)
+- select_ranges · function · L1621-L1626 — fn select_ranges(app: &mut SheetApp, r: RangeRef, add: bool, active: CellRef)
+- keyboard · function · L1629-L1733 — fn keyboard(app: &mut SheetApp, ctx: &egui::Context, resp: &egui::Response, geo: &Geo, sh: &Sheet)
+- in_cell_editor · function · L1735-L1762 — fn in_cell_editor(app: &mut SheetApp, ui: &mut egui::Ui, geo: &Geo, sh: &Sheet, wb: &Workbook)
+- popup_dismissed · function · L1766-L1768 — fn popup_dismissed(response: &egui::Response, was_open: bool) -> bool
+- filter_menu · function · L1770-L1857 — fn filter_menu(app: &mut SheetApp, ui: &mut egui::Ui, geo: &Geo, was_open: bool)
+- context_menu · function · L1859-L1933 — fn context_menu(app: &mut SheetApp, ui: &mut egui::Ui)
+- point_move · function · L1936-L1950 — pub fn point_move(app: &mut SheetApp, ed: &mut EditState, dr: i64, dc: i64, extend: bool)
+- validation_arrow · function · L1953-L1961 — pub fn validation_arrow(sh: &Sheet, geo: &Geo, c: CellRef) -> Option<Rect>
+- paint_overlays · function · L1964-L2050 — fn paint_overlays(app: &mut SheetApp, ui: &egui::Ui, p: &Painter, geo: &Geo, wb: &Workbook, si: usize, sh: &Sheet, sel: &lattice_engine::Selection)
+- list_picker · function · L2052-L2081 — fn list_picker(app: &mut SheetApp, ui: &mut egui::Ui, geo: &Geo, was_open: bool)
+- header_menu · function · L2083-L2145 — fn header_menu(app: &mut SheetApp, ui: &mut egui::Ui, was_open: bool)
+- is_checkbox · function · L2147-L2150 — fn is_checkbox(sh: &Sheet, app: &SheetApp) -> bool
+- paint_pages · function · L2152-L2214 — fn paint_pages(app: &mut SheetApp, p: &Painter, geo: &Geo, sh: &Sheet)

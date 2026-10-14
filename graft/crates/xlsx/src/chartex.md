@@ -1,0 +1,24 @@
+# crates/xlsx/src/chartex.rs
+
+- CT_CHARTEX · constant · L14-L14 — pub const CT_CHARTEX: &str = "application/vnd.ms-office.chartex+xml";
+- REL_CHARTEX · constant · L15-L15 — pub const REL_CHARTEX: &str = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
+- CT_STYLE · constant · L16-L16 — pub const CT_STYLE: &str = "application/vnd.ms-office.chartstyle+xml";
+- CT_COLORS · constant · L17-L17 — pub const CT_COLORS: &str = "application/vnd.ms-office.chartcolorstyle+xml";
+- REL_STYLE · constant · L18-L18 — pub const REL_STYLE: &str = "http://schemas.microsoft.com/office/2011/relationships/chartStyle";
+- REL_COLORS · constant · L19-L19 — pub const REL_COLORS: &str = "http://schemas.microsoft.com/office/2011/relationships/chartColorStyle";
+- is_chartex · function · L22-L24 — pub fn is_chartex(k: ChartKind) -> bool
+- requires · function · L28-L33 — pub fn requires(k: ChartKind) -> (&'static str, &'static str)
+- kind_of · function · L37-L47 — fn kind_of(layout: &str) -> Option<ChartKind>
+- formula · function · L49-L53 — fn formula(dim: &El) -> Option<String>
+- text · function · L55-L67 — fn text(tx: &El) -> Option<String>
+- read_chartex · function · L69-L135 — pub fn read_chartex(root: &El) -> Option<Chart>
+- NAME_PREFIX · constant · L141-L141 — pub const NAME_PREFIX: &str = "_xlchart.v1.";
+- f_xml · function · L146-L150 — fn f_xml(wb: &Workbook, si: usize, f: &str, names: &mut Vec<String>) -> String
+- ref_range · function · L153-L161 — fn ref_range(wb: &Workbook, si: usize, f: &str) -> Option<(usize, RangeRef)>
+- tx_xml · function · L163-L171 — fn tx_xml(t: &str, wb: &Workbook, si: usize, names: &mut Vec<String>) -> String
+- style_xml · function · L174-L222 — pub fn style_xml() -> String
+- colors_xml · function · L225-L234 — pub fn colors_xml() -> String
+- fill_xml · function · L237-L240 — fn fill_xml(color: &str, line: bool) -> String
+- GREY · constant · L243-L243 — const GREY: &str = "<a:schemeClr val=\"tx1\"><a:lumMod val=\"25000\"/><a:lumOff val=\"75000\"/></a:schemeClr>";
+- accent · function · L245-L247 — fn accent(i: usize) -> String
+- write_chartex · function · L251-L362 — pub fn write_chartex(wb: &Workbook, si: usize, ch: &Chart, names: &mut Vec<String>) -> String

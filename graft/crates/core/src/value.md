@@ -1,0 +1,55 @@
+# crates/core/src/value.rs
+
+- CellError · enum · L11-L24 — pub enum CellError
+- ALL · constant · L27-L38 — pub const ALL: [CellError; 10] = [
+- as_str · function · L39-L53 — pub fn as_str(&self) -> &'static str
+- code · function · L55-L69 — pub fn code(&self) -> u32
+- parse · function · L70-L73 — pub fn parse(s: &str) -> Option<CellError>
+- fmt · function · L77-L79 — fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
+- Array · struct · L84-L88 — pub struct Array
+- new · function · L91-L96 — pub fn new(rows: usize, cols: usize, data: Vec<Value>) -> Option<Array>
+- filled · function · L97-L100 — pub fn filled(rows: usize, cols: usize, v: Value) -> Array
+- scalar · function · L101-L103 — pub fn scalar(v: Value) -> Array
+- column · function · L104-L109 — pub fn column(v: Vec<Value>) -> Array
+- row · function · L110-L115 — pub fn row(v: Vec<Value>) -> Array
+- get · function · L116-L121 — pub fn get(&self, r: usize, c: usize) -> Option<&Value>
+- get_broadcast · function · L124-L128 — pub fn get_broadcast(&self, r: usize, c: usize) -> Value
+- transpose · function · L129-L137 — pub fn transpose(&self) -> Array
+- iter · function · L138-L140 — pub fn iter(&self) -> impl Iterator<Item = &Value>
+- Value · enum · L146-L154 — pub enum Value
+- from · function · L157-L159 — fn from(v: f64) -> Self
+- from · function · L162-L164 — fn from(v: bool) -> Self
+- from · function · L167-L169 — fn from(v: &str) -> Self
+- from · function · L172-L174 — fn from(v: String) -> Self
+- from · function · L177-L179 — fn from(v: CellError) -> Self
+- from · function · L182-L184 — fn from(a: Array) -> Self
+- number · function · L189-L191 — pub fn number(v: f64) -> Value
+- text · function · L192-L194 — pub fn text(s: impl Into<Arc<str>>) -> Value
+- is_empty · function · L195-L197 — pub fn is_empty(&self) -> bool
+- is_error · function · L198-L200 — pub fn is_error(&self) -> bool
+- is_number · function · L201-L203 — pub fn is_number(&self) -> bool
+- is_text · function · L204-L206 — pub fn is_text(&self) -> bool
+- as_error · function · L207-L209 — pub fn as_error(&self) -> Option<CellError>
+- as_f64 · function · L210-L212 — pub fn as_f64(&self) -> Option<f64>
+- as_text · function · L213-L215 — pub fn as_text(&self) -> Option<&str>
+- scalar · function · L217-L222 — pub fn scalar(&self) -> Value
+- to_number · function · L226-L235 — pub fn to_number(&self) -> Result<f64, CellError>
+- to_text · function · L237-L246 — pub fn to_text(&self) -> Result<String, CellError>
+- to_bool · function · L248-L265 — pub fn to_bool(&self) -> Result<bool, CellError>
+- display · function · L267-L272 — pub fn display(&self) -> String
+- rank · function · L274-L283 — fn rank(&self) -> u8
+- compare · function · L288-L303 — pub fn compare(a: &Value, b: &Value) -> Ordering
+- compare_numbers · function · L307-L320 — pub fn compare_numbers(a: f64, b: f64) -> Ordering
+- round15 · function · L308-L310 — fn round15(x: f64) -> f64
+- compare_text · function · L323-L335 — pub fn compare_text(a: &str, b: &str) -> Ordering
+- sort_compare · function · L338-L346 — pub fn sort_compare(a: &Value, b: &Value) -> Ordering
+- number_to_text · function · L350-L363 — pub fn number_to_text(n: f64) -> String
+- trim_decimal · function · L366-L373 — pub fn trim_decimal(s: &str) -> String
+- sci_text · function · L376-L382 — pub fn sci_text(n: f64, sig: usize) -> String
+- tests · module · L385-L449 — mod tests
+- number_text · function · L389-L399 — fn number_text()
+- coercion · function · L402-L411 — fn coercion()
+- comparisons · function · L414-L420 — fn comparisons()
+- errors · function · L423-L428 — fn errors()
+- numbers_compare_at_15_significant_digits · function · L431-L439 — fn numbers_compare_at_15_significant_digits()
+- arrays · function · L442-L448 — fn arrays()

@@ -1,0 +1,35 @@
+# apps/lattice-cli/src/main.rs
+
+- outln · function · L22-L29 — macro_rules! outln
+- USAGE · constant · L34-L45 — const USAGE: &str = "usage:
+- stdout_failed · function · L49-L55 — fn stdout_failed(e: std::io::Error) -> !
+- main · function · L57-L88 — fn main() -> ExitCode
+- Args · struct · L93-L97 — struct Args
+- parse · function · L102-L127 — fn parse(args: &[String], with_value: &[&str], switches: &[&str]) -> Result<Args, String>
+- opt · function · L128-L130 — fn opt(&self, name: &str) -> Option<&str>
+- has · function · L131-L133 — fn has(&self, name: &str) -> bool
+- pos · function · L134-L136 — fn pos(&self, i: usize, what: &str) -> Result<&str, String>
+- no_extra · function · L137-L142 — fn no_extra(&self, n: usize) -> Result<(), String>
+- exec · function · L147-L158 — fn exec(s: &mut Session, id: &str, params: Value) -> Result<Value, String>
+- open · function · L160-L164 — fn open(path: &str) -> Result<Session, String>
+- blank · function · L166-L170 — fn blank() -> Session
+- activate_sheet · function · L172-L182 — fn activate_sheet(s: &mut Session, sheet: Option<&str>) -> Result<(), String>
+- pretty · function · L184-L186 — fn pretty(v: &Value) -> String
+- number_text · function · L189-L191 — fn number_text(n: f64) -> String
+- value_text · function · L194-L210 — fn value_text(v: &Value) -> String
+- csv_field · function · L212-L218 — fn csv_field(s: &str, delim: char) -> String
+- info · function · L222-L261 — fn info(args: &[String]) -> Result<(), String>
+- convert · function · L263-L278 — fn convert(args: &[String]) -> Result<(), String>
+- eval · function · L280-L301 — fn eval(args: &[String]) -> Result<(), String>
+- print_range · function · L304-L348 — fn print_range(s: &mut Session, range: Option<&str>, sheet: Option<&str>, formulas: bool, csv: bool) -> Result<(), String>
+- cat · function · L350-L356 — fn cat(args: &[String]) -> Result<(), String>
+- parse_command · function · L359-L376 — fn parse_command(text: &str) -> Result<Option<(String, Value)>, String>
+- run · function · L378-L427 — fn run(args: &[String]) -> Result<(), String>
+- commands · function · L429-L460 — fn commands(args: &[String]) -> Result<(), String>
+- functions · function · L462-L487 — fn functions(args: &[String]) -> Result<(), String>
+- mcp · function · L491-L520 — fn mcp(args: &[String]) -> Result<(), String>
+- send · function · L523-L540 — fn send(args: &[String]) -> Result<(), String>
+- tests · module · L543-L580 — mod tests
+- parses_commands · function · L548-L558 — fn parses_commands()
+- value_texts · function · L561-L567 — fn value_texts()
+- args_parsing · function · L570-L579 — fn args_parsing()

@@ -1,0 +1,59 @@
+# crates/functions/src/dynamic.rs
+
+- arr_arg · function · L21-L27 — fn arr_arg(args: &[Arg], i: usize) -> R<Array>
+- rows_of · function · L29-L31 — fn rows_of(a: &Array) -> Vec<Vec<Value>>
+- from_rows · function · L34-L49 — fn from_rows(rows: Vec<Vec<Value>>, pad: &Value) -> R<Value>
+- opt_count · function · L52-L61 — fn opt_count(args: &[Arg], i: usize) -> R<Option<i64>>
+- pad_arg · function · L64-L69 — fn pad_arg(args: &[Arg], i: usize) -> Value
+- key_of · function · L72-L81 — fn key_of(v: &Value) -> String
+- row_key · function · L83-L90 — fn row_key(r: &[Value]) -> String
+- truthy · function · L92-L99 — fn truthy(v: &Value) -> R<bool>
+- filter · function · L104-L126 — fn filter(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cmp_keys · function · L129-L149 — fn cmp_keys(a: &[Value], b: &[Value], orders: &[i64]) -> Ordering
+- int_list · function · L151-L160 — fn int_list(v: &Value) -> R<Vec<i64>>
+- sort · function · L162-L180 — fn sort(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sortby · function · L182-L217 — fn sortby(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- unique · function · L219-L249 — fn unique(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dims · function · L255-L268 — fn dims(args: &[Arg], ri: usize, ci: usize) -> R<(usize, usize)>
+- sequence · function · L270-L276 — fn sequence(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- randarray · function · L278-L302 — fn randarray(args: &[Arg], ctx: &mut dyn Ctx) -> R<Value>
+- vstack · function · L307-L319 — fn vstack(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- hstack · function · L321-L343 — fn hstack(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- flat_filtered · function · L346-L362 — fn flat_filtered(args: &[Arg]) -> R<Vec<Value>>
+- torow · function · L364-L370 — fn torow(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tocol · function · L372-L378 — fn tocol(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- wrap · function · L380-L404 — fn wrap(args: &[Arg], rows: bool) -> R<Value>
+- wraprows · function · L406-L408 — fn wraprows(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- wrapcols · function · L410-L412 — fn wrapcols(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- span · function · L418-L433 — fn span(len: usize, n: Option<i64>, take: bool) -> R<(usize, usize)>
+- take_drop · function · L435-L441 — fn take_drop(args: &[Arg], take: bool) -> R<Value>
+- take_fn · function · L443-L445 — fn take_fn(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- drop_fn · function · L447-L449 — fn drop_fn(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- choose_lines · function · L451-L477 — fn choose_lines(args: &[Arg], rows: bool) -> R<Value>
+- chooserows · function · L479-L481 — fn chooserows(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- choosecols · function · L483-L485 — fn choosecols(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- expand · function · L487-L506 — fn expand(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- Agg · enum · L512-L525 — enum Agg
+- parse_agg · function · L527-L567 — fn parse_agg(v: &Value) -> R<Agg>
+- aggregate · function · L569-L628 — fn aggregate(f: Agg, vals: &[&Value]) -> Value
+- Prepared · struct · L631-L638 — struct Prepared
+- prepare · function · L642-L687 — fn prepare(fields: &[&Array], values: &Array, fh: Option<i64>, filter: Option<&Array>) -> R<Prepared>
+- key_row · function · L689-L691 — fn key_row(a: &Array, r: usize) -> Vec<Value>
+- distinct_keys · function · L695-L722 — fn distinct_keys(keys: &[Vec<Value>], sort: i64) -> Vec<Vec<Value>>
+- opt_arr · function · L724-L726 — fn opt_arr(args: &[Arg], i: usize) -> R<Option<Array>>
+- groupby · function · L728-L786 — fn groupby(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pivotby · function · L788-L888 — fn pivotby(args: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L890-L1029 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L1032-L1228 — mod tests
+- grid · function · L1037-L1039 — fn grid() -> Value
+- filter · function · L1042-L1055 — fn filter()
+- sort · function · L1058-L1073 — fn sort()
+- sortby · function · L1076-L1085 — fn sortby()
+- unique · function · L1088-L1096 — fn unique()
+- sequence_and_rand · function · L1099-L1118 — fn sequence_and_rand()
+- stacking · function · L1121-L1133 — fn stacking()
+- wrapping · function · L1136-L1143 — fn wrapping()
+- take_drop_choose_expand · function · L1146-L1172 — fn take_drop_choose_expand()
+- sales · function · L1174-L1179 — fn sales() -> (Value, Value, Value)
+- groupby · function · L1182-L1211 — fn groupby()
+- pivotby · function · L1214-L1227 — fn pivotby()

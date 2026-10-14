@@ -1,0 +1,30 @@
+# crates/numfmt/src/parse.rs
+
+- MAX_SECTIONS · constant · L6-L6 — const MAX_SECTIONS: usize = 4;
+- DatePart · enum · L9-L24 — pub(crate) enum DatePart
+- is_calendar · function · L27-L29 — pub(crate) fn is_calendar(self) -> bool
+- Tok · enum · L33-L54 — pub(crate) enum Tok
+- literal_text · function · L58-L69 — pub(crate) fn literal_text(&self) -> String
+- CondOp · enum · L73-L80 — pub(crate) enum CondOp
+- Cond · struct · L83-L86 — pub(crate) struct Cond
+- test · function · L89-L98 — pub(crate) fn test(&self, v: f64) -> bool
+- SecKind · enum · L102-L107 — pub(crate) enum SecKind
+- Section · struct · L110-L125 — pub(crate) struct Section
+- split_sections · function · L128-L170 — fn split_sections(code: &str) -> Vec<String>
+- starts_with_ci · function · L172-L181 — fn starts_with_ci(cs: &[char], i: usize, pat: &str) -> bool
+- push_lit · function · L183-L192 — fn push_lit(toks: &mut Vec<Tok>, s: &str)
+- is_currency_char · function · L194-L196 — fn is_currency_char(c: char) -> bool
+- parse_color · function · L198-L217 — fn parse_color(lc: &str) -> Option<FormatColor>
+- parse_cond · function · L219-L236 — fn parse_cond(s: &str) -> Option<Cond>
+- Raw · struct · L238-L243 — struct Raw
+- tokenize · function · L245-L374 — fn tokenize(src: &str) -> Raw
+- RawParts · struct · L376-L381 — struct RawParts<'a>
+- raw_parts · function · L383-L385 — fn raw_parts<'a>(toks: &'a mut Vec<Tok>, color: &'a mut Option<FormatColor>, cond: &'a mut Option<Cond>, currency: &'a mut bool) -> RawParts<'a>
+- bracket · function · L388-L421 — fn bracket(p: &mut RawParts<'_>, content: &str)
+- date_part · function · L423-L425 — fn date_part(t: &Tok) -> Option<DatePart>
+- analyze · function · L427-L601 — fn analyze(raw: Raw) -> Section
+- parse_sections · function · L604-L606 — pub(crate) fn parse_sections(code: &str) -> Vec<Section>
+- tests · module · L609-L639 — mod tests
+- sections_split · function · L613-L618 — fn sections_split()
+- minutes_vs_months · function · L621-L628 — fn minutes_vs_months()
+- commas · function · L631-L638 — fn commas()

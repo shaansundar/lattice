@@ -1,0 +1,41 @@
+# crates/model/src/sheet.rs
+
+- Visibility · enum · L15-L20 — pub enum Visibility
+- Sheet · struct · L23-L71 — pub struct Sheet
+- DEFAULT_COL_WIDTH · constant · L74-L74 — pub const DEFAULT_COL_WIDTH: f32 = 64.0;
+- DEFAULT_ROW_HEIGHT · constant · L75-L75 — pub const DEFAULT_ROW_HEIGHT: f32 = 20.0;
+- new · function · L78-L115 — pub fn new(name: impl Into<String>) -> Sheet
+- cell · function · L117-L119 — pub fn cell(&self, c: CellRef) -> Option<&Cell>
+- value · function · L121-L126 — pub fn value(&self, c: CellRef) -> Value
+- value_ref · function · L127-L132 — pub fn value_ref(&self, c: CellRef) -> Option<&Value>
+- style_id · function · L133-L141 — pub fn style_id(&self, c: CellRef) -> StyleId
+- set_value · function · L142-L145 — pub fn set_value(&mut self, c: CellRef, v: Value)
+- set_cell · function · L147-L150 — pub fn set_cell(&mut self, c: CellRef, cell: Cell)
+- remove_cell · function · L151-L154 — pub fn remove_cell(&mut self, c: CellRef) -> Option<Cell>
+- take_cells · function · L156-L159 — pub fn take_cells(&mut self, range: RangeRef) -> Vec<(CellRef, Cell)>
+- set_picture · function · L161-L165 — pub fn set_picture(&mut self, c: CellRef, picture: Arc<CellPicture>)
+- input_text · function · L166-L168 — pub fn input_text(&self, c: CellRef) -> String
+- set_style · function · L169-L173 — pub fn set_style(&mut self, c: CellRef, style: StyleId)
+- col_width · function · L177-L183 — pub fn col_width(&self, col: u32) -> f32
+- row_height · function · L184-L190 — pub fn row_height(&self, row: u32) -> f32
+- is_row_hidden · function · L191-L193 — pub fn is_row_hidden(&self, row: u32) -> bool
+- is_col_hidden · function · L194-L196 — pub fn is_col_hidden(&self, col: u32) -> bool
+- row_top · function · L198-L206 — pub fn row_top(&self, row: u32) -> f64
+- col_left · function · L207-L214 — pub fn col_left(&self, col: u32) -> f64
+- row_at · function · L216-L218 — pub fn row_at(&self, y: f64) -> u32
+- col_at · function · L219-L221 — pub fn col_at(&self, x: f64) -> u32
+- merge_at · function · L224-L226 — pub fn merge_at(&self, c: CellRef) -> Option<RangeRef>
+- table_at · function · L227-L229 — pub fn table_at(&self, c: CellRef) -> Option<&Table>
+- used_range · function · L230-L236 — pub fn used_range(&self) -> Option<RangeRef>
+- is_protected · function · L237-L239 — pub fn is_protected(&self) -> bool
+- LineIndex · struct · L245-L250 — pub struct LineIndex
+- new · function · L253-L266 — pub fn new(custom: &BTreeMap<u32, LineInfo>, default: f32, max: u32) -> LineIndex
+- start · function · L268-L277 — pub fn start(&self, line: u32) -> f64
+- at · function · L279-L300 — pub fn at(&self, pos: f64) -> u32
+- line_at · function · L304-L331 — fn line_at(pos: f64, default: f64, custom: &BTreeMap<u32, LineInfo>, max: u32) -> u32
+- tests · module · L334-L371 — mod tests
+- line_index_matches_linear · function · L338-L350 — fn line_index_matches_linear()
+- geometry · function · L353-L370 — fn geometry()
+- picture_map · module · L374-L383 — mod picture_map
+- serialize · function · L377-L379 — pub fn serialize<S: Serializer>(map: &BTreeMap<CellRef, Arc<CellPicture>>, serializer: S) -> Result<S::Ok, S::Error>
+- deserialize · function · L380-L382 — pub fn deserialize<'de, D: Deserializer<'de>>(deserializer: D) -> Result<BTreeMap<CellRef, Arc<CellPicture>>, D::Error>

@@ -1,0 +1,33 @@
+# crates/calc/src/tests.rs
+
+- c · function · L6-L8 — fn c(s: &str) -> CellRef
+- T · struct · L10-L13 — struct T
+- new · function · L16-L18 — fn new() -> T
+- set · function · L19-L27 — fn set(&mut self, at: &str, input: &str)
+- get · function · L28-L30 — fn get(&self, at: &str) -> Value
+- num · function · L31-L33 — fn num(&self, at: &str) -> f64
+- spill_range_operator · function · L37-L68 — fn spill_range_operator()
+- arithmetic_and_dependencies · function · L71-L84 — fn arithmetic_and_dependencies()
+- chains_out_of_order · function · L87-L95 — fn chains_out_of_order()
+- long_chain · function · L98-L107 — fn long_chain()
+- errors_and_cycles · function · L110-L121 — fn errors_and_cycles()
+- operators · function · L124-L140 — fn operators()
+- blocked_spill_reads_as_spill_error · function · L143-L157 — fn blocked_spill_reads_as_spill_error()
+- blocked_spill_read_through_offset · function · L160-L169 — fn blocked_spill_read_through_offset()
+- spill_into_the_old_area_of_a_blocked_neighbour · function · L172-L179 — fn spill_into_the_old_area_of_a_blocked_neighbour()
+- arrays_do_not_spill_in_tables · function · L182-L206 — fn arrays_do_not_spill_in_tables()
+- ifs_and_lazy · function · L209-L220 — fn ifs_and_lazy()
+- choose_with_an_array_index · function · L223-L239 — fn choose_with_an_array_index()
+- references_functions · function · L242-L262 — fn references_functions()
+- spills · function · L265-L278 — fn spills()
+- references_keep_their_size_past_the_used_range · function · L281-L296 — fn references_keep_their_size_past_the_used_range()
+- spilled_blank_cells_show_zero · function · L299-L312 — fn spilled_blank_cells_show_zero()
+- let_lambda · function · L315-L325 — fn let_lambda()
+- names_and_sheets · function · L328-L339 — fn names_and_sheets()
+- legacy_array_formulas_fill_their_range · function · L342-L366 — fn legacy_array_formulas_fill_their_range()
+- text_function · function · L369-L373 — fn text_function()
+- subtotal_skips_hidden · function · L376-L386 — fn subtotal_skips_hidden()
+- recalc_all_after_load · function · L389-L397 — fn recalc_all_after_load()
+- sumif_sum_range_takes_the_criteria_size · function · L400-L447 — fn sumif_sum_range_takes_the_criteria_size()
+- sumif_resized_sum_range_stops_at_the_sheet_edge · function · L450-L462 — fn sumif_resized_sum_range_stops_at_the_sheet_edge()
+- sumif_resized_sum_range_on_another_sheet_and_through_a_name · function · L465-L488 — fn sumif_resized_sum_range_on_another_sheet_and_through_a_name()

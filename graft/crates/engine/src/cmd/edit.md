@@ -1,0 +1,49 @@
+# crates/engine/src/cmd/edit.rs
+
+- specs · function · L11-L117 — pub fn specs() -> Vec<CommandSpec>
+- input_to_cell · function · L124-L191 — pub(crate) fn input_to_cell(input: &str, sheet: usize, at: CellRef, wb: &mut lattice_model::Workbook) -> Result<Option<Cell>>
+- cell_set · function · L193-L240 — fn cell_set(s: &mut Session, p: &Json) -> Result<Json>
+- json_to_input · function · L242-L256 — pub(crate) fn json_to_input(v: &Json) -> String
+- range_set_values · function · L258-L300 — fn range_set_values(s: &mut Session, p: &Json) -> Result<Json>
+- range_fill · function · L302-L328 — fn range_fill(s: &mut Session, p: &Json) -> Result<Json>
+- selection_set · function · L332-L351 — fn selection_set(s: &mut Session, p: &Json) -> Result<Json>
+- wb_switch_sheet · function · L355-L374 — pub fn wb_switch_sheet(&mut self, i: usize)
+- selection_move · function · L377-L433 — fn selection_move(s: &mut Session, p: &Json) -> Result<Json>
+- selection_next · function · L435-L441 — fn selection_next(s: &mut Session, p: &Json) -> Result<Json>
+- select_all · function · L443-L452 — fn select_all(s: &mut Session, _: &Json) -> Result<Json>
+- select_region · function · L454-L461 — fn select_region(s: &mut Session, _: &Json) -> Result<Json>
+- select_row · function · L463-L469 — fn select_row(s: &mut Session, _: &Json) -> Result<Json>
+- select_col · function · L471-L477 — fn select_col(s: &mut Session, _: &Json) -> Result<Json>
+- go_to · function · L479-L499 — fn go_to(s: &mut Session, p: &Json) -> Result<Json>
+- go_to_special · function · L501-L544 — fn go_to_special(s: &mut Session, p: &Json) -> Result<Json>
+- coalesce · function · L547-L566 — fn coalesce(cells: &[CellRef]) -> Vec<RangeRef>
+- undo · function · L570-L585 — fn undo(s: &mut Session, p: &Json) -> Result<Json>
+- redo · function · L587-L602 — fn redo(s: &mut Session, p: &Json) -> Result<Json>
+- copy_impl · function · L606-L632 — fn copy_impl(s: &mut Session, p: &Json, cut: bool) -> Result<Json>
+- copy · function · L634-L636 — fn copy(s: &mut Session, p: &Json) -> Result<Json>
+- cut · function · L637-L639 — fn cut(s: &mut Session, p: &Json) -> Result<Json>
+- clear_clipboard · function · L640-L644 — fn clear_clipboard(s: &mut Session, _: &Json) -> Result<Json>
+- What · enum · L647-L658 — enum What
+- paste · function · L660-L671 — fn paste(s: &mut Session, p: &Json) -> Result<Json>
+- paste_text · function · L673-L701 — fn paste_text(s: &mut Session, p: &Json, text: &str) -> Result<Json>
+- parse_tsv · function · L704-L751 — pub(crate) fn parse_tsv(text: &str) -> Vec<Vec<String>>
+- paste_special · function · L753-L1013 — fn paste_special(s: &mut Session, p: &Json) -> Result<Json>
+- rewrite_all_formulas · function · L1016-L1045 — pub(crate) fn rewrite_all_formulas(wb: &mut lattice_model::Workbook, target: &str, e: &lattice_formula::adjust::Edit)
+- clear · function · L1049-L1096 — fn clear(s: &mut Session, p: &Json, what: &str) -> Result<Json>
+- fill_dir · function · L1100-L1133 — fn fill_dir(s: &mut Session, p: &Json, dr: i64, dc: i64) -> Result<Json>
+- auto_fill · function · L1135-L1153 — fn auto_fill(s: &mut Session, p: &Json) -> Result<Json>
+- fill_series · function · L1155-L1167 — fn fill_series(s: &mut Session, p: &Json) -> Result<Json>
+- flash_fill · function · L1169-L1179 — fn flash_fill(s: &mut Session, p: &Json) -> Result<Json>
+- matches · function · L1183-L1191 — fn matches(hay: &str, what: &str, case: bool, whole: bool) -> bool
+- wildcard · function · L1194-L1229 — pub(crate) fn wildcard(text: &str, pat: &str) -> bool
+- find · function · L1231-L1282 — fn find(s: &mut Session, p: &Json) -> Result<Json>
+- replace · function · L1284-L1330 — fn replace(s: &mut Session, p: &Json) -> Result<Json>
+- replace_ci · function · L1332-L1347 — fn replace_ci(text: &str, what: &str, with: &str) -> String
+- format_painter · function · L1351-L1379 — fn format_painter(s: &mut Session, p: &Json) -> Result<Json>
+- begin_edit · function · L1381-L1384 — fn begin_edit(s: &mut Session, _: &Json) -> Result<Json>
+- tests · module · L1387-L1449 — mod tests
+- legacy_array_entry · function · L1391-L1404 — fn legacy_array_entry()
+- wildcards · function · L1407-L1414 — fn wildcards()
+- tsv · function · L1417-L1421 — fn tsv()
+- paste_special_operations_keep_text_errors_and_formulas · function · L1424-L1443 — fn paste_special_operations_keep_text_errors_and_formulas()
+- replace_case_insensitive · function · L1446-L1448 — fn replace_case_insensitive()

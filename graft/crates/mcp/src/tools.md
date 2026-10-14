@@ -1,0 +1,32 @@
+# crates/mcp/src/tools.rs
+
+- ToolResult · struct · L11-L14 — pub struct ToolResult
+- text · function · L17-L19 — pub fn text(t: impl Into<String>) -> Self
+- json · function · L20-L22 — pub fn json(v: &Value) -> Self
+- error · function · L23-L25 — pub fn error(t: impl Into<String>) -> Self
+- to_value · function · L26-L28 — pub fn to_value(&self) -> Value
+- string · function · L33-L35 — fn string(desc: &str) -> Value
+- boolean · function · L36-L38 — fn boolean(desc: &str) -> Value
+- int · function · L39-L41 — fn int(desc: &str) -> Value
+- enumeration · function · L42-L44 — fn enumeration(desc: &str, values: &[&str]) -> Value
+- params_schema · function · L45-L47 — fn params_schema() -> Value
+- color · function · L48-L50 — fn color(desc: &str) -> Value
+- obj · function · L51-L57 — fn obj(props: Value, required: &[&str]) -> Value
+- tool · function · L58-L66 — fn tool(name: &str, title: &str, desc: &str, schema: Value, read_only: bool) -> Value
+- RANGE · constant · L68-L68 — const RANGE: &str = "A1-style range, e.g. \"A1:D10\", \"B:B\", \"Sheet2!A1:C3\"";
+- CHART_TYPES · constant · L69-L87 — const CHART_TYPES: &[&str] = &[
+- BORDER_PRESETS · constant · L88-L107 — const BORDER_PRESETS: &[&str] = &[
+- tool_definitions · function · L110-L377 — pub fn tool_definitions() -> Vec<Value>
+- type_matches · function · L381-L392 — fn type_matches(t: &str, v: &Value) -> bool
+- check_arguments · function · L397-L427 — pub fn check_arguments(name: &str, args: &Value) -> Result<(), String>
+- Args · type · L431-L431 — type Args = Map<String, Value>;
+- req_str · function · L433-L435 — fn req_str<'a>(a: &'a Args, k: &str) -> Result<&'a str, String>
+- exec · function · L437-L439 — fn exec(b: &mut dyn Backend, cmd: &str, params: Value) -> Result<Value, String>
+- pick · function · L442-L444 — fn pick(a: &Args, keys: &[&str]) -> Value
+- format_range · function · L446-L506 — fn format_range(b: &mut dyn Backend, a: &Args) -> Result<Value, String>
+- sort_range · function · L508-L537 — fn sort_range(b: &mut dyn Backend, a: &Args) -> Result<Value, String>
+- filter · function · L539-L544 — fn filter(b: &mut dyn Backend, a: &Args) -> Result<Value, String>
+- save_workbook · function · L546-L554 — fn save_workbook(b: &mut dyn Backend, a: &Args) -> Result<Value, String>
+- screenshot · function · L556-L561 — fn screenshot(b: &mut dyn Backend, a: &Args) -> Result<Value, String>
+- dispatch · function · L563-L603 — fn dispatch(b: &mut dyn Backend, name: &str, a: &Args) -> Result<Value, String>
+- call_tool · function · L606-L617 — pub fn call_tool(b: &mut dyn Backend, name: &str, args: &Value) -> ToolResult

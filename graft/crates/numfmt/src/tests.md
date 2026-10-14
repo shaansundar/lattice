@@ -1,0 +1,26 @@
+# crates/numfmt/src/tests.rs
+
+- S · constant · L3-L3 — const S: DateSystem = DateSystem::D1900;
+- f · function · L5-L7 — fn f(code: &str, n: f64) -> String
+- full · function · L9-L11 — fn full(code: &str, v: Value) -> Formatted
+- t · function · L13-L15 — fn t(code: &str, s: &str) -> String
+- numbers · function · L18-L40 — fn numbers()
+- scaling_and_percent · function · L43-L53 — fn scaling_and_percent()
+- sections_and_colors · function · L56-L74 — fn sections_and_colors()
+- conditions · function · L77-L92 — fn conditions()
+- scientific · function · L95-L106 — fn scientific()
+- fractions · function · L109-L123 — fn fractions()
+- literals_and_fill · function · L126-L146 — fn literals_and_fill()
+- dates_and_times · function · L149-L181 — fn dates_and_times()
+- text_and_other_values · function · L184-L198 — fn text_and_other_values()
+- general · function · L201-L213 — fn general()
+- kinds · function · L216-L230 — fn kinds()
+- builtins · function · L233-L252 — fn builtins()
+- text_fn · function · L255-L267 — fn text_fn()
+- Rng · struct · L270-L270 — struct Rng(u64);
+- next · function · L272-L279 — fn next(&mut self) -> u64
+- pick · function · L280-L282 — fn pick<'a>(&mut self, items: &'a [&'a str]) -> &'a str
+- fuzz_no_panic · function · L286-L423 — fn fuzz_no_panic()
+- an_exact_tie_at_the_sixteenth_digit_goes_toward_zero · function · L430-L456 — fn an_exact_tie_at_the_sixteenth_digit_goes_toward_zero()
+- only_exact_ties_go_toward_zero · function · L459-L474 — fn only_exact_ties_go_toward_zero()
+- decimal_digits_keeps_fifteen_digits_and_truncates_a_tie · function · L477-L493 — fn decimal_digits_keeps_fifteen_digits_and_truncates_a_tie()

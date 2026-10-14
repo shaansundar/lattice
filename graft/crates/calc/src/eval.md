@@ -1,0 +1,74 @@
+# crates/calc/src/eval.rs
+
+- MAX_CELLS · constant · L15-L15 — pub const MAX_CELLS: u64 = 16_000_000;
+- FULL_SIZE_CELLS · constant · L19-L19 — const FULL_SIZE_CELLS: u64 = 16_384;
+- MAX_DEPTH · constant · L20-L20 — const MAX_DEPTH: usize = 400;
+- Area · struct · L23-L26 — pub struct Area
+- Lambda · struct · L29-L33 — pub struct Lambda
+- Ev · enum · L36-L40 — pub enum Ev
+- from · function · L43-L45 — fn from(v: Value) -> Self
+- err · function · L48-L50 — fn err(e: CellError) -> Ev
+- Host · interface · L53-L74 — pub trait Host
+- workbook · function · L54-L54 — fn workbook(&self) -> &Workbook;
+- cell_value · function · L56-L56 — fn cell_value(&mut self, sheet: usize, c: CellRef) -> Value;
+- now_serial · function · L57-L57 — fn now_serial(&self) -> f64;
+- random · function · L58-L58 — fn random(&mut self) -> f64;
+- note_volatile · function · L60-L60 — fn note_volatile(&mut self) {}
+- spill_range · function · L62-L64 — fn spill_range(&mut self, sheet: usize, anchor: CellRef) -> Option<RangeRef>
+- range_values · function · L66-L68 — fn range_values(&mut self, sheet: usize, range: RangeRef) -> Vec<Value>
+- used_range · function · L71-L73 — fn used_range(&mut self, sheet: usize) -> Option<RangeRef>
+- Evaluator · struct · L76-L82 — pub struct Evaluator<'h>
+- FnCtx · struct · L84-L86 — struct FnCtx<'a, 'h>
+- date_system · function · L89-L91 — fn date_system(&self) -> lattice_core::DateSystem
+- now_serial · function · L92-L94 — fn now_serial(&self) -> f64
+- random · function · L95-L97 — fn random(&mut self) -> f64
+- new · function · L101-L103 — pub fn new(host: &'h mut dyn Host, sheet: usize, at: CellRef) -> Self
+- value · function · L106-L109 — pub fn value(&mut self, e: &Expr) -> Value
+- resolve_sheet · function · L111-L121 — fn resolve_sheet(&self, s: &SheetSel) -> Result<Vec<usize>, CellError>
+- reference_areas · function · L123-L126 — pub fn reference_areas(&self, r: &Reference) -> Result<Vec<Area>, CellError>
+- deref · function · L130-L139 — pub fn deref(&mut self, ev: Ev) -> Value
+- area_value · function · L141-L155 — pub fn area_value(&mut self, a: &Area) -> Value
+- trim · function · L159-L176 — pub fn trim(&mut self, a: &Area) -> RangeRef
+- eval · function · L178-L187 — pub fn eval(&mut self, e: &Expr) -> Ev
+- eval_inner · function · L189-L227 — fn eval_inner(&mut self, e: &Expr) -> Ev
+- name · function · L229-L265 — fn name(&mut self, n: &str) -> Ev
+- structured · function · L267-L340 — fn structured(&mut self, s: &StructRef) -> Ev
+- unary · function · L342-L381 — fn unary(&mut self, op: UnOp, x: &Expr) -> Ev
+- implicit_intersect · function · L383-L395 — fn implicit_intersect(&self, a: &Area) -> Option<CellRef>
+- binary · function · L397-L458 — fn binary(&mut self, op: BinOp, a: &Expr, b: &Expr) -> Ev
+- arg_ev · function · L462-L464 — fn arg_ev(&mut self, args: &[Expr], i: usize) -> Option<Ev>
+- arg_val · function · L465-L467 — fn arg_val(&mut self, args: &[Expr], i: usize) -> Option<Value>
+- arg_num · function · L468-L476 — fn arg_num(&mut self, args: &[Expr], i: usize, default: f64) -> Result<f64, CellError>
+- call · function · L478-L729 — fn call(&mut self, name: &str, args: &[Expr]) -> Ev
+- builtin · function · L731-L776 — fn builtin(&mut self, name: &str, args: &[Expr]) -> Ev
+- apply_lambda · function · L778-L791 — pub fn apply_lambda(&mut self, l: &Lambda, args: &[Expr]) -> Ev
+- call_lambda_values · function · L793-L799 — fn call_lambda_values(&mut self, l: &Lambda, bound: Vec<(String, Ev)>) -> Ev
+- let_ · function · L801-L820 — fn let_(&mut self, args: &[Expr]) -> Ev
+- lambda_arg · function · L822-L827 — fn lambda_arg(&mut self, e: Option<&Expr>) -> Option<Arc<Lambda>>
+- higher_order · function · L829-L937 — fn higher_order(&mut self, name: &str, args: &[Expr]) -> Ev
+- trim_lines · function · L940-L942 — fn trim_lines(&mut self, a: &Area) -> RangeRef
+- offset · function · L944-L981 — fn offset(&mut self, args: &[Expr]) -> Ev
+- indirect · function · L983-L1008 — fn indirect(&mut self, args: &[Expr]) -> Ev
+- index · function · L1010-L1065 — fn index(&mut self, args: &[Expr]) -> Ev
+- cell_info · function · L1067-L1107 — fn cell_info(&mut self, args: &[Expr]) -> Ev
+- subtotal · function · L1109-L1177 — fn subtotal(&mut self, name: &str, args: &[Expr]) -> Ev
+- Pipe · interface · L1180-L1184 — trait Pipe: Sized
+- pipe · function · L1181-L1183 — fn pipe<T>(self, f: impl FnOnce(Self) -> T) -> T
+- cell_format_code · function · L1188-L1212 — fn cell_format_code(code: &str) -> String
+- decimals · function · L1214-L1216 — fn decimals(c: &str) -> usize
+- same_kind · function · L1218-L1220 — fn same_kind(a: &Value, b: &Value) -> bool
+- r1c1_to_a1 · function · L1223-L1253 — pub fn r1c1_to_a1(s: &str, at: CellRef) -> Option<String>
+- map_unary · function · L1257-L1267 — fn map_unary(v: &Value, f: &dyn Fn(f64) -> Value, plus: bool) -> Value
+- zip2 · function · L1270-L1287 — pub fn zip2(a: &Value, b: &Value, f: impl Fn(&Value, &Value) -> Value) -> Value
+- broadcast_dim · function · L1289-L1297 — fn broadcast_dim(a: usize, b: usize) -> usize
+- zip3 · function · L1299-L1313 — fn zip3(c: &Array, t: &Value, f: &Value, g: impl Fn(&Value, &Value, &Value) -> Value) -> Value
+- binary_values · function · L1315-L1317 — pub fn binary_values(op: BinOp, x: &Value, y: &Value) -> Value
+- binary_scalar · function · L1319-L1363 — fn binary_scalar(op: BinOp, a: &Value, b: &Value) -> Value
+- resizes_sum_range · function · L1366-L1368 — fn resizes_sum_range(name: &str, args: usize) -> bool
+- ev_shape · function · L1371-L1381 — fn ev_shape(ev: &Ev) -> Option<(u32, u32)>
+- resized_sum_range · function · L1385-L1389 — pub fn resized_sum_range(sum: RangeRef, height: u32, width: u32) -> RangeRef
+- precedents · function · L1393-L1447 — pub fn precedents(wb: &Workbook, sheet: usize, e: &Expr) -> (Vec<Area>, bool)
+- is_special · function · L1449-L1484 — fn is_special(n: &str) -> bool
+- SPECIAL_FUNCTIONS · constant · L1487-L1520 — pub const SPECIAL_FUNCTIONS: &[&str] = &[
+- is_known_function · function · L1522-L1524 — pub fn is_known_function(n: &str) -> bool
+- unused · function · L1527-L1527 — fn unused(_: RefKind) {}

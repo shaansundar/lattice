@@ -1,0 +1,56 @@
+# crates/engine/src/cmd/mod.rs
+
+- data · module · L4-L4 — pub mod data;
+- draw · module · L5-L5 — pub mod draw;
+- edit · module · L6-L6 — pub mod edit;
+- extra · module · L7-L7 — pub mod extra;
+- file · module · L8-L8 — pub mod file;
+- format · module · L9-L9 — pub mod format;
+- formulas · module · L10-L10 — pub mod formulas;
+- insert · module · L11-L11 — pub mod insert;
+- inspect · module · L12-L12 — pub mod inspect;
+- pivot · module · L13-L13 — pub mod pivot;
+- print · module · L14-L14 — pub mod print;
+- review · module · L15-L15 — pub mod review;
+- sheet · module · L16-L16 — pub mod sheet;
+- spelling · module · L17-L17 — pub mod spelling;
+- view · module · L18-L18 — pub mod view;
+- whatif · module · L19-L19 — pub mod whatif;
+- Run · type · L29-L29 — pub type Run = fn(&mut Session, &Json) -> Result<Json>;
+- Enabled · type · L30-L30 — pub type Enabled = fn(&Session) -> std::result::Result<(), String>;
+- CommandSpec · struct · L32-L43 — pub struct CommandSpec
+- CommandInfo · struct · L46-L55 — pub struct CommandInfo
+- info · function · L58-L69 — pub fn info(&self, s: &Session) -> CommandInfo
+- always · function · L72-L74 — pub fn always(_: &Session) -> std::result::Result<(), String>
+- has_doc · function · L75-L77 — pub fn has_doc(s: &Session) -> std::result::Result<(), String>
+- can_undo · function · L78-L81 — pub fn can_undo(s: &Session) -> std::result::Result<(), String>
+- can_redo · function · L82-L85 — pub fn can_redo(s: &Session) -> std::result::Result<(), String>
+- has_clipboard · function · L86-L89 — pub fn has_clipboard(s: &Session) -> std::result::Result<(), String>
+- cmd · function · L91-L101 — macro_rules! cmd
+- command_specs · function · L104-L126 — pub fn command_specs() -> &'static [CommandSpec]
+- SPECS · constant · L105-L105 — static SPECS: std::sync::OnceLock<Vec<CommandSpec>> = std::sync::OnceLock::new();
+- find_command · function · L128-L130 — pub fn find_command(id: &str) -> Option<&'static CommandSpec>
+- bad · function · L134-L136 — pub(crate) fn bad(cmd: &str, msg: impl Into<String>) -> EngineError
+- str_param · function · L137-L139 — pub(crate) fn str_param<'a>(p: &'a Json, key: &str) -> Option<&'a str>
+- f64_param · function · L140-L142 — pub(crate) fn f64_param(p: &Json, key: &str) -> Option<f64>
+- bool_param · function · L143-L145 — pub(crate) fn bool_param(p: &Json, key: &str) -> Option<bool>
+- u32_param · function · L146-L148 — pub(crate) fn u32_param(p: &Json, key: &str) -> Option<u32>
+- anchor_mode_param · function · L152-L154 — pub(crate) fn anchor_mode_param(p: &Json) -> Option<lattice_model::AnchorMode>
+- parse_anchor_mode · function · L156-L163 — pub(crate) fn parse_anchor_mode(s: &str) -> Option<lattice_model::AnchorMode>
+- anchor_mode_name · function · L166-L172 — pub(crate) fn anchor_mode_name(m: lattice_model::AnchorMode) -> &'static str
+- ok · function · L173-L175 — pub(crate) fn ok() -> Result<Json>
+- target_ranges · function · L179-L189 — pub(crate) fn target_ranges(s: &Session, p: &Json) -> Result<Vec<RangeRef>>
+- target_range · function · L191-L193 — pub(crate) fn target_range(s: &Session, p: &Json) -> Result<RangeRef>
+- target_sheet · function · L196-L212 — pub(crate) fn target_sheet(s: &Session, p: &Json) -> Result<usize>
+- split_sheet · function · L215-L220 — pub(crate) fn split_sheet(r: &str) -> (Option<String>, &str)
+- cell_param · function · L222-L224 — pub(crate) fn cell_param(p: &Json, key: &str) -> Option<CellRef>
+- Ctx · struct · L229-L239 — pub struct Ctx<'a>
+- edit · function · L241-L248 — pub(crate) fn edit<R>(s: &mut Session, f: impl FnOnce(&mut Ctx) -> Result<R>) -> Result<R>
+- commit · function · L250-L287 — pub(crate) fn commit<R>(d: &mut DocState, f: impl FnOnce(&mut Ctx) -> Result<R>) -> Result<R>
+- PROTECTED · constant · L290-L290 — pub(crate) const PROTECTED: &str = "The cell or chart you're trying to change is on a protected sheet.";
+- check_protection · function · L295-L311 — fn check_protection(old: &Workbook, new: &Workbook) -> Result<()>
+- same_content · function · L314-L324 — fn same_content(a: Option<&lattice_model::Cell>, b: Option<&lattice_model::Cell>) -> bool
+- auto_row_height · function · L328-L383 — pub fn auto_row_height(wb: &mut Workbook, si: usize, row: u32)
+- sheet_index · function · L386-L388 — pub fn sheet_index(&self) -> usize
+- sheet_mut · function · L389-L391 — pub fn sheet_mut(&mut self, i: usize) -> Result<&mut lattice_model::Sheet>
+- touch · function · L392-L394 — pub fn touch(&mut self, sheet: usize, c: CellRef)

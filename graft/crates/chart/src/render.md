@@ -1,0 +1,80 @@
+# crates/chart/src/render.rs
+
+- TEXT · constant · L12-L12 — pub(crate) const TEXT: Rgba = [0x59, 0x59, 0x59, 0xFF];
+- DARK_TEXT · constant · L13-L13 — const DARK_TEXT: Rgba = [0x26, 0x26, 0x26, 0xFF];
+- GRID · constant · L14-L14 — const GRID: Rgba = [0xD9, 0xD9, 0xD9, 0xFF];
+- AXIS · constant · L15-L15 — const AXIS: Rgba = [0xBF, 0xBF, 0xBF, 0xFF];
+- WHITE · constant · L16-L16 — const WHITE: Rgba = [0xFF, 0xFF, 0xFF, 0xFF];
+- STOCK · constant · L17-L17 — const STOCK: Rgba = [0x40, 0x40, 0x40, 0xFF];
+- UP · constant · L18-L18 — pub(crate) const UP: Rgba = [0x3E, 0x9B, 0x5F, 0xFF];
+- DOWN · constant · L19-L19 — pub(crate) const DOWN: Rgba = [0xD6, 0x4F, 0x45, 0xFF];
+- TITLE_SIZE · constant · L21-L21 — const TITLE_SIZE: f32 = 14.0;
+- LABEL_SIZE · constant · L22-L22 — const LABEL_SIZE: f32 = 9.0;
+- AXIS_TITLE_SIZE · constant · L23-L23 — const AXIS_TITLE_SIZE: f32 = 10.0;
+- MAX_CATS · constant · L25-L25 — const MAX_CATS: usize = 20_000;
+- MAX_LINE_PTS · constant · L27-L27 — const MAX_LINE_PTS: usize = 2000;
+- MAX_MARKERS · constant · L29-L29 — const MAX_MARKERS: usize = 5000;
+- MAX_LABELS · constant · L31-L31 — const MAX_LABELS: usize = 200;
+- Bx · struct · L34-L39 — struct Bx
+- right · function · L42-L44 — fn right(&self) -> f32
+- bottom · function · L45-L47 — fn bottom(&self) -> f32
+- ok · function · L48-L50 — fn ok(&self) -> bool
+- cx · function · L51-L53 — fn cx(&self) -> f32
+- cy · function · L54-L56 — fn cy(&self) -> f32
+- Ctx · struct · L59-L62 — struct Ctx<'a>
+- tw · function · L65-L68 — fn tw(&self, s: &str, size: f32) -> f32
+- fit · function · L69-L83 — fn fit(&self, s: &str, size: f32, maxw: f32) -> String
+- text · function · L85-L90 — fn text(&mut self, x: f32, y: f32, s: &str, size: f32, color: Rgba, align: HAlign, valign: VAlign)
+- rect · function · L91-L93 — fn rect(&mut self, x: f32, y: f32, w: f32, h: f32, fill: Rgba, stroke: Option<(Rgba, f32)>)
+- line · function · L94-L98 — fn line(&mut self, pts: Vec<[f32; 2]>, color: Rgba, width: f32)
+- hline · function · L99-L101 — fn hline(&mut self, x0: f32, x1: f32, y: f32, color: Rgba, width: f32)
+- vline · function · L102-L104 — fn vline(&mut self, x: f32, y0: f32, y1: f32, color: Rgba, width: f32)
+- on · function · L108-L111 — fn on(fill: Rgba) -> Rgba
+- Swatch · enum · L115-L120 — pub enum Swatch
+- plot_kind · function · L123-L125 — fn plot_kind(chart: &Chart, s: &SeriesData) -> ChartKind
+- point_color · function · L128-L133 — fn point_color(data: &ChartData, j: usize) -> Rgba
+- first_len · function · L135-L137 — fn first_len(data: &ChartData) -> usize
+- cat_label · function · L139-L141 — fn cat_label(data: &ChartData, j: usize) -> String
+- legend_entries · function · L144-L176 — pub fn legend_entries(chart: &Chart, data: &ChartData) -> Vec<(String, Rgba, Swatch)>
+- sanitize_vals · function · L178-L180 — fn sanitize_vals(v: &[Option<f64>]) -> Vec<Option<f64>>
+- sanitize · function · L182-L202 — fn sanitize(d: &ChartData) -> ChartData
+- chart_title · function · L204-L210 — fn chart_title(chart: &Chart, data: &ChartData) -> Option<String>
+- render · function · L213-L238 — pub fn render(chart: &Chart, data: &ChartData, w: f32, h: f32, m: &dyn Measure) -> Vec<Prim>
+- draw_kind · function · L240-L265 — fn draw_kind(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- axis_titles · function · L267-L293 — fn axis_titles(ctx: &mut Ctx, chart: &Chart, mut area: Bx) -> Bx
+- swatch_w · function · L297-L299 — fn swatch_w(sw: Swatch, s: f32) -> f32
+- draw_swatch · function · L301-L311 — fn draw_swatch(ctx: &mut Ctx, sw: Swatch, x: f32, yc: f32, s: f32, color: Rgba)
+- draw_legend · function · L313-L378 — fn draw_legend(ctx: &mut Ctx, entries: &[(String, Rgba, Swatch)], pos: LegendPos, area: Bx) -> Bx
+- CatAxis · enum · L382-L385 — enum CatAxis<'a>
+- ValAxis · struct · L387-L390 — struct ValAxis<'a>
+- labels · function · L393-L395 — fn labels(&self) -> Vec<(f64, String)>
+- frame · function · L399-L495 — fn frame(ctx: &mut Ctx, area: Bx, cat: CatAxis, y: &ValAxis, y2: Option<&ValAxis>, horizontal: bool, grid: bool) -> Bx
+- decimate · function · L500-L547 — fn decimate(pts: Vec<[f32; 2]>, max: usize) -> Vec<[f32; 2]>
+- draw_runs · function · L551-L570 — fn draw_runs(ctx: &mut Ctx, pts: &[Option<[f32; 2]>], color: Rgba, width: f32, smooth: Option<Bx>)
+- smooth_run · function · L576-L600 — fn smooth_run(pts: Vec<[f32; 2]>, plot: Bx) -> Vec<[f32; 2]>
+- catmull · function · L603-L612 — fn catmull(p0: [f32; 2], p1: [f32; 2], p2: [f32; 2], p3: [f32; 2], t: f32) -> [f32; 2]
+- draw_markers · function · L614-L624 — fn draw_markers(ctx: &mut Ctx, pts: impl Iterator<Item = [f32; 2]>, r: f32, color: Rgba)
+- value_range · function · L626-L631 — fn value_range(it: impl Iterator<Item = f64>) -> Option<(f64, f64)>
+- Fam · enum · L636-L644 — enum Fam
+- family · function · L646-L657 — fn family(k: ChartKind) -> Fam
+- is_col · function · L659-L661 — fn is_col(f: Fam) -> bool
+- is_line · function · L662-L664 — fn is_line(f: Fam) -> bool
+- cartesian · function · L666-L903 — fn cartesian(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx, horizontal: bool)
+- scatter · function · L907-L979 — fn scatter(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- histogram · function · L983-L1027 — fn histogram(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- waterfall · function · L1031-L1090 — fn waterfall(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- funnel · function · L1094-L1131 — fn funnel(ctx: &mut Ctx, data: &ChartData, area: Bx)
+- pie · function · L1135-L1171 — fn pie(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx, inner: f32, names: bool)
+- worst · function · L1175-L1184 — fn worst(row: &[f64], side: f64) -> f64
+- squarify · function · L1187-L1243 — fn squarify(items: &[(usize, f64)], r: Bx) -> Vec<(usize, Bx)>
+- treemap · function · L1245-L1264 — fn treemap(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- radar · function · L1268-L1333 — fn radar(ctx: &mut Ctx, chart: &Chart, data: &ChartData, area: Bx)
+- quantile · function · L1337-L1348 — fn quantile(sorted: &[f64], q: f64) -> f64
+- box_whisker · function · L1350-L1390 — fn box_whisker(ctx: &mut Ctx, data: &ChartData, area: Bx)
+- stock · function · L1394-L1441 — fn stock(ctx: &mut Ctx, data: &ChartData, area: Bx)
+- fin · function · L1445-L1447 — fn fin(v: f32) -> bool
+- clamp_stroke · function · L1449-L1451 — fn clamp_stroke(s: Option<(Rgba, f32)>) -> Option<(Rgba, f32)>
+- finalize · function · L1454-L1518 — pub(crate) fn finalize(prims: Vec<Prim>, w: f32, h: f32) -> Vec<Prim>
+- smooth_tests · module · L1521-L1544 — mod smooth_tests
+- long_runs_are_smoothed_uniformly_within_the_cap · function · L1525-L1533 — fn long_runs_are_smoothed_uniformly_within_the_cap()
+- spline_overshoot_is_clamped_to_the_plot · function · L1536-L1543 — fn spline_overshoot_is_clamped_to_the_plot()

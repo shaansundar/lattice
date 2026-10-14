@@ -1,0 +1,43 @@
+# crates/engine/src/cmd/insert.rs
+
+- specs · function · L11-L181 — pub fn specs() -> Vec<CommandSpec>
+- with · function · L183-L187 — fn with(p: &Json, k: &str, v: Json) -> Json
+- block · function · L189-L200 — fn block(s: &Session, p: &Json) -> Result<RangeRef>
+- insert_table · function · L204-L287 — fn insert_table(s: &mut Session, p: &Json) -> Result<Json>
+- find_table · function · L289-L302 — fn find_table(s: &Session, p: &Json) -> Result<(usize, usize)>
+- table_flag · function · L304-L347 — fn table_flag(s: &mut Session, p: &Json, which: &str) -> Result<Json>
+- write_totals · function · L350-L367 — fn write_totals(sh: &mut Sheet, ti: usize)
+- table_total_fn · function · L369-L395 — fn table_total_fn(s: &mut Session, p: &Json) -> Result<Json>
+- table_style · function · L397-L406 — fn table_style(s: &mut Session, p: &Json) -> Result<Json>
+- table_rename · function · L408-L449 — fn table_rename(s: &mut Session, p: &Json) -> Result<Json>
+- table_convert · function · L451-L470 — fn table_convert(s: &mut Session, p: &Json) -> Result<Json>
+- chart_kind · function · L474-L502 — pub fn chart_kind(t: &str, sub: &str) -> ChartKind
+- series_from_range · function · L505-L553 — pub fn series_from_range(sh: &Sheet, r: RangeRef, by_rows: bool) -> Vec<Series>
+- MAX_CHART_CELLS · constant · L556-L556 — const MAX_CHART_CELLS: u64 = 1_000_000;
+- insert_chart · function · L558-L614 — fn insert_chart(s: &mut Session, p: &Json) -> Result<Json>
+- find_chart · function · L616-L625 — fn find_chart(s: &Session, p: &Json) -> Result<(usize, usize)>
+- chart_set · function · L627-L679 — fn chart_set(s: &mut Session, p: &Json) -> Result<Json>
+- chart_switch · function · L681-L710 — fn chart_switch(s: &mut Session, p: &Json) -> Result<Json>
+- series_block · function · L714-L733 — fn series_block(series: &[Series]) -> Option<(String, bool)>
+- chart_delete · function · L735-L741 — fn chart_delete(s: &mut Session, p: &Json) -> Result<Json>
+- insert_sparkline · function · L743-L759 — fn insert_sparkline(s: &mut Session, p: &Json) -> Result<Json>
+- insert_picture · function · L761-L826 — fn insert_picture(s: &mut Session, p: &Json) -> Result<Json>
+- validate_cell_picture · function · L829-L853 — fn validate_cell_picture(data: &[u8]) -> Result<&'static str>
+- insert_shape · function · L855-L895 — fn insert_shape(s: &mut Session, p: &Json) -> Result<Json>
+- SHAPE_TEXT_MAX_CHARS · constant · L898-L898 — const SHAPE_TEXT_MAX_CHARS: usize = 32_767;
+- shape_set_text · function · L900-L926 — fn shape_set_text(s: &mut Session, p: &Json) -> Result<Json>
+- delete_object · function · L928-L941 — fn delete_object(s: &mut Session, p: &Json) -> Result<Json>
+- move_object · function · L943-L973 — fn move_object(s: &mut Session, p: &Json) -> Result<Json>
+- set_anchor_mode · function · L978-L997 — fn set_anchor_mode(s: &mut Session, p: &Json) -> Result<Json>
+- insert_link · function · L1001-L1031 — fn insert_link(s: &mut Session, p: &Json) -> Result<Json>
+- comment · function · L1033-L1044 — fn comment(s: &mut Session, p: &Json, threaded: bool) -> Result<Json>
+- reply_comment · function · L1046-L1056 — fn reply_comment(s: &mut Session, p: &Json) -> Result<Json>
+- resolve_comment · function · L1058-L1068 — fn resolve_comment(s: &mut Session, p: &Json) -> Result<Json>
+- delete_comment · function · L1070-L1077 — fn delete_comment(s: &mut Session, p: &Json) -> Result<Json>
+- show_note · function · L1079-L1088 — fn show_note(s: &mut Session, p: &Json) -> Result<Json>
+- insert_symbol · function · L1090-L1096 — fn insert_symbol(s: &mut Session, p: &Json) -> Result<Json>
+- preset_style · function · L1100-L1123 — fn preset_style(name: &str) -> Style
+- add_cf · function · L1125-L1242 — fn add_cf(s: &mut Session, p: &Json) -> Result<Json>
+- clear_cf · function · L1244-L1260 — fn clear_cf(s: &mut Session, p: &Json) -> Result<Json>
+- manage_cf · function · L1262-L1299 — fn manage_cf(s: &mut Session, p: &Json) -> Result<Json>
+- insert_icon · function · L1301-L1321 — fn insert_icon(s: &mut Session, p: &Json) -> Result<Json>

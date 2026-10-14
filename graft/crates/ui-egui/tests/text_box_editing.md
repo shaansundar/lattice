@@ -1,0 +1,22 @@
+# crates/ui-egui/tests/text_box_editing.rs
+
+- Harness · type · L10-L10 — type Harness = egui_kittest::Harness<'static, SheetApp>;
+- ORIGINAL · constant · L12-L12 — const ORIGINAL: &str = "First line\nSecond line";
+- at · function · L14-L16 — fn at(s: &str) -> CellRef
+- fixture · function · L18-L39 — fn fixture() -> (Harness, u32)
+- shape · function · L41-L43 — fn shape(h: &Harness, id: u32) -> &Shape
+- shape_text · function · L45-L47 — fn shape_text(wb: &Workbook, sheet: usize, id: u32) -> &str
+- shape_rect · function · L49-L55 — fn shape_rect(h: &Harness, id: u32) -> Rect
+- cell_center · function · L57-L61 — fn cell_center(h: &Harness, address: &str) -> Pos2
+- pointer · function · L63-L67 — fn pointer(h: &mut Harness, p: Pos2, pressed: bool)
+- click · function · L69-L73 — fn click(h: &mut Harness, p: Pos2)
+- edit_box · function · L75-L81 — fn edit_box(h: &mut Harness, id: u32)
+- key · function · L83-L90 — fn key(h: &mut Harness, key: Key, modifiers: Modifiers)
+- event · function · L92-L95 — fn event(h: &mut Harness, event: Event)
+- replace · function · L97-L100 — fn replace(h: &mut Harness, text: &str)
+- assert_cell_unchanged · function · L102-L105 — fn assert_cell_unchanged(h: &Harness)
+- double_click_edits_multiline_text_and_commits_on_outside_click · function · L108-L134 — fn double_click_edits_multiline_text_and_commits_on_outside_click()
+- drag · function · L136-L145 — fn drag(h: &mut Harness, from: Pos2, to: Pos2)
+- escape_discards_text_and_the_box_still_moves_and_resizes · function · L148-L178 — fn escape_discards_text_and_the_box_still_moves_and_resizes()
+- saving_and_switching_context_commit_to_the_original_text_box · function · L181-L230 — fn saving_and_switching_context_commit_to_the_original_text_box()
+- protected_sheet_refuses_to_open_the_text_box_editor · function · L233-L241 — fn protected_sheet_refuses_to_open_the_text_box_editor()

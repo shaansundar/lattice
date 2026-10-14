@@ -1,0 +1,21 @@
+# crates/functions/src/criteria.rs
+
+- Op · enum · L9-L16 — enum Op
+- Operand · enum · L19-L27 — enum Operand
+- Criterion · struct · L31-L36 — pub(crate) struct Criterion
+- parse · function · L40-L49 — pub(crate) fn parse(v: &Value) -> Criterion
+- parse_text · function · L51-L84 — fn parse_text(t: &str) -> Criterion
+- matches · function · L87-L144 — pub(crate) fn matches(&self, v: &Value) -> bool
+- cmp_op · function · L147-L156 — fn cmp_op(op: Op, o: Ordering) -> bool
+- Tok · enum · L159-L163 — enum Tok
+- tokenize · function · L165-L180 — fn tokenize(pattern: &str) -> Vec<Tok>
+- lower_chars · function · L182-L184 — fn lower_chars(s: &str) -> Vec<char>
+- has_wildcards · function · L187-L189 — pub(crate) fn has_wildcards(pattern: &str) -> bool
+- wildcard_match · function · L192-L196 — pub(crate) fn wildcard_match(pattern: &str, text: &str) -> bool
+- match_from · function · L200-L231 — fn match_from(p: &[Tok], t: &[char], whole: bool) -> Option<usize>
+- wildcard_find · function · L235-L242 — pub(crate) fn wildcard_find(pattern: &str, text: &str, start: usize) -> Option<usize>
+- lookup_equal · function · L246-L261 — pub(crate) fn lookup_equal(needle: &Value, hay: &Value, wild: bool) -> bool
+- tests · module · L264-L323 — mod tests
+- m · function · L267-L269 — fn m(c: &str, v: Value) -> bool
+- criteria · function · L272-L308 — fn criteria()
+- wildcards · function · L311-L322 — fn wildcards()

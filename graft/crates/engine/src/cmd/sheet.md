@@ -1,0 +1,26 @@
+# crates/engine/src/cmd/sheet.rs
+
+- specs · function · L12-L51 — pub fn specs() -> Vec<CommandSpec>
+- lines · function · L53-L62 — fn lines(s: &Session, p: &Json, axis: Axis) -> Result<(u32, u32)>
+- anchor_corner · function · L66-L72 — fn anchor_corner(sh: &Sheet, a: &Anchor) -> (u32, u32, f32, f32)
+- shift_anchor · function · L80-L102 — fn shift_anchor(sh: &Sheet, a: Anchor, corner: (u32, u32, f32, f32), axis: Axis, at: u32, map_line: &impl Fn(u32) -> Option<u32>) -> Anchor
+- shift_sheet_features · function · L105-L219 — fn shift_sheet_features(sh: &mut Sheet, axis: Axis, at: u32, count: u32, insert: bool)
+- rewrite · function · L222-L244 — fn rewrite(wb: &mut lattice_model::Workbook, target: &str, e: &Edit)
+- cancel_copy_mode · function · L248-L253 — fn cancel_copy_mode(s: &mut Session)
+- insert_lines · function · L255-L294 — fn insert_lines(s: &mut Session, p: &Json, axis: Axis) -> Result<Json>
+- delete_lines · function · L296-L322 — fn delete_lines(s: &mut Session, p: &Json, axis: Axis) -> Result<Json>
+- insert_cells · function · L324-L350 — fn insert_cells(s: &mut Session, p: &Json) -> Result<Json>
+- delete_cells · function · L352-L382 — fn delete_cells(s: &mut Session, p: &Json) -> Result<Json>
+- insert_sheet · function · L384-L414 — fn insert_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- edit_doc · function · L416-L418 — fn edit_doc<R>(d: &mut crate::DocState, f: impl FnOnce(&mut Ctx) -> Result<R>) -> Result<R>
+- check_lines_protection · function · L422-L451 — fn check_lines_protection(s: &Session, p: &Json, axis: Axis, at: u32, count: u32, insert: bool) -> Result<()>
+- delete_sheet · function · L453-L506 — fn delete_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- rename_sheet · function · L508-L551 — fn rename_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- move_sheet · function · L553-L610 — fn move_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- tab_color · function · L612-L619 — fn tab_color(s: &mut Session, p: &Json) -> Result<Json>
+- hide_sheet · function · L621-L633 — fn hide_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- unhide_sheet · function · L635-L650 — fn unhide_sheet(s: &mut Session, p: &Json) -> Result<Json>
+- activate · function · L652-L657 — fn activate(s: &mut Session, p: &Json) -> Result<Json>
+- step_sheet · function · L659-L671 — fn step_sheet(s: &mut Session, dir: i64) -> Result<Json>
+- map_range · function · L674-L686 — fn map_range(r: RangeRef, e: &Edit) -> Option<RangeRef>
+- shift_cell_features · function · L690-L723 — fn shift_cell_features(sh: &mut Sheet, e: &Edit)

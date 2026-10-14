@@ -1,0 +1,31 @@
+# crates/numfmt/src/lib.rs
+
+- builtin · module · L6-L6 — mod builtin;
+- decimal · module · L7-L7 — mod decimal;
+- parse · module · L8-L8 — mod parse;
+- render · module · L9-L9 — mod render;
+- GENERAL_WIDTH · constant · L22-L22 — const GENERAL_WIDTH: usize = 11;
+- OVERFLOW · constant · L24-L24 — const OVERFLOW: &str = "########";
+- FormatColor · enum · L28-L39 — pub enum FormatColor
+- FormatKind · enum · L43-L57 — pub enum FormatKind
+- Formatted · struct · L61-L70 — pub struct Formatted
+- Inner · struct · L73-L81 — struct Inner
+- NumberFormat · struct · L85-L87 — pub struct NumberFormat
+- eq · function · L90-L92 — fn eq(&self, other: &Self) -> bool
+- default · function · L96-L98 — fn default() -> Self
+- parse · function · L103-L128 — pub fn parse(code: &str) -> NumberFormat
+- general · function · L130-L132 — pub fn general() -> NumberFormat
+- code · function · L134-L136 — pub fn code(&self) -> &str
+- is_general · function · L138-L140 — pub fn is_general(&self) -> bool
+- num_sections · function · L142-L144 — fn num_sections(&self) -> &[Section]
+- is_date · function · L147-L149 — pub fn is_date(&self) -> bool
+- is_percent · function · L151-L153 — pub fn is_percent(&self) -> bool
+- is_text · function · L156-L158 — pub fn is_text(&self) -> bool
+- kind · function · L161-L197 — pub fn kind(&self) -> FormatKind
+- SPECIAL · constant · L168-L168 — const SPECIAL: [&str; 4] = ["00000", "00000-0000", "[<=9999999]###-####;(###) ###-####", "000-00-0000"];
+- select · function · L201-L229 — fn select(&self, v: f64) -> Option<(&Section, bool)>
+- format_number · function · L232-L266 — fn format_number(&self, n: f64, sys: DateSystem) -> (Formatted, bool)
+- format_text · function · L268-L276 — fn format_text(&self, t: &str) -> Formatted
+- format_value · function · L280-L293 — pub fn format_value(v: &Value, fmt: &NumberFormat, sys: DateSystem) -> Formatted
+- text_function · function · L297-L318 — pub fn text_function(v: &Value, code: &str, sys: DateSystem) -> Result<String, CellError>
+- tests · module · L321-L321 — mod tests;

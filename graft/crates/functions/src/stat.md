@@ -1,0 +1,145 @@
+# crates/functions/src/stat.rs
+
+- C · type · L10-L10 — type C<'a> = &'a mut dyn Ctx;
+- mean · function · L16-L21 — fn mean(x: &[f64]) -> R<f64>
+- devsq · function · L23-L29 — fn devsq(x: &[f64]) -> f64
+- var_s · function · L31-L36 — fn var_s(x: &[f64]) -> R<f64>
+- var_p · function · L38-L43 — fn var_p(x: &[f64]) -> R<f64>
+- sorted · function · L45-L48 — fn sorted(mut v: Vec<f64>) -> Vec<f64>
+- median · function · L50-L58 — fn median(v: Vec<f64>) -> R<f64>
+- modes · function · L61-L75 — fn modes(v: &[f64]) -> Vec<f64>
+- mode_sngl · function · L77-L79 — fn mode_sngl(v: &[f64]) -> R<f64>
+- product · function · L81-L83 — fn product(v: &[f64]) -> f64
+- min_of · function · L85-L87 — fn min_of(v: &[f64]) -> f64
+- max_of · function · L89-L91 — fn max_of(v: &[f64]) -> f64
+- kth · function · L94-L103 — fn kth(v: Vec<f64>, k: f64, largest: bool) -> R<f64>
+- interp · function · L105-L114 — fn interp(s: &[f64], pos: f64) -> R<f64>
+- percentile_inc · function · L116-L122 — fn percentile_inc(v: Vec<f64>, k: f64) -> R<f64>
+- percentile_exc · function · L124-L135 — fn percentile_exc(v: Vec<f64>, k: f64) -> R<f64>
+- quartile_inc · function · L137-L143 — fn quartile_inc(v: Vec<f64>, q: f64) -> R<f64>
+- quartile_exc · function · L145-L151 — fn quartile_exc(v: Vec<f64>, q: f64) -> R<f64>
+- arg_nums · function · L153-L155 — fn arg_nums(a: &[Arg], i: usize) -> R<Vec<f64>>
+- pairs · function · L159-L180 — fn pairs(x: &Value, y: &Value) -> R<(Vec<f64>, Vec<f64>)>
+- arg_pairs · function · L182-L184 — fn arg_pairs(a: &[Arg], i: usize, j: usize) -> R<(Vec<f64>, Vec<f64>)>
+- moments · function · L187-L199 — fn moments(x: &[f64], y: &[f64]) -> R<(f64, f64, f64, f64, f64)>
+- correl · function · L201-L210 — fn correl(x: &[f64], y: &[f64]) -> R<f64>
+- slope · function · L212-L218 — fn slope(y: &[f64], x: &[f64]) -> R<f64>
+- intercept · function · L220-L226 — fn intercept(y: &[f64], x: &[f64]) -> R<f64>
+- trunc_digits · function · L228-L231 — fn trunc_digits(r: f64, sig: f64) -> f64
+- col_value · function · L233-L236 — fn col_value(v: Vec<f64>) -> R<Value>
+- count_impl · function · L242-L255 — fn count_impl(a: &[Arg]) -> f64
+- counta_impl · function · L257-L267 — fn counta_impl(a: &[Arg]) -> f64
+- countblank · function · L269-L277 — fn countblank(a: &[Arg], _: C) -> R<Value>
+- mode_mult · function · L279-L286 — fn mode_mult(a: &[Arg], _: C) -> R<Value>
+- large · function · L288-L290 — fn large(a: &[Arg], _: C) -> R<Value>
+- small · function · L292-L294 — fn small(a: &[Arg], _: C) -> R<Value>
+- rank_impl · function · L296-L307 — fn rank_impl(a: &[Arg], avg: bool) -> R<Value>
+- percentrank_impl · function · L309-L340 — fn percentrank_impl(a: &[Arg], exc: bool) -> R<Value>
+- trimmean · function · L342-L353 — fn trimmean(a: &[Arg], _: C) -> R<Value>
+- kurt · function · L355-L367 — fn kurt(v: &[f64]) -> R<f64>
+- skew · function · L369-L381 — fn skew(v: &[f64]) -> R<f64>
+- skew_p · function · L383-L390 — fn skew_p(v: &[f64]) -> R<f64>
+- geomean · function · L392-L397 — fn geomean(v: &[f64]) -> R<f64>
+- harmean · function · L399-L404 — fn harmean(v: &[f64]) -> R<f64>
+- avedev · function · L406-L412 — fn avedev(v: &[f64]) -> R<f64>
+- frequency · function · L414-L430 — fn frequency(a: &[Arg], _: C) -> R<Value>
+- prob · function · L432-L444 — fn prob(a: &[Arg], _: C) -> R<Value>
+- standardize · function · L446-L452 — fn standardize(a: &[Arg], _: C) -> R<Value>
+- forecast · function · L454-L461 — fn forecast(a: &[Arg], _: C) -> R<Value>
+- steyx · function · L463-L474 — fn steyx(a: &[Arg], _: C) -> R<Value>
+- covariance · function · L476-L484 — fn covariance(a: &[Arg], sample: bool) -> R<Value>
+- Xy · struct · L490-L498 — struct Xy
+- strict_num · function · L500-L506 — fn strict_num(v: &Value) -> R<f64>
+- parse_xy · function · L508-L537 — fn parse_xy(y: &Value, x: Option<&Value>) -> R<Xy>
+- Fit · struct · L539-L550 — struct Fit
+- sym_inverse · function · L554-L605 — fn sym_inverse(m: &[Vec<f64>]) -> (Vec<Vec<f64>>, Vec<bool>)
+- regress · function · L607-L675 — fn regress(y: &[f64], x: &[Vec<f64>], k: usize, constant: bool) -> R<Fit>
+- const_arg · function · L677-L679 — fn const_arg(a: &[Arg], i: usize) -> R<bool>
+- opt_value · function · L681-L683 — fn opt_value(a: &[Arg], i: usize) -> Option<&Value>
+- linest_impl · function · L685-L724 — fn linest_impl(a: &[Arg], log: bool) -> R<Value>
+- trend_impl · function · L726-L769 — fn trend_impl(a: &[Arg], log: bool) -> R<Value>
+- ln_comb · function · L775-L777 — fn ln_comb(n: f64, k: f64) -> f64
+- t_upper · function · L779-L782 — fn t_upper(t: f64, v: f64) -> f64
+- t_cdf · function · L784-L786 — fn t_cdf(t: f64, v: f64) -> f64
+- t_pdf · function · L788-L790 — fn t_pdf(t: f64, v: f64) -> f64
+- t_inv_upper · function · L793-L798 — fn t_inv_upper(q: f64, v: f64) -> f64
+- chi_inv · function · L800-L805 — fn chi_inv(p: f64, v: f64) -> f64
+- chi_inv_rt · function · L807-L812 — fn chi_inv_rt(q: f64, v: f64) -> f64
+- f_cdf · function · L814-L819 — fn f_cdf(x: f64, d1: f64, d2: f64) -> f64
+- f_upper · function · L821-L826 — fn f_upper(x: f64, d1: f64, d2: f64) -> f64
+- f_pdf · function · L828-L839 — fn f_pdf(x: f64, d1: f64, d2: f64) -> f64
+- binom_pmf · function · L841-L852 — fn binom_pmf(k: f64, n: f64, p: f64) -> f64
+- binom_cdf · function · L854-L877 — fn binom_cdf(k: f64, n: f64, p: f64) -> f64
+- poisson_pmf · function · L879-L884 — fn poisson_pmf(x: f64, m: f64) -> f64
+- poisson_cdf · function · L886-L900 — fn poisson_cdf(x: f64, m: f64) -> f64
+- norm_dist · function · L902-L909 — fn norm_dist(a: &[Arg], _: C) -> R<Value>
+- norm_inv_fn · function · L911-L917 — fn norm_inv_fn(a: &[Arg], _: C) -> R<Value>
+- norm_s_dist · function · L919-L923 — fn norm_s_dist(a: &[Arg], _: C) -> R<Value>
+- norm_s_inv · function · L925-L931 — fn norm_s_inv(a: &[Arg], _: C) -> R<Value>
+- df_arg · function · L933-L939 — fn df_arg(a: &[Arg], i: usize) -> R<f64>
+- t_dist · function · L941-L946 — fn t_dist(a: &[Arg], _: C) -> R<Value>
+- t_dist_2t · function · L948-L955 — fn t_dist_2t(a: &[Arg], _: C) -> R<Value>
+- t_dist_rt · function · L957-L961 — fn t_dist_rt(a: &[Arg], _: C) -> R<Value>
+- tdist_legacy · function · L963-L971 — fn tdist_legacy(a: &[Arg], _: C) -> R<Value>
+- t_inv · function · L973-L980 — fn t_inv(a: &[Arg], _: C) -> R<Value>
+- t_inv_2t · function · L982-L989 — fn t_inv_2t(a: &[Arg], _: C) -> R<Value>
+- t_test · function · L991-L1031 — fn t_test(a: &[Arg], _: C) -> R<Value>
+- chisq_dist · function · L1033-L1053 — fn chisq_dist(a: &[Arg], _: C) -> R<Value>
+- chisq_dist_rt · function · L1055-L1062 — fn chisq_dist_rt(a: &[Arg], _: C) -> R<Value>
+- chisq_inv · function · L1064-L1071 — fn chisq_inv(a: &[Arg], _: C) -> R<Value>
+- chisq_inv_rt · function · L1073-L1080 — fn chisq_inv_rt(a: &[Arg], _: C) -> R<Value>
+- chisq_test · function · L1082-L1108 — fn chisq_test(a: &[Arg], _: C) -> R<Value>
+- f_args · function · L1110-L1118 — fn f_args(a: &[Arg]) -> R<(f64, f64, f64)>
+- f_dist · function · L1120-L1127 — fn f_dist(a: &[Arg], _: C) -> R<Value>
+- f_dist_rt · function · L1129-L1135 — fn f_dist_rt(a: &[Arg], _: C) -> R<Value>
+- f_inv · function · L1137-L1146 — fn f_inv(a: &[Arg], _: C) -> R<Value>
+- f_inv_rt · function · L1148-L1157 — fn f_inv_rt(a: &[Arg], _: C) -> R<Value>
+- f_test · function · L1159-L1170 — fn f_test(a: &[Arg], _: C) -> R<Value>
+- binom_dist · function · L1172-L1181 — fn binom_dist(a: &[Arg], _: C) -> R<Value>
+- binom_dist_range · function · L1183-L1201 — fn binom_dist_range(a: &[Arg], _: C) -> R<Value>
+- binom_inv · function · L1203-L1224 — fn binom_inv(a: &[Arg], _: C) -> R<Value>
+- poisson_dist · function · L1226-L1234 — fn poisson_dist(a: &[Arg], _: C) -> R<Value>
+- expon_dist · function · L1236-L1242 — fn expon_dist(a: &[Arg], _: C) -> R<Value>
+- gamma_fn · function · L1244-L1251 — fn gamma_fn(a: &[Arg], _: C) -> R<Value>
+- gamma_dist · function · L1253-L1271 — fn gamma_dist(a: &[Arg], _: C) -> R<Value>
+- gamma_inv · function · L1273-L1282 — fn gamma_inv(a: &[Arg], _: C) -> R<Value>
+- gammaln · function · L1284-L1290 — fn gammaln(a: &[Arg], _: C) -> R<Value>
+- beta_bounds · function · L1292-L1299 — fn beta_bounds(a: &[Arg], i: usize) -> R<(f64, f64)>
+- beta_dist · function · L1301-L1321 — fn beta_dist(a: &[Arg], _: C) -> R<Value>
+- betadist_legacy · function · L1323-L1330 — fn betadist_legacy(a: &[Arg], _: C) -> R<Value>
+- beta_inv · function · L1332-L1346 — fn beta_inv(a: &[Arg], _: C) -> R<Value>
+- lognorm_dist · function · L1348-L1356 — fn lognorm_dist(a: &[Arg], _: C) -> R<Value>
+- lognorm_inv · function · L1358-L1364 — fn lognorm_inv(a: &[Arg], _: C) -> R<Value>
+- weibull_dist · function · L1366-L1373 — fn weibull_dist(a: &[Arg], _: C) -> R<Value>
+- hypgeom_dist · function · L1375-L1398 — fn hypgeom_dist(a: &[Arg], _: C) -> R<Value>
+- negbinom_dist · function · L1400-L1418 — fn negbinom_dist(a: &[Arg], _: C) -> R<Value>
+- confidence_norm · function · L1420-L1426 — fn confidence_norm(a: &[Arg], _: C) -> R<Value>
+- confidence_t · function · L1428-L1437 — fn confidence_t(a: &[Arg], _: C) -> R<Value>
+- z_test · function · L1439-L1451 — fn z_test(a: &[Arg], _: C) -> R<Value>
+- fisher · function · L1453-L1459 — fn fisher(a: &[Arg], _: C) -> R<Value>
+- gauss · function · L1461-L1465 — fn gauss(a: &[Arg], _: C) -> R<Value>
+- aggregate_values · function · L1477-L1479 — pub fn aggregate_values(function_num: u32, values: &[Value]) -> Value
+- aggregate_values_k · function · L1484-L1486 — pub fn aggregate_values_k(function_num: u32, values: &[Value], k: &Value) -> Value
+- aggregate_impl · function · L1488-L1537 — fn aggregate_impl(function_num: u32, values: &[Value], k: Option<&Value>) -> R<Value>
+- S_ARR_K · constant · L1543-L1543 — const S_ARR_K: &[bool] = &[false, true];
+- S_RANK · constant · L1544-L1544 — const S_RANK: &[bool] = &[true, false, true];
+- S_PRANK · constant · L1545-L1545 — const S_PRANK: &[bool] = &[false, true, true];
+- S_FORECAST · constant · L1546-L1546 — const S_FORECAST: &[bool] = &[true, false, false];
+- S_PROB · constant · L1547-L1547 — const S_PROB: &[bool] = &[false, false, true, true];
+- S_TTEST · constant · L1548-L1548 — const S_TTEST: &[bool] = &[false, false, true, true];
+- specs · function · L1550-L2215 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L2218-L2584 — mod tests
+- D7 · constant · L2223-L2223 — const D7: f64 = 1e-6;
+- c · function · L2225-L2227 — fn c(xs: &[f64]) -> crate::Arg
+- averages_and_counts · function · L2230-L2252 — fn averages_and_counts()
+- spread · function · L2255-L2287 — fn spread()
+- min_max_order · function · L2290-L2311 — fn min_max_order()
+- percentiles · function · L2314-L2339 — fn percentiles()
+- pairs_and_regression · function · L2342-L2361 — fn pairs_and_regression()
+- linest_family · function · L2364-L2408 — fn linest_family()
+- frequency_prob · function · L2411-L2419 — fn frequency_prob()
+- normal · function · L2422-L2452 — fn normal()
+- t_chi_f · function · L2455-L2498 — fn t_chi_f()
+- discrete · function · L2501-L2522 — fn discrete()
+- continuous · function · L2525-L2555 — fn continuous()
+- aggregate_helper · function · L2558-L2583 — fn aggregate_helper()

@@ -1,0 +1,34 @@
+# xtask/src/layers.rs
+
+- Class · enum · L10-L15 — pub enum Class
+- layer · function · L18-L23 — fn layer(self) -> Option<u8>
+- TABLE · constant · L28-L47 — pub const TABLE: &[(&str, Class)] = &[
+- INTRA_LAYER_ORDER · constant · L53-L54 — pub const INTRA_LAYER_ORDER: &[&[&str]] =
+- intra_layer_allowed · function · L56-L62 — fn intra_layer_allowed(from: &str, to: &str) -> bool
+- FORMAT_ALLOWED · constant · L66-L66 — pub const FORMAT_ALLOWED: &[(&str, &[&str])] = &[("xlsx", &["core", "formula", "model"])];
+- UI_CRATES · constant · L70-L70 — pub const UI_CRATES: &[&str] = &["egui*", "eframe", "winit", "rfd", "wgpu*"];
+- UI_MIN_LAYER · constant · L73-L73 — pub const UI_MIN_LAYER: u8 = 6;
+- short_name · function · L75-L77 — pub fn short_name(pkg: &str) -> &str
+- classify · function · L79-L82 — pub fn classify(pkg: &str) -> Option<Class>
+- is_ui_crate · function · L84-L89 — fn is_ui_crate(name: &str) -> bool
+- DepKind · enum · L92-L96 — pub enum DepKind
+- Dep · struct · L99-L104 — pub struct Dep
+- Crate · struct · L107-L110 — pub struct Crate
+- Violation · enum · L113-L118 — pub enum Violation
+- fmt · function · L121-L136 — fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+- check · function · L140-L184 — pub fn check(crates: &[Crate]) -> Vec<Violation>
+- from_metadata · function · L187-L208 — pub fn from_metadata(meta: &Value) -> Result<Vec<Crate>, String>
+- describe · function · L210-L217 — pub fn describe(class: Option<Class>) -> String
+- tests · module · L220-L332 — mod tests
+- c · function · L223-L225 — fn c(name: &str, deps: &[(&str, DepKind, bool)]) -> Crate
+- clean_downward_graph_passes · function · L229-L244 — fn clean_downward_graph_passes()
+- upward_dependency_flagged · function · L247-L250 — fn upward_dependency_flagged()
+- sideways_dependency_flagged · function · L253-L258 — fn sideways_dependency_flagged()
+- intra_layer_chains_allowed_one_way · function · L261-L268 — fn intra_layer_chains_allowed_one_way()
+- format_crate_limited_to_core_formula_model · function · L271-L276 — fn format_crate_limited_to_core_formula_model()
+- self_dev_dependency_ignored · function · L279-L281 — fn self_dev_dependency_ignored()
+- upward_dev_dependency_flagged · function · L284-L287 — fn upward_dev_dependency_flagged()
+- ui_crates_below_l6_flagged · function · L290-L297 — fn ui_crates_below_l6_flagged()
+- unregistered_crate_is_error · function · L300-L304 — fn unregistered_crate_is_error()
+- apps_and_xtask_exempt · function · L307-L311 — fn apps_and_xtask_exempt()
+- metadata_parsing · function · L314-L331 — fn metadata_parsing()

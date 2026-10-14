@@ -1,0 +1,53 @@
+# crates/pdf/src/lib.rs
+
+- metrics · module · L14-L14 — mod metrics;
+- Rgb · type · L19-L19 — pub type Rgb = [u8; 3];
+- Font · enum · L23-L37 — pub enum Font
+- Family · enum · L41-L46 — pub enum Family
+- ALL · constant · L49-L62 — pub const ALL: [Font; 12] = [
+- base_name · function · L65-L80 — pub fn base_name(self) -> &'static str
+- index · function · L82-L84 — fn index(self) -> usize
+- styled · function · L87-L102 — pub fn styled(family: Family, bold: bool, italic: bool) -> Font
+- family_for · function · L106-L117 — pub fn family_for(name: &str) -> Family
+- SERIF · constant · L108-L108 — const SERIF: [&str; 10] = ["times", "cambria", "georgia", "garamond", "serif", "book", "palatino", "baskerville", "tinos", "caladea"];
+- MONO · constant · L109-L109 — const MONO: [&str; 8] = ["courier", "consolas", "mono", "menlo", "lucida console", "cousine", "code", "typewriter"];
+- char_width · function · L120-L143 — pub fn char_width(self, c: char) -> u16
+- text_width · function · L147-L150 — pub fn text_width(font: Font, size: f32, text: &str) -> f32
+- win_ansi · function · L153-L189 — pub fn win_ansi(c: char) -> u8
+- pdf_string · function · L192-L210 — fn pdf_string(text: &str) -> String
+- n · function · L213-L222 — fn n(v: f32) -> String
+- rgb_op · function · L224-L227 — fn rgb_op(c: Rgb, stroke: bool) -> String
+- ImageData · struct · L229-L234 — struct ImageData
+- Page · struct · L237-L244 — pub struct Page
+- MAX_PAGE_CONTENT · constant · L248-L248 — const MAX_PAGE_CONTENT: usize = 64 * 1024 * 1024;
+- MAX_IMAGE_PIXELS · constant · L250-L250 — const MAX_IMAGE_PIXELS: u64 = 40_000_000;
+- width · function · L253-L255 — pub fn width(&self) -> f32
+- height · function · L256-L258 — pub fn height(&self) -> f32
+- y · function · L259-L261 — fn y(&self, y: f32) -> f32
+- full · function · L262-L264 — fn full(&self) -> bool
+- op · function · L265-L270 — fn op(&mut self, s: &str)
+- save · function · L273-L276 — pub fn save(&mut self)
+- restore · function · L278-L283 — pub fn restore(&mut self)
+- clip_rect · function · L285-L288 — pub fn clip_rect(&mut self, x: f32, y: f32, w: f32, h: f32)
+- fill_rect · function · L290-L296 — pub fn fill_rect(&mut self, x: f32, y: f32, w: f32, h: f32, color: Rgb)
+- rect_stroke · function · L298-L301 — pub fn rect_stroke(&mut self, x: f32, y: f32, w: f32, h: f32, width: f32, color: Rgb)
+- stroke_line · function · L303-L305 — pub fn stroke_line(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, width: f32, color: Rgb)
+- stroke_line_dashed · function · L308-L313 — pub fn stroke_line_dashed(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, width: f32, color: Rgb, dash: &[f32])
+- polyline · function · L316-L325 — pub fn polyline(&mut self, pts: &[[f32; 2]], width: f32, color: Rgb, dash: &[f32])
+- path · function · L327-L334 — fn path(&self, s: &mut String, pts: &[[f32; 2]], close: bool)
+- polygon · function · L337-L356 — pub fn polygon(&mut self, pts: &[[f32; 2]], fill: Option<Rgb>, stroke: Option<(Rgb, f32)>)
+- circle · function · L359-L410 — pub fn circle(&mut self, cx: f32, cy: f32, r: f32, fill: Option<Rgb>, stroke: Option<(Rgb, f32)>)
+- K · constant · L363-L363 — const K: f32 = 0.552_284_8;
+- text · function · L413-L415 — pub fn text(&mut self, x: f32, y: f32, size: f32, font: Font, color: Rgb, text: &str)
+- text_rotated · function · L419-L443 — pub fn text_rotated(&mut self, x: f32, y: f32, size: f32, font: Font, color: Rgb, text: &str, angle: f32)
+- image_rgba · function · L447-L464 — pub fn image_rgba(&mut self, x: f32, y: f32, w: f32, h: f32, rgba: &[u8], pw: u32, ph: u32)
+- Info · struct · L469-L473 — pub struct Info
+- PdfDoc · struct · L477-L480 — pub struct PdfDoc
+- run_length · function · L483-L517 — fn run_length(data: &[u8]) -> Vec<u8>
+- pdf_text_string · function · L519-L521 — fn pdf_text_string(s: &str) -> String
+- new · function · L524-L526 — pub fn new() -> PdfDoc
+- add_page · function · L529-L535 — pub fn add_page(&mut self, width_pt: f32, height_pt: f32) -> &mut Page
+- page_count · function · L537-L539 — pub fn page_count(&self) -> usize
+- page_mut · function · L542-L544 — pub fn page_mut(&mut self, i: usize) -> Option<&mut Page>
+- finish · function · L547-L675 — pub fn finish(mut self) -> Vec<u8>
+- tests · module · L679-L679 — mod tests;

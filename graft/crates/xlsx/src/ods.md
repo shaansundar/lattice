@@ -1,0 +1,41 @@
+# crates/xlsx/src/ods.rs
+
+- MIME · constant · L20-L20 — const MIME: &[u8] = b"application/vnd.oasis.opendocument.spreadsheet";
+- OFFICE · constant · L21-L21 — const OFFICE: &[u8] = b"urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+- TABLE · constant · L22-L22 — const TABLE: &[u8] = b"urn:oasis:names:tc:opendocument:xmlns:table:1.0";
+- TEXT · constant · L23-L23 — const TEXT: &[u8] = b"urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+- CALC_EXT · constant · L24-L24 — const CALC_EXT: &[u8] = b"urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0";
+- MANIFEST · constant · L25-L25 — const MANIFEST: &[u8] = b"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0";
+- MAX_CELLS · constant · L26-L26 — const MAX_CELLS: u64 = 1_000_000;
+- MAX_MERGES · constant · L27-L27 — const MAX_MERGES: u64 = 100_000;
+- MAX_CELL_TEXT · constant · L28-L28 — const MAX_CELL_TEXT: usize = 1024 * 1024;
+- MAX_TEXT · constant · L29-L29 — const MAX_TEXT: u64 = 64 * 1024 * 1024;
+- MAX_SHEETS · constant · L30-L30 — const MAX_SHEETS: usize = 1024;
+- has_mimetype · function · L34-L45 — pub(crate) fn has_mimetype(bytes: &[u8]) -> bool
+- read_ods · function · L50-L65 — pub fn read_ods(bytes: &[u8]) -> Result<(Workbook, ReadReport), IoError>
+- is_ns · function · L67-L69 — fn is_ns(ns: ResolveResult<'_>, expected: &[u8]) -> bool
+- attr · function · L71-L85 — fn attr(reader: &mut NsReader<&[u8]>, e: &BytesStart<'_>, ns: &[u8], name: &[u8]) -> Result<Option<String>, IoError>
+- positive · function · L87-L96 — fn positive(value: Option<String>, default: u32, limit: u32) -> Result<u32, IoError>
+- xml_error · function · L98-L100 — fn xml_error(e: impl std::fmt::Display) -> IoError
+- check_manifest · function · L102-L137 — fn check_manifest(bytes: &[u8]) -> Result<(), IoError>
+- Tag · enum · L140-L155 — enum Tag
+- tag · function · L157-L189 — fn tag(reader: &mut NsReader<&[u8]>, e: &BytesStart<'_>) -> Tag
+- SheetDraft · struct · L191-L195 — struct SheetDraft
+- RowDraft · struct · L196-L201 — struct RowDraft
+- RepeatedCell · struct · L202-L208 — struct RepeatedCell
+- CellDraft · struct · L209-L223 — struct CellDraft
+- Import · struct · L224-L236 — struct Import
+- new · function · L239-L245 — fn new() -> Self
+- parse · function · L247-L303 — fn parse(&mut self, bytes: &[u8]) -> Result<(), IoError>
+- start · function · L305-L406 — fn start(&mut self, reader: &mut NsReader<&[u8]>, e: &BytesStart<'_>) -> Result<(), IoError>
+- captures_text · function · L408-L413 — fn captures_text(&self) -> bool
+- append · function · L415-L435 — fn append(&mut self, text: &str) -> Result<(), IoError>
+- end · function · L437-L457 — fn end(&mut self) -> Result<(), IoError>
+- finish_cell · function · L459-L477 — fn finish_cell(&mut self) -> Result<(), IoError>
+- convert · function · L479-L524 — fn convert(&mut self, draft: &CellDraft) -> Cell
+- finish_row · function · L526-L572 — fn finish_row(&mut self) -> Result<(), IoError>
+- push_text · function · L575-L581 — fn push_text(out: &mut String, text: &str) -> Result<(), IoError>
+- parse_date · function · L585-L612 — fn parse_date(s: &str) -> Option<(f64, &'static str)>
+- digits · function · L614-L616 — fn digits(s: &str) -> Option<&str>
+- decimal · function · L617-L628 — fn decimal(s: &str) -> Option<f64>
+- parse_duration · function · L631-L660 — fn parse_duration(s: &str) -> Option<f64>

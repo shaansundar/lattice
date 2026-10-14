@@ -1,0 +1,37 @@
+# crates/xlsx/src/xml.rs
+
+- MAX_DEPTH · constant · L11-L11 — pub const MAX_DEPTH: usize = 256;
+- El · struct · L16-L21 — pub struct El
+- attr · function · L24-L26 — pub fn attr(&self, k: &str) -> Option<&str>
+- attr_u32 · function · L27-L29 — pub fn attr_u32(&self, k: &str) -> Option<u32>
+- attr_i64 · function · L30-L32 — pub fn attr_i64(&self, k: &str) -> Option<i64>
+- attr_f64 · function · L33-L35 — pub fn attr_f64(&self, k: &str) -> Option<f64>
+- attr_bool · function · L37-L43 — pub fn attr_bool(&self, k: &str) -> Option<bool>
+- flag · function · L44-L46 — pub fn flag(&self, k: &str, default: bool) -> bool
+- child · function · L47-L49 — pub fn child(&self, name: &str) -> Option<&El>
+- kids · function · L50-L52 — pub fn kids<'a>(&'a self, name: &'a str) -> impl Iterator<Item = &'a El> + 'a
+- path · function · L54-L60 — pub fn path(&self, names: &[&str]) -> Option<&El>
+- child_val · function · L62-L64 — pub fn child_val(&self, name: &str) -> Option<&str>
+- rich_text · function · L69-L83 — pub fn rich_text(e: &El) -> String
+- to_utf8 · function · L86-L110 — fn to_utf8(xml: &[u8]) -> std::borrow::Cow<'_, [u8]>
+- local · function · L112-L118 — fn local(name: &[u8]) -> String
+- start_el · function · L120-L135 — fn start_el(e: &BytesStart<'_>) -> El
+- named_entity · function · L137-L146 — fn named_entity(name: &str) -> Option<char>
+- parse · function · L149-L151 — pub fn parse(xml: &[u8]) -> Result<El, IoError>
+- parse_streaming · function · L155-L244 — pub fn parse_streaming(xml: &[u8], split: &[&str], cb: &mut dyn FnMut(El) -> Result<(), IoError>) -> Result<El, IoError>
+- finish · function · L170-L186 — fn finish(stack: &mut [El], root: &mut Option<El>, el: El, split: &[&str], cb: &mut dyn FnMut(El) -> Result<(), IoError>) -> Result<(), IoError>
+- esc · function · L249-L261 — pub fn esc(s: &str) -> String
+- esc_attr · function · L264-L280 — pub fn esc_attr(s: &str) -> String
+- is_xml_char · function · L282-L284 — fn is_xml_char(c: char) -> bool
+- encode_xstring · function · L288-L301 — pub fn encode_xstring(s: &str) -> String
+- looks_like_escape · function · L303-L305 — fn looks_like_escape(chars: &[char], i: usize) -> bool
+- decode_xstring · function · L308-L328 — pub fn decode_xstring(s: &str) -> String
+- t_el · function · L331-L338 — pub fn t_el(s: &str) -> String
+- num · function · L341-L349 — pub fn num(n: f64) -> String
+- tests · module · L352-L414 — mod tests
+- parse_basic · function · L356-L364 — fn parse_basic()
+- streaming_split · function · L367-L378 — fn streaming_split()
+- deep_nesting_is_an_error · function · L381-L387 — fn deep_nesting_is_an_error()
+- garbage · function · L390-L395 — fn garbage()
+- xstring · function · L398-L403 — fn xstring()
+- numbers · function · L406-L413 — fn numbers()

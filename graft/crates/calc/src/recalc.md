@@ -1,0 +1,66 @@
+# crates/calc/src/recalc.rs
+
+- FxHasher · struct · L16-L16 — pub struct FxHasher(u64);
+- finish · function · L19-L21 — fn finish(&self) -> u64
+- write · function · L22-L26 — fn write(&mut self, bytes: &[u8])
+- write_u64 · function · L27-L29 — fn write_u64(&mut self, i: u64)
+- write_u32 · function · L30-L32 — fn write_u32(&mut self, i: u32)
+- write_usize · function · L33-L35 — fn write_usize(&mut self, i: usize)
+- HashMap · type · L38-L38 — type HashMap<K, V> = std::collections::HashMap<K, V, BuildHasherDefault<FxHasher>>;
+- HashSet · type · L39-L39 — type HashSet<K> = std::collections::HashSet<K, BuildHasherDefault<FxHasher>>;
+- Key · type · L47-L47 — pub type Key = (usize, CellRef);
+- Node · struct · L50-L53 — struct Node
+- WIDE · constant · L56-L56 — const WIDE: u32 = 64;
+- PENDING · constant · L59-L59 — const PENDING: usize = 32;
+- Intervals · struct · L69-L79 — struct Intervals<T>
+- default · function · L82-L84 — fn default() -> Self
+- is_empty · function · L88-L90 — fn is_empty(&self) -> bool
+- insert · function · L92-L104 — fn insert(&mut self, r0: u32, r1: u32, t: T)
+- remove · function · L106-L118 — fn remove(&mut self, r0: u32, r1: u32, t: T)
+- settle · function · L121-L148 — fn settle(&mut self)
+- query · function · L152-L164 — fn query(&self, a: u32, b: u32, f: &mut dyn FnMut(&T)) -> usize
+- walk · function · L166-L180 — fn walk(&self, node: usize, lo: usize, hi: usize, p: usize, a: u32, f: &mut dyn FnMut(&T)) -> usize
+- Graph · struct · L184-L196 — pub struct Graph
+- len · function · L199-L201 — pub fn len(&self) -> usize
+- is_empty · function · L202-L204 — pub fn is_empty(&self) -> bool
+- entries · function · L208-L228 — fn entries(areas: &[Area]) -> (Vec<Key>, Vec<(usize, u32, u32, u32)>, Vec<(usize, RangeRef)>)
+- insert · function · L230-L248 — fn insert(&mut self, k: Key, node: Node)
+- remove · function · L250-L274 — fn remove(&mut self, k: Key)
+- settle · function · L278-L295 — fn settle(&mut self)
+- dependents · function · L298-L312 — pub fn dependents(&self, sheet: usize, c: CellRef, out: &mut Vec<Key>)
+- dependents_of_range · function · L315-L350 — pub fn dependents_of_range(&self, sheet: usize, range: RangeRef, out: &mut Vec<Key>)
+- precedents_of · function · L353-L355 — pub fn precedents_of(&self, k: Key) -> Vec<Area>
+- Calc · struct · L360-L368 — pub struct Calc
+- default · function · L371-L373 — fn default() -> Self
+- PassHost · struct · L376-L392 — struct PassHost<'a>
+- spill_blocked · function · L397-L413 — fn spill_blocked(host: &PassHost<'_>, (sheet, anchor): Key, a: &Array) -> bool
+- compute · function · L416-L474 — fn compute(&mut self, k: Key) -> Value
+- fit_to_range · function · L480-L499 — fn fit_to_range(v: Value, range: RangeRef) -> Value
+- workbook · function · L502-L504 — fn workbook(&self) -> &Workbook
+- spill_range · function · L505-L524 — fn spill_range(&mut self, sheet: usize, anchor: CellRef) -> Option<RangeRef>
+- cell_value · function · L525-L540 — fn cell_value(&mut self, sheet: usize, c: CellRef) -> Value
+- range_values · function · L541-L600 — fn range_values(&mut self, sheet: usize, range: RangeRef) -> Vec<Value>
+- used_range · function · L601-L604 — fn used_range(&mut self, sheet: usize) -> Option<RangeRef>
+- now_serial · function · L605-L607 — fn now_serial(&self) -> f64
+- random · function · L608-L616 — fn random(&mut self) -> f64
+- new · function · L620-L622 — pub fn new() -> Self
+- now · function · L624-L629 — fn now(&self) -> f64
+- rebuild · function · L632-L645 — pub fn rebuild(&mut self, wb: &Workbook)
+- recalc_all · function · L648-L662 — pub fn recalc_all(&mut self, wb: &mut Workbook)
+- cells_changed · function · L665-L750 — pub fn cells_changed(&mut self, wb: &mut Workbook, changed: &[Key])
+- dirty_closure · function · L752-L783 — fn dirty_closure(&self, _wb: &Workbook, seeds: &[Key]) -> Vec<Key>
+- run · function · L786-L919 — fn run(&mut self, wb: &mut Workbook, mut dirty: Vec<Key>, full: bool)
+- now_serial · function · L924-L933 — pub fn now_serial() -> f64
+- evaluate · function · L937-L941 — pub fn evaluate(wb: &Workbook, sheet: usize, at: CellRef, formula: &str) -> Value
+- evaluate_expr · function · L943-L962 — pub fn evaluate_expr(wb: &Workbook, sheet: usize, at: CellRef, expr: &Expr) -> Value
+- prof_now · function · L965-L974 — fn prof_now() -> f64
+- tests · module · L977-L1184 — mod tests
+- rng · function · L986-L991 — fn rng(state: &mut u64) -> u64
+- found · function · L993-L998 — fn found(iv: &Intervals<u32>, a: u32, b: u32) -> Vec<u32>
+- intervals_match_a_linear_scan · function · L1001-L1046 — fn intervals_match_a_linear_scan()
+- interval_queries_cost_log_n_plus_matches · function · L1049-L1074 — fn interval_queries_cost_log_n_plus_matches()
+- sum_rows · function · L1077-L1088 — fn sum_rows(rows: u32) -> Workbook
+- open_and_bulk_edit · function · L1092-L1111 — fn open_and_bulk_edit(rows: u32) -> Duration
+- range_formulas_recalc_and_bulk_edit_correctly · function · L1114-L1117 — fn range_formulas_recalc_and_bulk_edit_correctly()
+- recalc_with_range_formulas_scales_linearly · function · L1122-L1130 — fn recalc_with_range_formulas_scales_linearly()
+- range_dependents_after_edits · function · L1133-L1183 — fn range_dependents_after_edits()

@@ -1,0 +1,23 @@
+# crates/xlsx/src/package.rs
+
+- MAX_PART · constant · L11-L11 — pub const MAX_PART: u64 = 512 * 1024 * 1024;
+- MAX_TOTAL · constant · L13-L13 — pub const MAX_TOTAL: u64 = 1024 * 1024 * 1024;
+- MAX_ENTRIES · constant · L15-L15 — pub const MAX_ENTRIES: usize = 200_000;
+- Package · struct · L17-L22 — pub struct Package<'a>
+- Rel · struct · L26-L34 — pub struct Rel
+- normalize · function · L36-L38 — pub fn normalize(name: &str) -> String
+- open · function · L41-L53 — pub fn open(bytes: &'a [u8]) -> Result<Package<'a>, IoError>
+- has · function · L55-L57 — pub fn has(&self, part: &str) -> bool
+- read · function · L60-L62 — pub fn read(&mut self, part: &str) -> Result<Option<Vec<u8>>, IoError>
+- read_limited · function · L65-L87 — pub fn read_limited(&mut self, part: &str, maximum: u64) -> Result<Option<Vec<u8>>, IoError>
+- read_xml · function · L89-L94 — pub fn read_xml(&mut self, part: &str) -> Result<Option<El>, IoError>
+- rels · function · L98-L120 — pub fn rels(&mut self, part: &str) -> Result<Vec<Rel>, IoError>
+- prefix · function · L123-L128 — fn prefix(part: &str, e: IoError) -> IoError
+- split_dir · function · L131-L137 — pub fn split_dir(part: &str) -> (&str, &str)
+- resolve · function · L140-L154 — pub fn resolve(dir: &str, target: &str) -> String
+- ZipOut · struct · L158-L160 — pub struct ZipOut
+- new · function · L163-L165 — pub fn new() -> ZipOut
+- add · function · L166-L175 — pub fn add(&mut self, name: &str, data: &[u8]) -> Result<(), IoError>
+- finish · function · L176-L178 — pub fn finish(self) -> Result<Vec<u8>, IoError>
+- tests · module · L182-L195 — mod tests
+- resolving · function · L186-L194 — fn resolving()

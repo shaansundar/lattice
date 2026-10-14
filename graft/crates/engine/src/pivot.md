@@ -1,0 +1,60 @@
+# crates/engine/src/pivot.rs
+
+- MAX_SOURCE_CELLS · constant · L16-L16 — pub const MAX_SOURCE_CELLS: u64 = 10_000_000;
+- MAX_OUTPUT_CELLS · constant · L18-L18 — pub const MAX_OUTPUT_CELLS: u64 = 2_000_000;
+- MAX_AXIS_FIELDS · constant · L20-L20 — pub const MAX_AXIS_FIELDS: usize = 32;
+- MAX_VALUE_FIELDS · constant · L22-L22 — pub const MAX_VALUE_FIELDS: usize = 256;
+- MONTHS · constant · L24-L24 — const MONTHS: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+- Source · struct · L30-L40 — pub struct Source
+- col · function · L43-L45 — pub fn col(&self, name: &str) -> Option<usize>
+- split_sheet · function · L49-L54 — fn split_sheet(r: &str) -> (Option<String>, &str)
+- quote_sheet · function · L57-L66 — pub fn quote_sheet(name: &str) -> String
+- range_text · function · L69-L72 — pub fn range_text(sheet_name: &str, r: RangeRef) -> String
+- resolve_source · function · L75-L77 — pub fn resolve_source(wb: &Workbook, text: &str, default_sheet: usize) -> Result<(usize, RangeRef), String>
+- resolve_inner · function · L79-L116 — fn resolve_inner(wb: &Workbook, text: &str, default_sheet: usize, depth: u32) -> Result<(usize, RangeRef), String>
+- INVALID · constant · L80-L80 — const INVALID: &str = "The reference isn't valid.";
+- FIELD_NAME_ERR · constant · L118-L119 — const FIELD_NAME_ERR: &str =
+- read_source · function · L122-L186 — pub fn read_source(wb: &Workbook, text: &str, default_sheet: usize) -> Result<Source, String>
+- Item · struct · L191-L200 — struct Item
+- FieldItems · struct · L203-L206 — struct FieldItems
+- cmp_items · function · L208-L210 — fn cmp_items(a: &Item, b: &Item) -> Ordering
+- make_item · function · L213-L252 — fn make_item(wb: &Workbook, v: &Value, group: PivotDateGroup, fmt: &str, first: usize) -> (String, Item)
+- intern · function · L255-L264 — fn intern(&mut self, wb: &Workbook, v: &Value, group: PivotDateGroup, fmt: &str, first: usize) -> u32
+- get · function · L265-L267 — fn get(&self, i: u32) -> Option<&Item>
+- label · function · L268-L270 — fn label(&self, i: u32) -> String
+- item_label · function · L274-L276 — pub fn item_label(wb: &Workbook, v: &Value, group: PivotDateGroup, fmt: &str) -> String
+- distinct_labels · function · L279-L293 — pub fn distinct_labels(wb: &Workbook, src: &Source, col: usize, group: PivotDateGroup, limit: usize) -> Vec<String>
+- Acc · struct · L298-L308 — struct Acc
+- add · function · L311-L340 — fn add(&mut self, v: &Value)
+- result · function · L341-L382 — fn result(&self, f: PivotFunc) -> Value
+- func_caption · function · L386-L400 — pub fn func_caption(f: PivotFunc) -> &'static str
+- Node · struct · L405-L408 — struct Node
+- build_tree · function · L410-L440 — fn build_tree(paths: &[&[u32]], depth: usize, fields: &[&PivotField], items: &[FieldItems]) -> Vec<Node>
+- is_collapsed · function · L442-L444 — fn is_collapsed(field: &PivotField, label: &str) -> bool
+- collect_siblings · function · L446-L453 — fn collect_siblings(nodes: &[Node], prefix: &mut Vec<u32>, out: &mut HashMap<Vec<u32>, Vec<u32>>)
+- CellKind · enum · L459-L469 — pub enum CellKind
+- RowKind · enum · L473-L482 — pub enum RowKind
+- OutCell · struct · L485-L490 — pub struct OutCell
+- empty · function · L493-L495 — fn empty() -> OutCell
+- Output · struct · L500-L506 — pub struct Output
+- height · function · L509-L511 — pub fn height(&self) -> u32
+- value · function · L513-L515 — pub fn value(&self, r: usize, c: usize) -> Value
+- Grid · struct · L518-L522 — struct Grid
+- push_row · function · L525-L532 — fn push_row(&mut self, kind: RowKind) -> Result<usize, String>
+- set · function · L533-L537 — fn set(&mut self, r: usize, c: usize, value: Value, kind: CellKind, indent: u8, fmt: Option<String>)
+- LineKind · enum · L541-L545 — enum LineKind
+- Line · struct · L547-L553 — struct Line
+- ColKind · enum · L556-L560 — enum ColKind
+- ColSpec · struct · L562-L565 — struct ColSpec
+- Ctx · struct · L567-L572 — struct Ctx<'a>
+- label_cell · function · L575-L579 — fn label_cell(&self, depth: usize, item: u32) -> (Value, Option<String>, String)
+- flatten · function · L581-L606 — fn flatten(&self, nodes: &[Node], depth: usize, prefix: &mut Vec<u32>, out: &mut Vec<Line>)
+- flatten_tabular · function · L608-L638 — fn flatten_tabular(
+- flatten_cols · function · L641-L665 — fn flatten_cols(
+- AggMap · type · L667-L667 — type AggMap = HashMap<(Vec<u32>, Vec<u32>), Vec<Acc>>;
+- compute · function · L670-L1019 — pub fn compute(wb: &Workbook, pt: &PivotTable, pivot_sheet: usize) -> Result<Output, String>
+- Look · struct · L1025-L1030 — struct Look
+- look · function · L1032-L1049 — fn look(style: &str) -> Look
+- cell_style · function · L1051-L1089 — fn cell_style(lk: &Look, rk: RowKind, cell: &OutCell, last_header: bool) -> Style
+- refresh · function · L1093-L1209 — pub fn refresh(wb: &mut Workbook, sheet: usize, idx: usize, replace: bool) -> Result<RangeRef, String>
+- clear_output · function · L1212-L1219 — pub fn clear_output(wb: &mut Workbook, sheet: usize, idx: usize)

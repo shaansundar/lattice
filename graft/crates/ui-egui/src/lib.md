@@ -1,0 +1,58 @@
+# crates/ui-egui/src/lib.rs
+
+- assistant_pane · module · L10-L10 — pub mod assistant_pane;
+- border_preview · module · L11-L11 — mod border_preview;
+- cell_pictures · module · L12-L12 — mod cell_pictures;
+- chartview · module · L13-L13 — pub mod chartview;
+- control · module · L14-L14 — pub mod control;
+- credits · module · L15-L15 — pub mod credits;
+- dialogs · module · L16-L16 — pub mod dialogs;
+- editor · module · L17-L17 — pub mod editor;
+- formula_bar · module · L18-L18 — pub mod formula_bar;
+- formula_locale · module · L19-L19 — mod formula_locale;
+- grid · module · L20-L20 — pub mod grid;
+- i18n · module · L21-L21 — pub mod i18n;
+- icons · module · L22-L22 — pub mod icons;
+- keytips · module · L23-L23 — pub mod keytips;
+- panes · module · L24-L24 — pub mod panes;
+- pivot_pane · module · L25-L25 — pub mod pivot_pane;
+- ribbon · module · L26-L26 — pub mod ribbon;
+- tabs · module · L27-L27 — pub mod tabs;
+- text_box · module · L28-L28 — pub mod text_box;
+- theme · module · L29-L29 — pub mod theme;
+- widgets · module · L30-L30 — pub mod widgets;
+- UiState · struct · L44-L60 — pub struct UiState
+- default · function · L63-L75 — fn default() -> Self
+- theme_preference · function · L79-L87 — pub fn theme_preference(&self) -> egui::ThemePreference
+- theme_mode · function · L89-L97 — pub fn theme_mode(&self) -> &'static str
+- SheetView · struct · L102-L104 — pub struct SheetView
+- Services · struct · L108-L126 — pub struct Services
+- Inbox · type · L129-L129 — pub type Inbox = std::sync::Arc<std::sync::Mutex<Vec<(String, Vec<u8>)>>>;
+- Perf · struct · L132-L137 — pub struct Perf
+- SheetApp · struct · L139-L170 — pub struct SheetApp
+- new · function · L173-L205 — pub fn new(session: Session, services: Services) -> SheetApp
+- setup_context · function · L208-L210 — pub fn setup_context(ctx: &egui::Context, dark: bool)
+- setup_context_for_language · function · L213-L216 — pub fn setup_context_for_language(ctx: &egui::Context, dark: bool, language: i18n::Language)
+- run · function · L219-L254 — pub fn run(&mut self, id: &str, params: Json) -> Result<Json, String>
+- copy_to_clipboard · function · L258-L271 — pub fn copy_to_clipboard(&mut self, ctx: &egui::Context, command: &str)
+- deliver_pdf · function · L274-L284 — fn deliver_pdf(&self, result: &Json)
+- run_or_alert · function · L287-L295 — pub fn run_or_alert(&mut self, id: &str, params: Json)
+- run_ui_command · function · L298-L370 — fn run_ui_command(&mut self, id: &str, p: &Json) -> Option<Result<Json, String>>
+- after_engine · function · L373-L394 — pub fn after_engine(&mut self)
+- open_dialog · function · L396-L428 — pub fn open_dialog(&mut self, name: &str, params: Json)
+- open_path · function · L430-L440 — pub fn open_path(&mut self, path: &str)
+- view_key · function · L442-L444 — pub fn view_key(&self) -> Option<(u64, usize)>
+- view · function · L446-L448 — pub fn view(&self) -> SheetView
+- view_mut · function · L450-L453 — pub fn view_mut(&mut self) -> Option<&mut SheetView>
+- begin_edit · function · L456-L491 — pub fn begin_edit(&mut self, text: Option<String>, from_formula_bar: bool)
+- commit_edit · function · L494-L544 — pub fn commit_edit(&mut self, dr: i64, dc: i64, array: bool, fill_selection: bool) -> bool
+- cancel_edit · function · L546-L549 — pub fn cancel_edit(&mut self)
+- move_after_enter · function · L552-L561 — pub fn move_after_enter(&mut self, dr: i64, dc: i64)
+- logic · function · L564-L604 — pub fn logic(&mut self, ctx: &egui::Context)
+- raw_input_hook · function · L606-L610 — pub fn raw_input_hook(&mut self, raw: &mut egui::RawInput)
+- ui · function · L613-L678 — pub fn ui(&mut self, ui: &mut egui::Ui)
+- ribbon_keys · function · L680-L715 — fn ribbon_keys(&mut self, ctx: &egui::Context)
+- name_box_text · function · L718-L740 — pub fn name_box_text(&self) -> String
+- clean_error · function · L744-L749 — pub fn clean_error(e: &str) -> String
+- now_ms · function · L752-L762 — pub fn now_ms() -> f64
+- cell · function · L764-L766 — pub fn cell(r: u32, c: u32) -> CellRef

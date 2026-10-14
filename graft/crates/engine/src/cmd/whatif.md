@@ -1,0 +1,62 @@
+# crates/engine/src/cmd/whatif.rs
+
+- specs · function · L19-L87 — pub fn specs() -> Vec<CommandSpec>
+- sheet_named · function · L92-L97 — fn sheet_named(wb: &Workbook, name: Option<String>, default: usize, cmd: &str) -> Result<usize>
+- cell_arg · function · L100-L107 — fn cell_arg(s: &Session, p: &Json, key: &str, cmd: &str) -> Result<(usize, CellRef)>
+- parse_range · function · L111-L116 — fn parse_range(wb: &Workbook, t: &str, cmd: &str) -> Result<(usize, RangeRef)>
+- trim_to_used · function · L118-L126 — fn trim_to_used(wb: &Workbook, si: usize, r: RangeRef) -> RangeRef
+- range_arg · function · L128-L132 — fn range_arg(s: &Session, p: &Json, key: &str, cmd: &str) -> Result<(usize, RangeRef)>
+- cell_list · function · L135-L156 — fn cell_list(wb: &Workbook, t: &str, cmd: &str, cap: usize) -> Result<(usize, Vec<CellRef>)>
+- json_value · function · L159-L168 — fn json_value(v: &Json, wb: &Workbook) -> Value
+- value_json · function · L170-L179 — fn value_json(v: &Value) -> Json
+- Trial · struct · L184-L187 — pub(crate) struct Trial
+- new · function · L190-L195 — pub(crate) fn new(d: &DocState) -> Trial
+- run · function · L198-L210 — pub(crate) fn run(&mut self, sets: &[(usize, CellRef, Value)], reads: &[(usize, CellRef)]) -> Vec<Value>
+- Seek · struct · L216-L221 — pub(crate) struct Seek
+- seek · function · L226-L305 — pub(crate) fn seek(x0: f64, f: &mut dyn FnMut(f64) -> f64, max_iter: u32, tol: f64) -> Seek
+- goal_seek · function · L307-L339 — fn goal_seek(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L308-L308 — const CMD: &str = "data.goalSeek";
+- SCENARIO_NAME · constant · L344-L344 — pub(crate) const SCENARIO_NAME: &str = "_sc_scenarios";
+- MAX_SCENARIO_CELLS · constant · L345-L345 — const MAX_SCENARIO_CELLS: usize = 32;
+- MAX_SCENARIOS · constant · L346-L346 — const MAX_SCENARIOS: usize = 1000;
+- Scenario · struct · L349-L356 — pub(crate) struct Scenario
+- load_scenarios · function · L358-L361 — pub(crate) fn load_scenarios(wb: &Workbook) -> Vec<Scenario>
+- string_literals · function · L364-L387 — fn string_literals(f: &str) -> String
+- store_scenarios · function · L389-L409 — fn store_scenarios(wb: &mut Workbook, list: &[Scenario])
+- scenario_json · function · L411-L413 — fn scenario_json(sc: &Scenario) -> Json
+- scenario_list · function · L415-L421 — fn scenario_list(s: &mut Session, p: &Json) -> Result<Json>
+- scenario_add · function · L423-L468 — fn scenario_add(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L424-L424 — const CMD: &str = "data.scenarioAdd";
+- find_scenario · function · L470-L480 — fn find_scenario(wb: &Workbook, p: &Json, cmd: &str) -> Result<(Vec<Scenario>, usize)>
+- scenario_show · function · L482-L505 — fn scenario_show(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L483-L483 — const CMD: &str = "data.scenarioShow";
+- scenario_delete · function · L507-L516 — fn scenario_delete(s: &mut Session, p: &Json) -> Result<Json>
+- scenario_summary · function · L518-L623 — fn scenario_summary(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L519-L519 — const CMD: &str = "data.scenarioSummary";
+- MAX_TABLE_CELLS · constant · L627-L627 — const MAX_TABLE_CELLS: u64 = 100_000;
+- data_table · function · L629-L703 — fn data_table(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L630-L630 — const CMD: &str = "data.dataTable";
+- Cond · enum · L708-L713 — enum Cond
+- split_op · function · L716-L723 — fn split_op(t: &str) -> (&str, &str)
+- criterion_matches · function · L726-L786 — pub(crate) fn criterion_matches(v: &Value, text: &str, crit: &Value) -> bool
+- advanced_filter · function · L788-L927 — fn advanced_filter(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L789-L789 — const CMD: &str = "data.advancedFilter";
+- Agg · struct · L932-L939 — struct Agg
+- add · function · L942-L959 — fn add(&mut self, v: &Value)
+- result · function · L960-L976 — fn result(&self, func: &str) -> Value
+- Key · enum · L981-L984 — enum Key
+- MAX_CONSOLIDATE_CELLS · constant · L986-L986 — const MAX_CONSOLIDATE_CELLS: u64 = 5_000_000;
+- consolidate · function · L988-L1118 — fn consolidate(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L989-L989 — const CMD: &str = "data.consolidate";
+- tests · module · L1121-L1364 — mod tests
+- s · function · L1127-L1131 — fn s() -> Session
+- v · function · L1132-L1137 — fn v(s: &Session, a: &str) -> Value
+- n · function · L1138-L1140 — fn n(s: &Session, a: &str) -> f64
+- goal_seek_linear_and_nonlinear · function · L1143-L1171 — fn goal_seek_linear_and_nonlinear()
+- goal_seek_errors · function · L1174-L1186 — fn goal_seek_errors()
+- seek_unit · function · L1189-L1199 — fn seek_unit()
+- scenarios · function · L1202-L1246 — fn scenarios()
+- data_tables · function · L1249-L1279 — fn data_tables()
+- advanced_filter_in_place_and_copy · function · L1282-L1317 — fn advanced_filter_in_place_and_copy()
+- criteria_semantics · function · L1320-L1334 — fn criteria_semantics()
+- consolidate_by_position_and_label · function · L1337-L1363 — fn consolidate_by_position_and_label()

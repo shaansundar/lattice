@@ -1,0 +1,99 @@
+# crates/functions/src/financial.rs
+
+- pmt_calc · function · L16-L22 — fn pmt_calc(rate: f64, nper: f64, pv: f64, fv: f64, typ: f64) -> f64
+- fv_calc · function · L24-L30 — fn fv_calc(rate: f64, nper: f64, pmt: f64, pv: f64, typ: f64) -> f64
+- pv_calc · function · L32-L38 — fn pv_calc(rate: f64, nper: f64, pmt: f64, fv: f64, typ: f64) -> f64
+- type_arg · function · L40-L42 — fn type_arg(args: &[Arg], i: usize) -> R<f64>
+- pmt · function · L44-L51 — fn pmt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- fv · function · L53-L56 — fn fv(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pv · function · L58-L61 — fn pv(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- nper · function · L63-L82 — fn nper(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ipmt_calc · function · L84-L92 — fn ipmt_calc(rate: f64, per: f64, nper: f64, pv: f64, fv: f64, typ: f64) -> f64
+- ipmt · function · L94-L101 — fn ipmt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ppmt · function · L103-L110 — fn ppmt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cumulative · function · L112-L131 — fn cumulative(a: &[Arg], principal: bool) -> R<Value>
+- cumipmt · function · L133-L135 — fn cumipmt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cumprinc · function · L137-L139 — fn cumprinc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- newton · function · L142-L167 — fn newton(f: impl Fn(f64) -> f64, guess: f64) -> Option<f64>
+- solve_rate · function · L171-L205 — fn solve_rate(f: impl Fn(f64) -> f64, guess: f64) -> R<f64>
+- rate · function · L207-L222 — fn rate(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- npv · function · L224-L237 — fn npv(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dated_flows · function · L240-L266 — fn dated_flows(values: &Value, dates: &Value) -> R<(Vec<f64>, Vec<f64>)>
+- xnpv_calc · function · L268-L271 — fn xnpv_calc(rate: f64, v: &[f64], d: &[f64]) -> f64
+- xnpv · function · L273-L280 — fn xnpv(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- xirr · function · L282-L289 — fn xirr(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- irr · function · L291-L307 — fn irr(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- mirr · function · L309-L329 — fn mirr(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- fvschedule · function · L331-L343 — fn fvschedule(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- effect · function · L345-L351 — fn effect(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- nominal · function · L353-L359 — fn nominal(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ispmt · function · L361-L367 — fn ispmt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pduration · function · L369-L375 — fn pduration(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- rri · function · L377-L383 — fn rri(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dollar_digits · function · L385-L393 — fn dollar_digits(fraction: f64) -> R<f64>
+- dollarde · function · L395-L400 — fn dollarde(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- dollarfr · function · L402-L407 — fn dollarfr(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sln · function · L413-L419 — fn sln(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- syd · function · L421-L427 — fn syd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- db · function · L429-L458 — fn db(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ddb · function · L460-L477 — fn ddb(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- vdb_schedule · function · L480-L502 — fn vdb_schedule(cost: f64, salvage: f64, life: f64, factor: f64, no_switch: bool, periods: usize) -> Vec<f64>
+- vdb · function · L504-L523 — fn vdb(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- amorlinc · function · L525-L540 — fn amorlinc(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- amordegrc · function · L542-L580 — fn amordegrc(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- date · function · L586-L592 — fn date(a: &[Arg], i: usize) -> R<f64>
+- ymd · function · L594-L597 — fn ymd(s: f64) -> R<(i32, u32, u32)>
+- serial · function · L599-L601 — fn serial(y: i32, m: u32, d: u32) -> R<f64>
+- basis_arg · function · L603-L609 — fn basis_arg(a: &[Arg], i: usize) -> R<u32>
+- freq_arg · function · L611-L617 — fn freq_arg(a: &[Arg], i: usize) -> R<f64>
+- is_leap · function · L619-L621 — fn is_leap(y: i32) -> bool
+- days360 · function · L624-L647 — fn days360(s1: f64, s2: f64, us: bool) -> R<f64>
+- day_count · function · L650-L656 — fn day_count(s1: f64, s2: f64, basis: u32) -> R<f64>
+- year_frac · function · L659-L686 — fn year_frac(s1: f64, s2: f64, basis: u32) -> R<f64>
+- year_basis · function · L689-L701 — fn year_basis(basis: u32, s: f64) -> R<f64>
+- shift_months · function · L704-L715 — fn shift_months(anchor: (i32, u32, u32), months: i64, eom: bool) -> R<f64>
+- Coupon · struct · L717-L721 — struct Coupon
+- coupons · function · L723-L744 — fn coupons(settle: f64, mat: f64, freq: f64) -> R<Coupon>
+- coup_days · function · L746-L752 — fn coup_days(c: &Coupon, freq: f64, basis: u32) -> f64
+- coup_daybs · function · L754-L756 — fn coup_daybs(c: &Coupon, settle: f64, basis: u32) -> R<f64>
+- coup_daysnc · function · L758-L763 — fn coup_daysnc(c: &Coupon, settle: f64, freq: f64, basis: u32) -> R<f64>
+- coup_args · function · L766-L770 — fn coup_args(a: &[Arg]) -> R<(f64, f64, f64, u32, Coupon)>
+- coupdaybs · function · L772-L775 — fn coupdaybs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- coupdays · function · L777-L780 — fn coupdays(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- coupdaysnc · function · L782-L785 — fn coupdaysnc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- coupncd · function · L787-L789 — fn coupncd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- couppcd · function · L791-L793 — fn couppcd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- coupnum · function · L795-L797 — fn coupnum(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- accrint · function · L803-L862 — fn accrint(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- accrintm · function · L864-L872 — fn accrintm(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- disc_args · function · L875-L881 — fn disc_args(a: &[Arg]) -> R<(f64, f64, f64, f64, u32)>
+- disc_frac · function · L883-L885 — fn disc_frac(s: f64, m: f64, b: u32) -> R<f64>
+- disc · function · L887-L890 — fn disc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pricedisc · function · L892-L895 — fn pricedisc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- yielddisc · function · L897-L900 — fn yielddisc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- intrate · function · L902-L905 — fn intrate(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- received · function · L907-L914 — fn received(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tbill_args · function · L916-L928 — fn tbill_args(a: &[Arg]) -> R<(f64, f64)>
+- tbillprice · function · L930-L937 — fn tbillprice(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tbillyield · function · L939-L942 — fn tbillyield(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tbilleq · function · L944-L959 — fn tbilleq(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- mat_terms · function · L962-L971 — fn mat_terms(a: &[Arg]) -> R<(f64, f64, f64, f64, f64)>
+- pricemat · function · L973-L976 — fn pricemat(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- yieldmat · function · L978-L985 — fn yieldmat(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- Bond · struct · L987-L993 — struct Bond
+- bond · function · L995-L1004 — fn bond(settle: f64, mat: f64, freq: f64, basis: u32) -> R<Bond>
+- bond_price · function · L1006-L1022 — fn bond_price(b: &Bond, rate: f64, yld: f64, red: f64) -> f64
+- price · function · L1024-L1032 — fn price(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- yield_ · function · L1034-L1065 — fn yield_(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- duration_calc · function · L1067-L1091 — fn duration_calc(a: &[Arg]) -> R<(f64, f64, f64)>
+- duration · function · L1093-L1095 — fn duration(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- mduration · function · L1097-L1100 — fn mduration(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L1102-L1444 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L1447-L1609 — mod tests
+- d · function · L1452-L1454 — fn d(y: i64, m: i64, dd: i64) -> Arg
+- tvm · function · L1457-L1481 — fn tvm()
+- cash_flows · function · L1484-L1517 — fn cash_flows()
+- depreciation · function · L1520-L1548 — fn depreciation()
+- coupons · function · L1551-L1568 — fn coupons()
+- securities · function · L1571-L1600 — fn securities()
+- lifting · function · L1603-L1608 — fn lifting()

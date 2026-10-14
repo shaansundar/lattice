@@ -1,0 +1,45 @@
+# crates/ui-egui/src/theme.rs
+
+- Tokens · struct · L13-L46 — pub struct Tokens
+- light · function · L49-L84 — pub fn light() -> Tokens
+- dark · function · L86-L121 — pub fn dark() -> Tokens
+- get · function · L123-L125 — pub fn get(ctx: &egui::Context) -> Tokens
+- UI · constant · L128-L128 — pub const UI: &str = "ui";
+- UI_BOLD · constant · L129-L129 — pub const UI_BOLD: &str = "ui-bold";
+- CELL · constant · L130-L130 — pub const CELL: &str = "cell";
+- CELL_BOLD · constant · L131-L131 — pub const CELL_BOLD: &str = "cell-bold";
+- CELL_ITALIC · constant · L132-L132 — pub const CELL_ITALIC: &str = "cell-italic";
+- CELL_BOLD_ITALIC · constant · L133-L133 — pub const CELL_BOLD_ITALIC: &str = "cell-bold-italic";
+- SERIF · constant · L134-L134 — pub const SERIF: &str = "serif";
+- MONO · constant · L135-L135 — pub const MONO: &str = "mono";
+- ui_font · function · L137-L139 — pub fn ui_font(size: f32) -> FontId
+- ui_bold · function · L140-L142 — pub fn ui_bold(size: f32) -> FontId
+- cell_family · function · L145-L167 — pub fn cell_family(name: &str, bold: bool, italic: bool) -> FontFamily
+- font_parses · function · L176-L179 — pub(crate) fn font_parses(bytes: &[u8], index: u32) -> bool
+- try_load · function · L184-L197 — fn try_load(paths: &[(&str, u32)]) -> Option<FontData>
+- drop_unparseable_fonts · function · L201-L212 — pub(crate) fn drop_unparseable_fonts(fonts: &mut FontDefinitions)
+- try_load · function · L215-L217 — fn try_load(_paths: &[(&str, u32)]) -> Option<FontData>
+- home_fonts · function · L219-L222 — fn home_fonts(file: &str) -> String
+- candidates · function · L225-L321 — fn candidates(role: &str) -> Vec<(String, u32)>
+- font_definitions · function · L325-L327 — pub fn font_definitions() -> FontDefinitions
+- HanOrder · enum · L333-L338 — pub enum HanOrder
+- of · function · L341-L343 — pub fn of(language: crate::i18n::Language) -> Self
+- font_definitions_for_language · function · L347-L378 — pub fn font_definitions_for_language(language: crate::i18n::Language) -> FontDefinitions
+- load_fallback · function · L386-L406 — fn load_fallback(fonts: &mut FontDefinitions, han: HanOrder) -> Vec<String>
+- load_fallback · function · L409-L411 — fn load_fallback(_fonts: &mut FontDefinitions, _han: HanOrder) -> Vec<String>
+- fallback_faces · function · L418-L426 — fn fallback_faces(han: HanOrder) -> Vec<(&'static str, Vec<(String, u32)>)>
+- LINUX_CJK_DIRS · constant · L432-L443 — const LINUX_CJK_DIRS: [&str; 10] = [
+- cjk_han_japanese · function · L451-L463 — fn cjk_han_japanese() -> Vec<(String, u32)>
+- cjk_han_simplified · function · L468-L487 — fn cjk_han_simplified() -> Vec<(String, u32)>
+- cjk_hangul · function · L492-L503 — fn cjk_hangul() -> Vec<(String, u32)>
+- thai · function · L508-L525 — fn thai() -> Vec<(String, u32)>
+- hebrew · function · L530-L548 — fn hebrew() -> Vec<(String, u32)>
+- apply · function · L550-L585 — pub fn apply(ctx: &egui::Context, dark: bool)
+- color32 · function · L588-L590 — pub fn color32(rgb: [u8; 3]) -> Color32
+- tests · module · L593-L734 — mod tests
+- fallback_faces_are_appended_to_every_family · function · L598-L616 — fn fallback_faces_are_appended_to_every_family()
+- language_reorders_only_the_han_faces · function · L619-L627 — fn language_reorders_only_the_han_faces()
+- fallback_faces_load_each_file_once · function · L630-L643 — fn fallback_faces_load_each_file_once()
+- fallback_covers_its_script · function · L646-L686 — fn fallback_covers_its_script()
+- unparseable_font_files_are_rejected_not_fatal · function · L689-L715 — fn unparseable_font_files_are_rejected_not_fatal()
+- try_load_skips_a_broken_candidate · function · L719-L733 — fn try_load_skips_a_broken_candidate()

@@ -1,0 +1,27 @@
+# crates/engine/src/io.rs
+
+- FileKind · enum · L12-L20 — pub enum FileKind
+- from_path · function · L23-L35 — pub fn from_path(path: &str) -> Option<FileKind>
+- open_bytes · function · L40-L91 — pub fn open_bytes(name: &str, bytes: &[u8]) -> Result<(Workbook, Vec<String>)>
+- rename_first_sheet · function · L94-L103 — fn rename_first_sheet(wb: &mut Workbook, path: &str)
+- save_bytes · function · L106-L117 — pub fn save_bytes(wb: &Workbook, path: &str) -> Result<Vec<u8>>
+- esc · function · L119-L121 — fn esc(s: &str) -> String
+- html_cell_css · function · L123-L150 — fn html_cell_css(wb: &Workbook, sh: &Sheet, c: CellRef) -> String
+- CLIPBOARD_HTML_MAX_BYTES · constant · L152-L152 — const CLIPBOARD_HTML_MAX_BYTES: usize = 4 * 1024 * 1024;
+- CLIPBOARD_HTML_MAX_CELLS · constant · L153-L153 — const CLIPBOARD_HTML_MAX_CELLS: u64 = 10_000;
+- range_html · function · L157-L211 — pub(crate) fn range_html(wb: &Workbook, sheet: usize, r: RangeRef, plain_text: &str) -> Option<String>
+- ClipboardHtml · struct · L214-L214 — struct ClipboardHtml(String);
+- write_str · function · L217-L223 — fn write_str(&mut self, s: &str) -> std::fmt::Result
+- to_html · function · L227-L260 — pub fn to_html(wb: &Workbook, sheet: usize) -> String
+- read_file · function · L263-L269 — pub fn read_file(path: &str) -> Result<Vec<u8>>
+- read_file · function · L272-L274 — pub fn read_file(path: &str) -> Result<Vec<u8>>
+- write_file · function · L277-L282 — pub fn write_file(path: &str, bytes: &[u8]) -> Result<()>
+- write_file · function · L285-L287 — pub fn write_file(path: &str, _bytes: &[u8]) -> Result<()>
+- B64 · constant · L289-L289 — const B64: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+- base64_encode · function · L291-L305 — pub fn base64_encode(data: &[u8]) -> String
+- base64_decode · function · L307-L326 — pub fn base64_decode(s: &str) -> Option<Vec<u8>>
+- image_size · function · L329-L353 — pub fn image_size(data: &[u8]) -> Option<(u32, u32)>
+- tests · module · L356-L397 — mod tests
+- cfb · function · L361-L380 — fn cfb(streams: &[&str]) -> Vec<u8>
+- encrypted_workbook_is_reported_not_misread · function · L383-L388 — fn encrypted_workbook_is_reported_not_misread()
+- legacy_xls_is_not_called_encrypted · function · L391-L396 — fn legacy_xls_is_not_called_encrypted()

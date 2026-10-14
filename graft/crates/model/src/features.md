@@ -1,0 +1,51 @@
+# crates/model/src/features.rs
+
+- TotalsFn · enum · L12-L24 — pub enum TotalsFn
+- subtotal_code · function · L28-L40 — pub fn subtotal_code(&self) -> Option<u32>
+- TableColumn · struct · L44-L51 — pub struct TableColumn
+- Table · struct · L54-L68 — pub struct Table
+- data_range · function · L71-L78 — pub fn data_range(&self) -> Option<RangeRef>
+- header_range · function · L79-L81 — pub fn header_range(&self) -> Option<RangeRef>
+- totals_range · function · L82-L84 — pub fn totals_range(&self) -> Option<RangeRef>
+- column_index · function · L85-L87 — pub fn column_index(&self, name: &str) -> Option<usize>
+- CfOperator · enum · L93-L102 — pub enum CfOperator
+- CfValueKind · enum · L105-L112 — pub enum CfValueKind
+- CfRule · enum · L115-L197 — pub enum CfRule
+- icon_count · function · L200-L202 — pub fn icon_count(set: &str) -> usize
+- default_icon_thresholds · function · L206-L209 — pub fn default_icon_thresholds(set: &str) -> Vec<CfValueKind>
+- CondFormat · struct · L212-L217 — pub struct CondFormat
+- ValidationKind · enum · L222-L232 — pub enum ValidationKind
+- ErrorStyle · enum · L235-L240 — pub enum ErrorStyle
+- Validation · struct · L243-L259 — pub struct Validation
+- default · function · L262-L279 — fn default() -> Self
+- Comment · struct · L286-L294 — pub struct Comment
+- Hyperlink · struct · L297-L301 — pub struct Hyperlink
+- AnchorMode · enum · L309-L317 — pub enum AnchorMode
+- Anchor · struct · L321-L330 — pub struct Anchor
+- ChartKind · enum · L333-L360 — pub enum ChartKind
+- LegendPos · enum · L363-L370 — pub enum LegendPos
+- Series · struct · L373-L387 — pub struct Series
+- Chart · struct · L390-L405 — pub struct Chart
+- Image · struct · L408-L416 — pub struct Image
+- ShapeKind · enum · L419-L433 — pub enum ShapeKind
+- Shape · struct · L436-L443 — pub struct Shape
+- SparklineKind · enum · L446-L451 — pub enum SparklineKind
+- Sparkline · struct · L454-L460 — pub struct Sparkline
+- FilterCriterion · enum · L465-L485 — pub enum FilterCriterion
+- AutoFilter · struct · L488-L492 — pub struct AutoFilter
+- Orientation · enum · L495-L499 — pub enum Orientation
+- PrintSettings · struct · L502-L522 — pub struct PrintSettings
+- default · function · L525-L544 — fn default() -> Self
+- SheetProtection · struct · L548-L562 — pub struct SheetProtection
+- password_hash · function · L566-L573 — pub fn password_hash(pw: &str) -> u64
+- LineInfo · struct · L577-L587 — pub struct LineInfo
+- PivotLayout · enum · L593-L601 — pub enum PivotLayout
+- PivotSort · enum · L604-L610 — pub enum PivotSort
+- PivotDateGroup · enum · L614-L621 — pub enum PivotDateGroup
+- PivotField · struct · L626-L633 — pub struct PivotField
+- PivotFunc · enum · L637-L650 — pub enum PivotFunc
+- PivotShowAs · enum · L654-L664 — pub enum PivotShowAs
+- PivotValue · struct · L669-L676 — pub struct PivotValue
+- PivotFilter · struct · L681-L685 — pub struct PivotFilter
+- PivotTable · struct · L691-L714 — pub struct PivotTable
+- default · function · L717-L736 — fn default() -> Self

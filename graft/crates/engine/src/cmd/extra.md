@@ -1,0 +1,52 @@
+# crates/engine/src/cmd/extra.rs
+
+- specs · function · L10-L247 — pub fn specs() -> Vec<CommandSpec>
+- find_chart · function · L249-L258 — fn find_chart(s: &Session, p: &Json) -> Result<(usize, usize)>
+- with_chart · function · L260-L267 — fn with_chart(s: &mut Session, p: &Json, f: impl FnOnce(&mut Chart) -> Result<()>) -> Result<Json>
+- add_element · function · L269-L303 — fn add_element(s: &mut Session, p: &Json) -> Result<Json>
+- quick_layout · function · L305-L328 — fn quick_layout(s: &mut Session, p: &Json) -> Result<Json>
+- change_colors · function · L330-L350 — fn change_colors(s: &mut Session, p: &Json) -> Result<Json>
+- select_data · function · L352-L371 — fn select_data(s: &mut Session, p: &Json) -> Result<Json>
+- move_chart · function · L373-L389 — fn move_chart(s: &mut Session, p: &Json) -> Result<Json>
+- format_series · function · L391-L400 — fn format_series(s: &mut Session, p: &Json) -> Result<Json>
+- shape_fill · function · L402-L408 — fn shape_fill(s: &mut Session, p: &Json) -> Result<Json>
+- shape_outline · function · L410-L413 — fn shape_outline(s: &mut Session, p: &Json) -> Result<Json>
+- with_shape · function · L415-L428 — fn with_shape(s: &mut Session, p: &Json, f: impl FnOnce(&mut Shape)) -> Result<Json>
+- arrange · function · L430-L469 — fn arrange(s: &mut Session, p: &Json, forward: bool) -> Result<Json>
+- reorder · function · L435-L447 — fn reorder<T>(v: &mut Vec<T>, i: usize, forward: bool, extreme: bool)
+- selection_pane · function · L471-L485 — fn selection_pane(s: &mut Session, _: &Json) -> Result<Json>
+- anchors_of · function · L487-L493 — fn anchors_of<'a>(sh: &'a mut Sheet, kind: &str) -> Vec<(u32, &'a mut Anchor)>
+- align · function · L495-L537 — fn align(s: &mut Session, p: &Json) -> Result<Json>
+- rotate · function · L539-L541 — fn rotate(s: &mut Session, p: &Json) -> Result<Json>
+- set_view · function · L543-L546 — fn set_view(s: &mut Session, mode: &str) -> Result<Json>
+- VIEWS_NAME · constant · L548-L548 — const VIEWS_NAME: &str = "_sc_custom_views";
+- SCRIPTS_NAME · constant · L549-L549 — const SCRIPTS_NAME: &str = "_sc_scripts";
+- WATCH_NAME · constant · L550-L550 — const WATCH_NAME: &str = "_sc_watch";
+- stash_get · function · L553-L560 — fn stash_get(wb: &Workbook, key: &str) -> Json
+- stash_set · function · L562-L567 — fn stash_set(wb: &mut Workbook, key: &str, v: &Json)
+- custom_views · function · L569-L602 — fn custom_views(s: &mut Session, p: &Json) -> Result<Json>
+- split · function · L604-L607 — fn split(s: &mut Session, _: &Json) -> Result<Json>
+- new_window · function · L609-L615 — fn new_window(s: &mut Session, _: &Json) -> Result<Json>
+- hide_window · function · L617-L625 — fn hide_window(s: &mut Session, _: &Json) -> Result<Json>
+- unhide_window · function · L627-L634 — fn unhide_window(s: &mut Session, p: &Json) -> Result<Json>
+- switch_windows · function · L636-L644 — fn switch_windows(s: &mut Session, _: &Json) -> Result<Json>
+- table_resize · function · L646-L676 — fn table_resize(s: &mut Session, p: &Json) -> Result<Json>
+- from_csv · function · L678-L741 — fn from_csv(s: &mut Session, p: &Json) -> Result<Json>
+- from_table_range · function · L743-L750 — fn from_table_range(s: &mut Session, p: &Json) -> Result<Json>
+- queries · function · L752-L764 — fn queries(s: &mut Session, _: &Json) -> Result<Json>
+- record · function · L766-L777 — fn record(s: &mut Session, p: &Json) -> Result<Json>
+- new_script · function · L779-L791 — fn new_script(s: &mut Session, p: &Json) -> Result<Json>
+- all_scripts · function · L793-L798 — fn all_scripts(s: &mut Session, _: &Json) -> Result<Json>
+- run_script · function · L800-L814 — fn run_script(s: &mut Session, p: &Json) -> Result<Json>
+- delete_script · function · L816-L826 — fn delete_script(s: &mut Session, p: &Json) -> Result<Json>
+- CHECKBOX_FORMAT · constant · L829-L829 — pub const CHECKBOX_FORMAT: &str = "\"☐\";\"☐\";\"☐\";[=1]\"☑\"";
+- checkbox · function · L831-L854 — fn checkbox(s: &mut Session, p: &Json) -> Result<Json>
+- toggle_checkbox · function · L856-L876 — fn toggle_checkbox(s: &mut Session, p: &Json) -> Result<Json>
+- theme_colors · function · L878-L884 — fn theme_colors(s: &mut Session, p: &Json) -> Result<Json>
+- theme_fonts · function · L886-L890 — fn theme_fonts(s: &mut Session, p: &Json) -> Result<Json>
+- background · function · L892-L904 — fn background(s: &mut Session, p: &Json) -> Result<Json>
+- draw_border · function · L906-L919 — fn draw_border(s: &mut Session, p: &Json) -> Result<Json>
+- new_cell_style · function · L921-L932 — fn new_cell_style(s: &mut Session, p: &Json) -> Result<Json>
+- recently_used · function · L934-L953 — fn recently_used(s: &mut Session, _: &Json) -> Result<Json>
+- use_in_formula · function · L955-L959 — fn use_in_formula(s: &mut Session, p: &Json) -> Result<Json>
+- watch_window · function · L961-L994 — fn watch_window(s: &mut Session, p: &Json) -> Result<Json>

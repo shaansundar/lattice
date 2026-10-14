@@ -1,0 +1,51 @@
+# crates/model/src/style.rs
+
+- StyleId · struct · L11-L11 — pub struct StyleId(pub u32);
+- DEFAULT · constant · L14-L14 — pub const DEFAULT: StyleId = StyleId(0);
+- Color · enum · L19-L27 — pub enum Color
+- rgb · function · L30-L32 — pub fn rgb(r: u8, g: u8, b: u8) -> Color
+- from_hex · function · L33-L40 — pub fn from_hex(s: &str) -> Option<Color>
+- resolve · function · L42-L51 — pub fn resolve(&self, theme: &Theme) -> Option<[u8; 3]>
+- hex · function · L52-L54 — pub fn hex(&self, theme: &Theme) -> Option<String>
+- apply_tint · function · L58-L65 — pub fn apply_tint(rgb: [u8; 3], tint: f64) -> [u8; 3]
+- rgb_to_hsl · function · L67-L85 — fn rgb_to_hsl([r, g, b]: [u8; 3]) -> (f64, f64, f64)
+- hsl_to_rgb · function · L87-L112 — fn hsl_to_rgb(h: f64, s: f64, l: f64) -> [u8; 3]
+- Theme · struct · L116-L122 — pub struct Theme
+- default · function · L126-L133 — fn default() -> Self
+- Underline · enum · L137-L144 — pub enum Underline
+- VertAlign · enum · L147-L152 — pub enum VertAlign
+- Font · struct · L155-L164 — pub struct Font
+- hash · function · L168-L172 — fn hash<H: Hasher>(&self, h: &mut H)
+- default · function · L176-L187 — fn default() -> Self
+- PatternType · enum · L191-L212 — pub enum PatternType
+- Fill · struct · L215-L220 — pub struct Fill
+- solid · function · L223-L225 — pub fn solid(c: Color) -> Fill
+- BorderStyle · enum · L229-L245 — pub enum BorderStyle
+- width · function · L248-L259 — pub fn width(&self) -> f32
+- BorderLine · struct · L263-L266 — pub struct BorderLine
+- thin · function · L269-L271 — pub fn thin() -> BorderLine
+- is_none · function · L272-L274 — pub fn is_none(&self) -> bool
+- Borders · struct · L278-L285 — pub struct Borders
+- HAlign · enum · L288-L298 — pub enum HAlign
+- VAlign · enum · L301-L308 — pub enum VAlign
+- Alignment · struct · L311-L319 — pub struct Alignment
+- Protection · struct · L322-L325 — pub struct Protection
+- default · function · L328-L330 — fn default() -> Self
+- Style · struct · L334-L342 — pub struct Style
+- NumFmt · struct · L345-L345 — pub struct NumFmt(pub Arc<str>);
+- default · function · L348-L350 — fn default() -> Self
+- new · function · L354-L356 — pub fn new(s: &str) -> NumFmt
+- as_str · function · L357-L359 — pub fn as_str(&self) -> &str
+- StyleTable · struct · L364-L368 — pub struct StyleTable
+- default · function · L371-L376 — fn default() -> Self
+- get · function · L380-L382 — pub fn get(&self, id: StyleId) -> &Style
+- intern · function · L383-L394 — pub fn intern(&mut self, s: Style) -> StyleId
+- derive · function · L396-L400 — pub fn derive(&mut self, id: StyleId, f: impl FnOnce(&mut Style)) -> StyleId
+- len · function · L401-L403 — pub fn len(&self) -> usize
+- is_empty · function · L404-L406 — pub fn is_empty(&self) -> bool
+- iter · function · L407-L409 — pub fn iter(&self) -> impl Iterator<Item = (StyleId, &Style)>
+- rebuild_index · function · L410-L412 — pub fn rebuild_index(&mut self)
+- DEFAULT_STYLE · constant · L415-L415 — static DEFAULT_STYLE: std::sync::LazyLock<Style> = std::sync::LazyLock::new(Style::default);
+- tests · module · L418-L441 — mod tests
+- interning · function · L422-L430 — fn interning()
+- colors · function · L433-L440 — fn colors()

@@ -1,0 +1,25 @@
+# crates/model/src/workbook.rs
+
+- CalcMode · enum · L14-L19 — pub enum CalcMode
+- CalcSettings · struct · L22-L29 — pub struct CalcSettings
+- default · function · L32-L34 — fn default() -> Self
+- DefinedName · struct · L38-L46 — pub struct DefinedName
+- DocProps · struct · L49-L56 — pub struct DocProps
+- Workbook · struct · L59-L74 — pub struct Workbook
+- default · function · L77-L79 — fn default() -> Self
+- new · function · L84-L98 — pub fn new() -> Workbook
+- sheet · function · L99-L101 — pub fn sheet(&self, i: usize) -> Option<&Sheet>
+- sheet_mut · function · L102-L104 — pub fn sheet_mut(&mut self, i: usize) -> Option<&mut Sheet>
+- sheet_index · function · L105-L107 — pub fn sheet_index(&self, name: &str) -> Option<usize>
+- active · function · L108-L110 — pub fn active(&self) -> Option<&Sheet>
+- next_sheet_name · function · L112-L114 — pub fn next_sheet_name(&self) -> String
+- check_sheet_name · function · L117-L140 — pub fn check_sheet_name(&self, name: &str, except: Option<usize>) -> Result<(), String>
+- name · function · L142-L147 — pub fn name(&self, name: &str, sheet: usize) -> Option<&DefinedName>
+- name_call_case · function · L150-L152 — pub fn name_call_case(&self, e: Expr) -> Expr
+- apply_name_call_case · function · L155-L189 — pub fn apply_name_call_case(&mut self)
+- lambda_names · function · L191-L194 — fn lambda_names(&self) -> Vec<String>
+- table · function · L196-L203 — pub fn table(&self, name: &str) -> Option<(usize, usize)>
+- next_object_id · function · L204-L221 — pub fn next_object_id(&self) -> u32
+- spell_calls · function · L225-L236 — fn spell_calls(e: Expr, lambdas: &[String]) -> Expr
+- tests · module · L239-L252 — mod tests
+- sheet_names · function · L243-L251 — fn sheet_names()

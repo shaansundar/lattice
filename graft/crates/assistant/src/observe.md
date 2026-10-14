@@ -1,0 +1,22 @@
+# crates/assistant/src/observe.rs
+
+- MAX_ROWS · constant · L10-L10 — pub const MAX_ROWS: usize = 40;
+- MAX_COLS · constant · L11-L11 — pub const MAX_COLS: usize = 15;
+- MAX_LIST · constant · L12-L12 — pub const MAX_LIST: usize = 12;
+- fmt_scalar · function · L15-L27 — pub fn fmt_scalar(v: &Value, max_chars: usize) -> String
+- col_letter · function · L29-L37 — pub fn col_letter(mut n: u32) -> String
+- split_ref · function · L40-L49 — pub fn split_ref(r: &str) -> Option<(u32, u32)>
+- rows_of · function · L51-L53 — fn rows_of(v: Option<&Value>) -> Vec<Vec<Value>>
+- render_grid · function · L56-L83 — pub fn render_grid(sheet: &str, top_left: &str, formulas: &[Vec<Value>], values: &[Vec<Value>]) -> String
+- render_read · function · L86-L92 — pub fn render_read(formulas: &Value, formatted: Option<&Value>) -> String
+- color · function · L94-L99 — fn color(c: &Value) -> Option<String>
+- truthy · function · L101-L110 — fn truthy(v: Option<&Value>) -> bool
+- style_summary · function · L113-L166 — pub fn style_summary(st: &Value) -> String
+- render_cell · function · L169-L195 — pub fn render_cell(r: &Value) -> String
+- render_workbook · function · L198-L293 — pub fn render_workbook(w: &Value, undo: bool) -> String
+- render_list · function · L295-L304 — fn render_list(rows: &[Value], line: impl Fn(&Value) -> String, none: &str) -> String
+- render_commands · function · L307-L322 — pub fn render_commands(rows: &[Value]) -> String
+- render_functions · function · L325-L337 — pub fn render_functions(rows: &[Value]) -> String
+- render_ok · function · L340-L342 — pub fn render_ok(v: &Value) -> String
+- render_error · function · L345-L348 — pub fn render_error(msg: &str) -> String
+- render_result · function · L351-L370 — pub fn render_result(tool: &str, result: &Value) -> String

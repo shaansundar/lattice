@@ -1,0 +1,57 @@
+# crates/functions/src/util.rs
+
+- R · type · L10-L10 — pub(crate) type R<T> = Result<T, CellError>;
+- MAX_CELLS · constant · L13-L13 — pub(crate) const MAX_CELLS: usize = 10_000_000;
+- MAX_TEXT · constant · L15-L15 — pub(crate) const MAX_TEXT: usize = 32_767;
+- S · constant · L18-L18 — pub(crate) const S: &[bool] = &[true];
+- A · constant · L20-L20 — pub(crate) const A: &[bool] = &[false];
+- finish · function · L24-L31 — pub(crate) fn finish(r: R<Value>) -> Value
+- num_val · function · L34-L36 — pub(crate) fn num_val(n: f64) -> R<Value>
+- text_val · function · L38-L40 — pub(crate) fn text_val(s: impl Into<Arc<str>>) -> R<Value>
+- scalar · function · L43-L45 — pub(crate) fn scalar(a: &Arg) -> Value
+- arg · function · L48-L50 — pub(crate) fn arg(args: &[Arg], i: usize) -> R<&Arg>
+- has · function · L53-L55 — pub(crate) fn has(args: &[Arg], i: usize) -> bool
+- num · function · L58-L61 — pub(crate) fn num(args: &[Arg], i: usize) -> R<f64>
+- opt_num · function · L64-L69 — pub(crate) fn opt_num(args: &[Arg], i: usize, default: f64) -> R<f64>
+- int · function · L72-L74 — pub(crate) fn int(args: &[Arg], i: usize) -> R<i64>
+- opt_int · function · L76-L81 — pub(crate) fn opt_int(args: &[Arg], i: usize, default: i64) -> R<i64>
+- to_int · function · L83-L88 — pub(crate) fn to_int(n: f64) -> R<i64>
+- text · function · L91-L94 — pub(crate) fn text(args: &[Arg], i: usize) -> R<String>
+- boolean · function · L97-L100 — pub(crate) fn boolean(args: &[Arg], i: usize) -> R<bool>
+- opt_bool · function · L102-L107 — pub(crate) fn opt_bool(args: &[Arg], i: usize, default: bool) -> R<bool>
+- as_array · function · L110-L115 — pub(crate) fn as_array(v: &Value) -> Cow<'_, Array>
+- array_val · function · L118-L123 — pub(crate) fn array_val(rows: usize, cols: usize, data: Vec<Value>) -> R<Value>
+- check_size · function · L126-L135 — pub(crate) fn check_size(rows: f64, cols: f64) -> R<(usize, usize)>
+- flatten · function · L138-L147 — pub(crate) fn flatten(args: &[Arg]) -> Vec<Value>
+- numbers · function · L152-L173 — pub(crate) fn numbers(args: &[Arg]) -> R<Vec<f64>>
+- numbers_a · function · L178-L200 — pub(crate) fn numbers_a(args: &[Arg]) -> R<Vec<f64>>
+- array_numbers · function · L204-L222 — pub(crate) fn array_numbers(v: &Value) -> R<Vec<f64>>
+- round_half_away · function · L226-L275 — pub(crate) fn round_half_away(x: f64, digits: i32) -> f64
+- to_sig_digits · function · L278-L284 — pub(crate) fn to_sig_digits(x: f64, sig: usize) -> f64
+- testutil · module · L287-L408 — pub(crate) mod testutil
+- TestCtx · struct · L293-L296 — pub struct TestCtx
+- default · function · L298-L300 — fn default() -> Self
+- date_system · function · L303-L305 — fn date_system(&self) -> DateSystem
+- now_serial · function · L306-L308 — fn now_serial(&self) -> f64
+- random · function · L309-L314 — fn random(&mut self) -> f64
+- ev · function · L318-L321 — pub fn ev(name: &str, args: Vec<Arg>) -> Value
+- n · function · L323-L325 — pub fn n(x: f64) -> Arg
+- t · function · L327-L329 — pub fn t(s: &str) -> Arg
+- b · function · L331-L333 — pub fn b(x: bool) -> Arg
+- e · function · L335-L337 — pub fn e(x: CellError) -> Arg
+- empty · function · L339-L341 — pub fn empty() -> Arg
+- arr · function · L343-L347 — pub fn arr(rows: Vec<Vec<Value>>) -> Value
+- col · function · L349-L351 — pub fn col(xs: &[f64]) -> Value
+- row · function · L353-L355 — pub fn row(xs: &[f64]) -> Value
+- rf · function · L357-L359 — pub fn rf(v: Value) -> Arg
+- av · function · L361-L363 — pub fn av(v: Value) -> Arg
+- tv · function · L364-L366 — pub fn tv(s: &str) -> Value
+- nv · function · L367-L369 — pub fn nv(x: f64) -> Value
+- close · function · L372-L380 — pub fn close(v: Value, expected: f64)
+- close_tol · function · L383-L391 — pub fn close_tol(v: Value, expected: f64, tol: f64)
+- is_err · function · L393-L395 — pub fn is_err(v: Value, err: CellError)
+- is_text · function · L397-L399 — pub fn is_text(v: Value, s: &str)
+- rows_of · function · L402-L407 — pub fn rows_of(v: &Value) -> Vec<Vec<Value>>
+- tests · module · L411-L434 — mod tests
+- rounding · function · L415-L423 — fn rounding()
+- aggregate_numbers · function · L426-L433 — fn aggregate_numbers()

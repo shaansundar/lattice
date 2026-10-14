@@ -1,0 +1,46 @@
+# crates/functions/src/info.rs
+
+- first · function · L13-L15 — fn first(a: &[Arg]) -> Value
+- is_blank · function · L17-L19 — fn is_blank(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_err · function · L20-L22 — fn is_err(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_error · function · L23-L25 — fn is_error(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_na · function · L26-L28 — fn is_na(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_number · function · L29-L31 — fn is_number(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_text · function · L32-L34 — fn is_text(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_nontext · function · L35-L37 — fn is_nontext(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_logical · function · L38-L40 — fn is_logical(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- parity · function · L42-L53 — fn parity(a: &[Arg]) -> R<f64>
+- is_even · function · L54-L56 — fn is_even(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- is_odd · function · L57-L59 — fn is_odd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- type_of · function · L61-L69 — fn type_of(v: &Value) -> f64
+- type_fn · function · L70-L78 — fn type_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- error_type · function · L80-L85 — fn error_type(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- na · function · L87-L89 — fn na(_a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- n_fn · function · L91-L98 — fn n_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- info · function · L100-L113 — fn info(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- logicals · function · L120-L145 — fn logicals(a: &[Arg]) -> R<Vec<bool>>
+- and · function · L147-L149 — fn and(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- or · function · L150-L152 — fn or(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- xor · function · L153-L155 — fn xor(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- not · function · L156-L158 — fn not(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- drive · function · L163-L197 — fn drive(a: &[Arg], drivers: &dyn Fn(usize) -> bool, f: &dyn Fn(&[Value]) -> R<Value>) -> R<Value>
+- empty_to_zero · function · L199-L201 — fn empty_to_zero(v: Value) -> Value
+- if_fn · function · L203-L208 — fn if_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ifs · function · L210-L224 — fn ifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- iferror · function · L226-L232 — fn iferror(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ifna · function · L234-L240 — fn ifna(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- switch_equal · function · L242-L252 — fn switch_equal(a: &Value, b: &Value) -> bool
+- switch · function · L254-L277 — fn switch(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- choose · function · L279-L287 — fn choose(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- true_fn · function · L289-L291 — fn true_fn(_a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- false_fn · function · L292-L294 — fn false_fn(_a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- hyperlink · function · L299-L309 — fn hyperlink(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- encodeurl · function · L311-L322 — fn encodeurl(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- value_err · function · L324-L326 — fn value_err(_a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L328-L486 — pub(crate) fn specs() -> Vec<FnSpec>
+- tests · module · L489-L605 — mod tests
+- is_functions · function · L495-L520 — fn is_functions()
+- type_error_n · function · L523-L542 — fn type_error_n()
+- logical · function · L545-L562 — fn logical()
+- conditionals · function · L565-L592 — fn conditionals()
+- web_and_cube · function · L595-L604 — fn web_and_cube()

@@ -1,0 +1,22 @@
+# crates/mcp/src/tests.rs
+
+- server · function · L9-L11 — fn server() -> Server
+- rpc · function · L13-L20 — fn rpc(s: &mut Server, id: u64, method: &str, params: Value) -> Value
+- call · function · L22-L26 — fn call(s: &mut Server, name: &str, args: Value) -> Value
+- text_of · function · L28-L30 — fn text_of(result: &Value) -> String
+- ok · function · L33-L37 — fn ok(s: &mut Server, name: &str, args: Value) -> Value
+- fails · function · L40-L44 — fn fails(s: &mut Server, name: &str, args: Value) -> String
+- err_code · function · L46-L48 — fn err_code(v: &Value) -> i64
+- tmp · function · L50-L54 — fn tmp(name: &str) -> std::path::PathBuf
+- initialize_and_version_negotiation · function · L59-L79 — fn initialize_and_version_negotiation()
+- tools_list_has_schemas · function · L82-L122 — fn tools_list_has_schemas()
+- malformed_input_never_panics · function · L125-L162 — fn malformed_input_never_panics()
+- every_tool_survives_hostile_arguments · function · L165-L176 — fn every_tool_survives_hostile_arguments()
+- resources · function · L179-L192 — fn resources()
+- basic_tools · function · L195-L217 — fn basic_tools()
+- sort_and_filter · function · L220-L232 — fn sort_and_filter()
+- save_and_open_roundtrip · function · L235-L249 — fn save_and_open_roundtrip()
+- agent_builds_a_budget · function · L253-L318 — fn agent_builds_a_budget()
+- serve_loop_over_buffers · function · L323-L340 — fn serve_loop_over_buffers()
+- remote_backend_over_tcp · function · L343-L383 — fn remote_backend_over_tcp()
+- file_commands_without_a_file_fail · function · L386-L394 — fn file_commands_without_a_file_fail()

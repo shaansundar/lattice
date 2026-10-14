@@ -1,0 +1,35 @@
+# crates/ui-egui/src/ribbon.rs
+
+- TABS · constant · L12-L12 — pub const TABS: &[&str] = &["Home", "Insert", "Draw", "Page Layout", "Formulas", "Data", "Review", "View", "Automate"];
+- TITLE_LEFT_PAD · constant · L15-L15 — pub const TITLE_LEFT_PAD: f32 = if cfg!(target_os = "macos") { 76.0 } else { 8.0 };
+- title_bar · function · L17-L122 — pub fn title_bar(app: &mut SheetApp, ui: &mut Ui)
+- show · function · L124-L211 — pub fn show(app: &mut SheetApp, ui: &mut Ui)
+- file_menu · function · L213-L237 — fn file_menu(app: &mut SheetApp, ui: &mut Ui)
+- contextual_tabs · function · L239-L252 — fn contextual_tabs(app: &SheetApp) -> Vec<&'static str>
+- sep · function · L254-L258 — fn sep(ui: &mut Ui)
+- active_style · function · L260-L268 — fn active_style(app: &SheetApp) -> Style
+- theme_colors · function · L270-L272 — fn theme_colors(app: &SheetApp) -> [u32; 12]
+- act · function · L275-L277 — fn act(app: &mut SheetApp, id: &str, params: serde_json::Value)
+- keytip · function · L280-L289 — fn keytip(app: &SheetApp, ui: &Ui, sequence: &str, at: egui::Pos2)
+- menu_items · function · L291-L317 — fn menu_items(app: &mut SheetApp, ui: &mut Ui, items: &[(&str, &str, serde_json::Value)])
+- home · function · L319-L792 — fn home(app: &mut SheetApp, ui: &mut Ui)
+- font_combo · function · L794-L806 — fn font_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style)
+- FONTS · constant · L808-L826 — pub const FONTS: &[&str] = &[
+- size_combo · function · L828-L840 — fn size_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style)
+- number_combo · function · L842-L873 — fn number_combo(app: &mut SheetApp, ui: &mut Ui, st: &Style)
+- cf_menu · function · L875-L960 — fn cf_menu(app: &mut SheetApp, ui: &mut Ui)
+- table_gallery · function · L963-L986 — fn table_gallery(app: &mut SheetApp, ui: &mut Ui, cmd: &str)
+- paint_table_swatch · function · L988-L1017 — fn paint_table_swatch(ui: &Ui, r: Rect, wb: &lattice_engine::model::Workbook, style: &str)
+- cell_style_gallery · function · L1019-L1101 — fn cell_style_gallery(app: &mut SheetApp, ui: &mut Ui)
+- insert · function · L1103-L1271 — fn insert(app: &mut SheetApp, ui: &mut Ui)
+- draw · function · L1273-L1301 — fn draw(app: &mut SheetApp, ui: &mut Ui)
+- page_layout · function · L1303-L1406 — fn page_layout(app: &mut SheetApp, ui: &mut Ui)
+- formulas · function · L1408-L1519 — fn formulas(app: &mut SheetApp, ui: &mut Ui)
+- data · function · L1521-L1596 — fn data(app: &mut SheetApp, ui: &mut Ui)
+- review · function · L1598-L1634 — fn review(app: &mut SheetApp, ui: &mut Ui)
+- view · function · L1636-L1722 — fn view(app: &mut SheetApp, ui: &mut Ui)
+- automate · function · L1724-L1737 — fn automate(app: &mut SheetApp, ui: &mut Ui)
+- table_design · function · L1739-L1790 — fn table_design(app: &mut SheetApp, ui: &mut Ui)
+- chart_design · function · L1792-L1846 — fn chart_design(app: &mut SheetApp, ui: &mut Ui)
+- shortcut · function · L1849-L1920 — pub fn shortcut(app: &mut SheetApp, key: Key, m: Modifiers)
+- unused · function · L1923-L1925 — fn unused(_: &Tokens, _: Icon)

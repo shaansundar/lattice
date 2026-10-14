@@ -1,0 +1,22 @@
+# crates/xlsx/src/chart.rs
+
+- group_kind · function · L15-L62 — fn group_kind(g: &El) -> Option<ChartKind>
+- data_ref · function · L64-L84 — fn data_ref(e: Option<&El>) -> Option<String>
+- read_series · function · L86-L111 — fn read_series(s: &El) -> Series
+- rich_title · function · L113-L128 — fn rich_title(t: &El) -> Option<String>
+- axis_ids · function · L130-L132 — fn axis_ids(g: &El) -> Vec<String>
+- read_chart · function · L134-L188 — pub fn read_chart(root: &El) -> Option<Chart>
+- G · enum · L193-L203 — enum G
+- group_for · function · L205-L227 — fn group_for(k: ChartKind) -> G
+- MAX_CACHE · constant · L229-L229 — const MAX_CACHE: u64 = 100_000;
+- ref_values · function · L232-L250 — pub(crate) fn ref_values(wb: &Workbook, sheet_idx: usize, f: &str) -> Option<Vec<Value>>
+- is_ref · function · L252-L254 — fn is_ref(f: &str) -> bool
+- num_data · function · L256-L284 — fn num_data(tag: &str, f: Option<&str>, wb: &Workbook, si: usize) -> String
+- str_data · function · L286-L309 — fn str_data(tag: &str, f: &str, wb: &Workbook, si: usize) -> String
+- series_xml · function · L311-L370 — fn series_xml(s: &Series, idx: usize, g: G, wb: &Workbook, si: usize) -> String
+- dlbls · function · L372-L377 — fn dlbls(show: bool) -> String
+- group_xml · function · L379-L410 — fn group_xml(g: G, series: &[(usize, &Series)], ch: &Chart, axes: (u32, u32), wb: &Workbook, si: usize) -> String
+- title_xml · function · L412-L419 — fn title_xml(t: &str) -> String
+- Ax · struct · L421-L430 — struct Ax<'a>
+- axis_xml · function · L432-L458 — fn axis_xml(a: &Ax<'_>) -> String
+- write_chart · function · L461-L596 — pub fn write_chart(wb: &Workbook, si: usize, ch: &Chart) -> String

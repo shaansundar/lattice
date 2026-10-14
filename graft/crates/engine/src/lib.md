@@ -1,0 +1,48 @@
+# crates/engine/src/lib.rs
+
+- catalog · module · L9-L9 — pub mod catalog;
+- cf · module · L10-L10 — pub mod cf;
+- cmd · module · L11-L11 — pub mod cmd;
+- display · module · L12-L12 — pub mod display;
+- fill · module · L13-L13 — pub mod fill;
+- io · module · L14-L14 — pub mod io;
+- pivot · module · L15-L15 — pub mod pivot;
+- sample · module · L16-L16 — pub mod sample;
+- selection · module · L17-L17 — pub mod selection;
+- tables · module · L18-L18 — pub mod tables;
+- EngineError · enum · L37-L50 — pub enum EngineError
+- Result · type · L52-L52 — pub type Result<T> = std::result::Result<T, EngineError>;
+- HistoryEntry · struct · L55-L59 — pub struct HistoryEntry
+- Clipboard · struct · L63-L73 — pub struct Clipboard
+- Mode · enum · L77-L83 — pub enum Mode
+- DocState · struct · L86-L99 — pub struct DocState
+- NEXT_UID · constant · L101-L101 — static NEXT_UID: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(1);
+- UNDO_LIMIT · constant · L102-L102 — const UNDO_LIMIT: usize = 100;
+- squash_history_since · function · L109-L117 — pub fn squash_history_since(&mut self, start: &Arc<Workbook>, label: &str) -> usize
+- new · function · L119-L137 — pub fn new(mut wb: Workbook, path: Option<String>, title: String) -> DocState
+- is_dirty · function · L138-L140 — pub fn is_dirty(&self) -> bool
+- sheet_index · function · L141-L143 — pub fn sheet_index(&self) -> usize
+- display_title · function · L144-L150 — pub fn display_title(&self) -> String
+- Prefs · struct · L156-L167 — pub struct Prefs
+- default · function · L170-L181 — fn default() -> Self
+- UiRequest · enum · L186-L192 — pub enum UiRequest
+- Session · struct · L195-L217 — pub struct Session
+- new · function · L220-L222 — pub fn new() -> Session
+- documents · function · L223-L225 — pub fn documents(&self) -> &[DocState]
+- active_index · function · L226-L228 — pub fn active_index(&self) -> usize
+- set_active · function · L229-L233 — pub fn set_active(&mut self, i: usize)
+- active · function · L234-L236 — pub fn active(&self) -> Option<&DocState>
+- active_mut · function · L237-L239 — pub fn active_mut(&mut self) -> Option<&mut DocState>
+- doc · function · L240-L242 — pub fn doc(&self) -> Result<&DocState>
+- doc_mut · function · L243-L245 — pub fn doc_mut(&mut self) -> Result<&mut DocState>
+- add_document · function · L246-L250 — pub fn add_document(&mut self, d: DocState) -> usize
+- close_document · function · L251-L258 — pub fn close_document(&mut self, i: usize)
+- new_workbook · function · L260-L268 — pub fn new_workbook(&mut self) -> usize
+- commands · function · L270-L272 — pub fn commands(&self) -> Vec<CommandInfo>
+- execute · function · L276-L319 — pub fn execute(&mut self, id: &str, params: Json) -> Result<Json>
+- run · function · L321-L323 — pub fn run(&mut self, id: &str, params: Json) -> std::result::Result<Json, String>
+- take_ui_requests · function · L325-L327 — pub fn take_ui_requests(&mut self) -> Vec<UiRequest>
+- execute_headless · function · L332-L346 — pub fn execute_headless(&mut self, id: &str, params: Json) -> Result<Json>
+- active_sheet · function · L350-L352 — pub fn active_sheet(s: &Session) -> Option<&lattice_model::Sheet>
+- cell · function · L354-L356 — pub fn cell(r: u32, c: u32) -> CellRef
+- tests · module · L359-L359 — mod tests;

@@ -1,0 +1,39 @@
+# crates/engine/src/cmd/data.rs
+
+- specs · function · L13-L92 — pub fn specs() -> Vec<CommandSpec>
+- col_param · function · L94-L100 — fn col_param(v: Option<&Json>, base: u32) -> Option<u32>
+- data_range · function · L104-L120 — fn data_range(s: &Session, p: &Json) -> Result<RangeRef>
+- guess_header · function · L123-L147 — fn guess_header(wb: &Workbook, sh: &Sheet, r: RangeRef) -> bool
+- SortKey · struct · L150-L155 — struct SortKey
+- quick_sort · function · L157-L164 — fn quick_sort(s: &mut Session, p: &Json, asc: bool) -> Result<Json>
+- sort · function · L166-L202 — fn sort(s: &mut Session, p: &Json) -> Result<Json>
+- do_sort · function · L204-L376 — fn do_sort(s: &mut Session, r: RangeRef, header: bool, keys: Vec<SortKey>, by_cols: bool, case: bool) -> Result<Json>
+- sorted_anchor · function · L384-L405 — fn sorted_anchor(sh: &Sheet, a: Anchor, bottom: (u32, u32, f32, f32), by_cols: bool, b0: u32, b1: u32, dst_of: &[u32]) -> Anchor
+- toggle_filter · function · L409-L439 — fn toggle_filter(s: &mut Session, p: &Json) -> Result<Json>
+- filter_by · function · L441-L490 — fn filter_by(s: &mut Session, p: &Json) -> Result<Json>
+- custom_ok · function · L493-L525 — fn custom_ok(v: &Value, text: &str, op: &str, crit: &str) -> bool
+- apply_filter · function · L528-L606 — pub(crate) fn apply_filter(wb: &mut Workbook, sheet: usize)
+- clear_filter · function · L608-L619 — fn clear_filter(s: &mut Session, _: &Json) -> Result<Json>
+- reapply · function · L621-L628 — fn reapply(s: &mut Session, _: &Json) -> Result<Json>
+- filter_values · function · L631-L654 — pub fn filter_values(wb: &Workbook, sheet: usize, col: u32) -> Vec<(String, bool)>
+- case_order · function · L658-L660 — fn case_order(a: &str, b: &str) -> Ordering
+- sort_key · function · L662-L670 — fn sort_key(v: &Value) -> (u8, i64, String)
+- remove_duplicates · function · L674-L736 — fn remove_duplicates(s: &mut Session, p: &Json) -> Result<Json>
+- text_to_columns · function · L738-L789 — fn text_to_columns(s: &mut Session, p: &Json) -> Result<Json>
+- split_delimited · function · L791-L820 — fn split_delimited(text: &str, delims: &[char], consecutive: bool, quote: char) -> Vec<String>
+- op_param · function · L824-L835 — fn op_param(s: Option<&str>) -> CfOperator
+- subtract_range · function · L838-L854 — fn subtract_range(r: RangeRef, cut: &RangeRef) -> Vec<RangeRef>
+- remove_validation_cells · function · L857-L864 — fn remove_validation_cells(validations: &mut Vec<Validation>, cuts: &[RangeRef])
+- validation · function · L866-L916 — fn validation(s: &mut Session, p: &Json) -> Result<Json>
+- list_items · function · L919-L933 — pub fn list_items(wb: &Workbook, sheet: usize, dv: &Validation) -> Vec<String>
+- check_validation · function · L936-L974 — pub fn check_validation(wb: &Workbook, sheet: usize, at: CellRef, input: &str) -> Option<(Validation, String)>
+- compare_op · function · L976-L988 — fn compare_op(op: CfOperator, n: f64, a: Option<f64>, b: Option<f64>) -> bool
+- validate_cmd · function · L990-L998 — fn validate_cmd(s: &mut Session, p: &Json) -> Result<Json>
+- circle_invalid · function · L1000-L1018 — fn circle_invalid(s: &mut Session, _: &Json) -> Result<Json>
+- outline_lines · function · L1022-L1031 — fn outline_lines(s: &Session, p: &Json) -> Result<(bool, u32, u32)>
+- group · function · L1033-L1048 — fn group(s: &mut Session, p: &Json, on: bool) -> Result<Json>
+- detail · function · L1050-L1077 — fn detail(s: &mut Session, p: &Json, hide: bool) -> Result<Json>
+- subtotal · function · L1079-L1142 — fn subtotal(s: &mut Session, p: &Json) -> Result<Json>
+- tests · module · L1145-L1176 — mod tests
+- partial_validation_edits_keep_the_rest_of_the_old_rule · function · L1149-L1168 — fn partial_validation_edits_keep_the_rest_of_the_old_rule()
+- split · function · L1171-L1175 — fn split()

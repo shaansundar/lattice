@@ -1,0 +1,24 @@
+# crates/engine/src/fill.rs
+
+- FillMode · enum · L14-L19 — pub enum FillMode
+- lists · function · L22-L32 — fn lists() -> Vec<Vec<String>>
+- fill · function · L35-L122 — pub fn fill(cx: &mut Ctx, sheet: usize, src: RangeRef, target: RangeRef, mode: FillMode) -> Result<()>
+- Pattern · enum · L125-L157 — enum Pattern
+- detect · function · L160-L232 — fn detect(cells: &[(CellRef, Option<Cell>)], custom: &[Vec<String>], sys: lattice_core::DateSystem, fmt: &str) -> Pattern
+- value · function · L235-L271 — fn value(&self, k: i64, forward: bool, _len: usize) -> Option<Value>
+- add_months_clamped · function · L277-L284 — fn add_months_clamped(sys: lattice_core::DateSystem, serial: f64, months: i64) -> Option<f64>
+- round15 · function · L286-L293 — fn round15(x: f64) -> f64
+- split_num · function · L296-L309 — fn split_num(t: &str) -> Option<(String, i64, String, usize)>
+- series · function · L312-L364 — pub fn series(cx: &mut Ctx, sheet: usize, r: RangeRef, rows: bool, kind: &str, step: f64, stop: Option<f64>, unit: &str) -> Result<()>
+- flash_fill · function · L370-L418 — pub fn flash_fill(cx: &mut Ctx, sheet: usize, at: CellRef) -> Result<usize>
+- Piece · enum · L421-L427 — enum Piece
+- Case · enum · L430-L435 — enum Case
+- Program · struct · L438-L438 — struct Program(Vec<Piece>);
+- tokens · function · L440-L442 — fn tokens(s: &str) -> Vec<String>
+- apply_case · function · L444-L461 — fn apply_case(s: &str, c: Case) -> String
+- apply · function · L464-L478 — fn apply(&self, src: &str) -> Option<String>
+- learn · function · L482-L486 — fn learn(examples: &[(String, String)]) -> Option<Program>
+- synthesize · function · L490-L543 — fn synthesize(src: &str, dst: &str) -> Vec<Program>
+- tests · module · L546-L565 — mod tests
+- flash_programs · function · L550-L557 — fn flash_programs()
+- split_numbers · function · L560-L564 — fn split_numbers()

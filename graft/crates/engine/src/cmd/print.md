@@ -1,0 +1,76 @@
+# crates/engine/src/cmd/print.rs
+
+- specs · function · L19-L58 — pub fn specs() -> Vec<CommandSpec>
+- PX_TO_PT · constant · L61-L61 — const PX_TO_PT: f32 = 0.75;
+- MAX_PAGES · constant · L63-L63 — pub const MAX_PAGES: usize = 2000;
+- DENSE_BLOCK · constant · L65-L65 — const DENSE_BLOCK: u64 = 60_000;
+- paper_size · function · L70-L72 — pub fn paper_size(name: &str) -> (f32, f32)
+- known_paper · function · L74-L89 — fn known_paper(name: &str) -> Option<(f32, f32)>
+- SheetLayout · struct · L95-L113 — pub struct SheetLayout
+- k · function · L116-L118 — fn k(&self) -> f32
+- avail · function · L119-L122 — fn avail(&self) -> (f32, f32)
+- PrintOptions · struct · L127-L131 — pub struct PrintOptions
+- from_params · function · L134-L145 — fn from_params(p: &Json, cmd: &str) -> Result<PrintOptions>
+- print_range · function · L150-L174 — pub fn print_range(sh: &Sheet) -> Option<RangeRef>
+- trim_full · function · L177-L185 — fn trim_full(sh: &Sheet, r: RangeRef) -> RangeRef
+- bands · function · L189-L215 — fn bands(start: u32, end: u32, size: impl Fn(u32) -> f32, avail: impl Fn(u32) -> f32, breaks: &[u32], cap: usize) -> Vec<(u32, u32)>
+- title_span · function · L217-L225 — fn title_span(t: Option<(u32, u32)>, max: u32) -> Option<(u32, u32)>
+- layout_sheet · function · L228-L333 — pub fn layout_sheet(wb: &Workbook, si: usize, opts: &PrintOptions, range_override: Option<RangeRef>) -> Option<SheetLayout>
+- layouts · function · L336-L362 — pub fn layouts(wb: &Workbook, opts: &PrintOptions) -> Vec<SheetLayout>
+- HfContext · struct · L368-L376 — pub struct HfContext
+- HfSection · struct · L380-L385 — pub struct HfSection
+- expand_header_footer · function · L388-L459 — pub fn expand_header_footer(spec: &str, cx: &HfContext) -> [HfSection; 3]
+- rgb_of · function · L463-L465 — fn rgb_of(c: Color, wb: &Workbook) -> Option<Rgb>
+- numfmt_rgb · function · L467-L479 — fn numfmt_rgb(c: lattice_numfmt::FormatColor) -> Rgb
+- blend · function · L481-L485 — fn blend(fg: [u8; 4]) -> Rgb
+- Look · struct · L488-L492 — struct Look
+- cell_look · function · L494-L537 — fn cell_look(wb: &Workbook, si: usize, sh: &Sheet, c: CellRef, cf: &mut Option<crate::cf::CfCache>) -> Look
+- PdfMeasure · struct · L540-L540 — struct PdfMeasure;
+- text_width · function · L543-L545 — fn text_width(&self, text: &str, size: f32, bold: bool) -> f32
+- Xf · struct · L550-L554 — struct Xf
+- p · function · L557-L559 — fn p(&self, x: f32, y: f32) -> (f32, f32)
+- pts · function · L560-L562 — fn pts(&self, pts: &[[f32; 2]]) -> Vec<[f32; 2]>
+- draw_prims · function · L566-L623 — fn draw_prims(pg: &mut Page, prims: &[lattice_chart::Prim], xf: Xf)
+- PAD_PX · constant · L625-L625 — const PAD_PX: f32 = 2.0;
+- wrap_lines · function · L628-L664 — fn wrap_lines(text: &str, font: Font, size: f32, width: f32) -> Vec<String>
+- Block · struct · L667-L678 — struct Block<'a>
+- x · function · L681-L687 — fn x(&self, col: u32) -> f32
+- y · function · L688-L694 — fn y(&self, row: u32) -> f32
+- rect · function · L695-L698 — fn rect(&self, r: RangeRef) -> (f32, f32, f32, f32)
+- range · function · L699-L701 — fn range(&self) -> RangeRef
+- border_dash · function · L704-L714 — fn border_dash(style: BorderStyle, k: f32) -> Vec<f32>
+- draw_border · function · L716-L731 — fn draw_border(pg: &mut Page, b: &BorderLine, wb: &Workbook, x0: f32, y0: f32, x1: f32, y1: f32, k: f32)
+- font_for · function · L733-L735 — fn font_for(style: &Style) -> Font
+- draw_block · function · L738-L857 — fn draw_block(pg: &mut Page, b: &Block, gridlines: bool, cf: &mut Option<crate::cf::CfCache>)
+- draw_cell_picture · function · L860-L883 — fn draw_cell_picture(pg: &mut Page, data: &[u8], rect: (f32, f32, f32, f32), k: f32)
+- empty_for_overflow · function · L886-L888 — fn empty_for_overflow(sh: &Sheet, c: CellRef, merges: &[RangeRef]) -> bool
+- draw_text · function · L890-L1066 — fn draw_text(pg: &mut Page, b: &Block, c: CellRef, l: &Look, rect: (f32, f32, f32, f32), merged: bool, merges: &[RangeRef], limits: (f32, f32))
+- anchor_rect · function · L1069-L1071 — fn anchor_rect(sh: &Sheet, a: &Anchor) -> (f64, f64, f64, f64)
+- decode_image · function · L1074-L1084 — fn decode_image(data: &[u8], max_w: u32, max_h: u32) -> Option<(Vec<u8>, u32, u32)>
+- draw_objects · function · L1087-L1179 — fn draw_objects(pg: &mut Page, wb: &Workbook, si: usize, sh: &Sheet, b: &Block)
+- draw_headings · function · L1181-L1214 — fn draw_headings(pg: &mut Page, b: &Block, col_heads: bool, row_heads: bool, at: (f32, f32), size: (f32, f32))
+- draw_header_footer · function · L1216-L1245 — fn draw_header_footer(pg: &mut Page, lay: &SheetLayout, cx: &HfContext)
+- make_block · function · L1248-L1265 — fn make_block<'a>(wb: &'a Workbook, si: usize, sh: &'a Sheet, rows: (u32, u32), cols: (u32, u32), x: f32, y: f32, lay: &SheetLayout) -> Block<'a>
+- segments · function · L1268-L1277 — fn segments(titles: Option<(u32, u32)>, band: (u32, u32)) -> Vec<(u32, u32)>
+- seg_size · function · L1279-L1281 — fn seg_size(sh: &Sheet, seg: (u32, u32), rows: bool) -> f32
+- render_pdf · function · L1284-L1347 — pub fn render_pdf(wb: &Workbook, layouts: &[SheetLayout], file: &str, path: &str) -> (Vec<u8>, usize)
+- build_pdf · function · L1351-L1357 — fn build_pdf(s: &Session, p: &Json, cmd: &str) -> Result<(Vec<u8>, usize)>
+- export_pdf · function · L1359-L1368 — fn export_pdf(s: &mut Session, p: &Json) -> Result<Json>
+- print · function · L1370-L1378 — fn print(s: &mut Session, p: &Json) -> Result<Json>
+- print_preview · function · L1380-L1412 — fn print_preview(s: &mut Session, p: &Json) -> Result<Json>
+- page_setup · function · L1414-L1568 — fn page_setup(s: &mut Session, p: &Json) -> Result<Json>
+- CMD · constant · L1415-L1415 — const CMD: &str = "pageLayout.pageSetup";
+- tests · module · L1571-L1832 — mod tests
+- s · function · L1576-L1580 — fn s() -> Session
+- pdf_of · function · L1581-L1585 — fn pdf_of(s: &mut Session, p: Json) -> (Vec<u8>, u64)
+- contains · function · L1586-L1588 — fn contains(hay: &[u8], needle: &str) -> bool
+- page_count_300_rows_letter_portrait · function · L1591-L1619 — fn page_count_300_rows_letter_portrait()
+- wide_sheet_goes_down_then_over · function · L1622-L1632 — fn wide_sheet_goes_down_then_over()
+- pdf_contains_text_and_header_codes_expand · function · L1635-L1670 — fn pdf_contains_text_and_header_codes_expand()
+- export_writes_file · function · L1673-L1687 — fn export_writes_file()
+- rich_sheet_renders · function · L1690-L1704 — fn rich_sheet_renders()
+- charts_and_images_are_drawn · function · L1707-L1733 — fn charts_and_images_are_drawn()
+- page_setup_edits_settings · function · L1736-L1761 — fn page_setup_edits_settings()
+- hostile_settings_never_panic_and_cap_pages · function · L1764-L1792 — fn hostile_settings_never_panic_and_cap_pages()
+- bands_unit · function · L1795-L1809 — fn bands_unit()
+- rotated_wrapped_text_prints_rotated · function · L1812-L1831 — fn rotated_wrapped_text_prints_rotated()

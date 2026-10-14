@@ -1,0 +1,26 @@
+# crates/mcp/src/server.rs
+
+- PROTOCOL_VERSION · constant · L11-L11 — pub const PROTOCOL_VERSION: &str = "2025-06-18";
+- SUPPORTED_VERSIONS · constant · L13-L13 — pub const SUPPORTED_VERSIONS: &[&str] = &[PROTOCOL_VERSION, "2025-03-26", "2024-11-05"];
+- PARSE_ERROR · constant · L15-L15 — const PARSE_ERROR: i64 = -32700;
+- INVALID_REQUEST · constant · L16-L16 — const INVALID_REQUEST: i64 = -32600;
+- METHOD_NOT_FOUND · constant · L17-L17 — const METHOD_NOT_FOUND: i64 = -32601;
+- INVALID_PARAMS · constant · L18-L18 — const INVALID_PARAMS: i64 = -32602;
+- INTERNAL_ERROR · constant · L19-L19 — const INTERNAL_ERROR: i64 = -32603;
+- RESOURCE_NOT_FOUND · constant · L20-L20 — const RESOURCE_NOT_FOUND: i64 = -32002;
+- MAX_LINE · constant · L23-L23 — const MAX_LINE: usize = 16 * 1024 * 1024;
+- INSTRUCTIONS · constant · L25-L31 — const INSTRUCTIONS: &str = "Lattice is a spreadsheet app (an Excel clone). Cells use A1 notation (\"B2\", \"A1:D10\", \
+- WORKBOOK_URI · constant · L34-L34 — pub const WORKBOOK_URI: &str = "lattice://workbook";
+- COMMANDS_URI · constant · L35-L35 — pub const COMMANDS_URI: &str = "lattice://commands";
+- FUNCTIONS_URI · constant · L36-L36 — pub const FUNCTIONS_URI: &str = "lattice://functions";
+- Server · struct · L39-L42 — pub struct Server
+- response · function · L44-L46 — fn response(id: Value, result: Value) -> Value
+- error · function · L48-L50 — fn error(id: Value, code: i64, message: impl Into<String>) -> Value
+- new · function · L53-L55 — pub fn new(backend: Box<dyn Backend>) -> Self
+- backend · function · L57-L59 — pub fn backend(&mut self) -> &mut dyn Backend
+- is_initialized · function · L62-L64 — pub fn is_initialized(&self) -> bool
+- serve · function · L68-L86 — pub fn serve(&mut self, mut input: impl BufRead, mut output: impl Write) -> std::io::Result<()>
+- handle_line · function · L89-L111 — pub fn handle_line(&mut self, line: &str) -> Option<String>
+- handle · function · L114-L139 — pub fn handle(&mut self, msg: Value) -> Option<Value>
+- notification · function · L141-L147 — fn notification(&mut self, method: &str)
+- request · function · L149-L196 — fn request(&mut self, method: &str, params: &Value) -> Result<Value, (i64, String)>

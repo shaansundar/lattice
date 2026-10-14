@@ -1,0 +1,132 @@
+# crates/functions/src/math.rs
+
+- alt_table · function · L17-L26 — const fn alt_table(first_crit: usize) -> [bool; 256]
+- COUNTIFS_SCAL · constant · L28-L28 — static COUNTIFS_SCAL: [bool; 256] = alt_table(1);
+- SUMIFS_SCAL · constant · L30-L30 — static SUMIFS_SCAL: [bool; 256] = alt_table(2);
+- IF2 · constant · L31-L31 — const IF2: &[bool] = &[false, true, false];
+- TRIG_LIMIT · constant · L36-L36 — const TRIG_LIMIT: f64 = 134_217_728.0; // 2^27: Excel's argument limit for trig functions
+- unary · function · L38-L40 — fn unary(a: &[Arg], f: impl Fn(f64) -> R<f64>) -> R<Value>
+- trig_arg · function · L42-L44 — fn trig_arg(x: f64) -> R<f64>
+- nonzero · function · L46-L48 — fn nonzero(x: f64) -> R<f64>
+- clean · function · L51-L53 — fn clean(x: f64) -> f64
+- digits_arg · function · L55-L58 — fn digits_arg(a: &[Arg], i: usize) -> R<i32>
+- round_dir · function · L61-L80 — fn round_dir(x: f64, digits: i32, up: bool) -> f64
+- sum · function · L85-L87 — fn sum(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sumsq · function · L89-L91 — fn sumsq(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- product · function · L93-L99 — fn product(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sumproduct · function · L101-L121 — fn sumproduct(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pair_sum · function · L123-L147 — fn pair_sum(a: &[Arg], f: fn(f64, f64) -> f64) -> R<Value>
+- sumx2my2 · function · L149-L151 — fn sumx2my2(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sumx2py2 · function · L152-L154 — fn sumx2py2(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sumxmy2 · function · L155-L157 — fn sumxmy2(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- round · function · L162-L164 — fn round(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- roundup · function · L165-L167 — fn roundup(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- rounddown · function · L168-L170 — fn rounddown(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- trunc · function · L171-L173 — fn trunc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- int_fn · function · L174-L176 — fn int_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- mround · function · L178-L188 — fn mround(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ceiling · function · L190-L200 — fn ceiling(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- floor · function · L202-L215 — fn floor(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ceil_floor_math · function · L219-L233 — fn ceil_floor_math(x: f64, s: f64, up: bool, away: bool) -> R<Value>
+- ceiling_math · function · L235-L240 — fn ceiling_math(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- floor_math · function · L241-L247 — fn floor_math(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ceiling_precise · function · L248-L252 — fn ceiling_precise(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- floor_precise · function · L253-L257 — fn floor_precise(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- even_odd · function · L259-L271 — fn even_odd(x: f64, odd: bool) -> f64
+- even · function · L272-L274 — fn even(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- odd · function · L275-L277 — fn odd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- modulo · function · L282-L296 — fn modulo(x: f64, d: f64) -> R<f64>
+- mod_fn · function · L297-L299 — fn mod_fn(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- quotient · function · L300-L303 — fn quotient(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- abs · function · L304-L306 — fn abs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sign · function · L307-L317 — fn sign(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sqrt · function · L318-L320 — fn sqrt(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sqrtpi · function · L321-L323 — fn sqrtpi(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- power_of · function · L325-L340 — fn power_of(x: f64, y: f64) -> R<f64>
+- power · function · L341-L343 — fn power(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- exp · function · L344-L346 — fn exp(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ln · function · L347-L349 — fn ln(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- log10 · function · L350-L352 — fn log10(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- log · function · L353-L370 — fn log(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- pi · function · L371-L373 — fn pi(_a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- rand · function · L374-L376 — fn rand(_a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- randbetween · function · L377-L386 — fn randbetween(a: &[Arg], c: &mut dyn Ctx) -> R<Value>
+- fact_of · function · L391-L406 — fn fact_of(n: f64) -> R<f64>
+- fact · function · L407-L409 — fn fact(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- factdouble · function · L410-L425 — fn factdouble(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- combin_of · function · L427-L447 — fn combin_of(n: f64, k: f64) -> R<f64>
+- combin · function · L448-L450 — fn combin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- combina · function · L451-L460 — fn combina(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- permut · function · L461-L476 — fn permut(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- permutationa · function · L477-L483 — fn permutationa(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- integer_args · function · L485-L493 — fn integer_args(a: &[Arg]) -> R<Vec<u64>>
+- gcd2 · function · L494-L501 — fn gcd2(mut a: u64, mut b: u64) -> u64
+- gcd · function · L502-L505 — fn gcd(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- lcm · function · L506-L521 — fn lcm(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- multinomial · function · L522-L538 — fn multinomial(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sin · function · L543-L545 — fn sin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cos · function · L546-L548 — fn cos(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tan · function · L549-L551 — fn tan(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- asin · function · L552-L554 — fn asin(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- acos · function · L555-L557 — fn acos(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- atan · function · L558-L560 — fn atan(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- atan2 · function · L561-L567 — fn atan2(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sinh · function · L568-L570 — fn sinh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cosh · function · L571-L573 — fn cosh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- tanh · function · L574-L576 — fn tanh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- asinh · function · L577-L579 — fn asinh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- acosh · function · L580-L582 — fn acosh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- atanh · function · L583-L585 — fn atanh(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- cot · function · L586-L588 — fn cot(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- coth · function · L589-L591 — fn coth(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- csc · function · L592-L594 — fn csc(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- csch · function · L595-L597 — fn csch(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sec · function · L598-L600 — fn sec(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- sech · function · L601-L603 — fn sech(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- acot · function · L604-L606 — fn acot(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- acoth · function · L607-L609 — fn acoth(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- degrees · function · L610-L612 — fn degrees(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- radians · function · L613-L615 — fn radians(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- NUMERALS · constant · L620-L620 — const NUMERALS: [(char, u32); 7] = [('I', 1), ('V', 5), ('X', 10), ('L', 50), ('C', 100), ('D', 500), ('M', 1000)];
+- roman_tokens · function · L624-L642 — fn roman_tokens(form: u32) -> Vec<(String, u32)>
+- roman · function · L644-L664 — fn roman(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- arabic · function · L666-L691 — fn arabic(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- base · function · L693-L715 — fn base(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- decimal · function · L717-L733 — fn decimal(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- matrix · function · L739-L750 — fn matrix(v: &Value) -> R<(usize, usize, Vec<f64>)>
+- to_value_array · function · L752-L755 — fn to_value_array(rows: usize, cols: usize, data: Vec<f64>) -> R<Value>
+- mmult · function · L757-L781 — fn mmult(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- square · function · L784-L793 — fn square(a: &[Arg]) -> R<(usize, Vec<f64>)>
+- determinant · function · L795-L832 — fn determinant(n: usize, mut m: Vec<f64>) -> f64
+- mdeterm · function · L834-L839 — fn mdeterm(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- minverse · function · L841-L900 — fn minverse(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- munit · function · L902-L912 — fn munit(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- seriessum · function · L914-L927 — fn seriessum(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- criteria_mask · function · L933-L953 — fn criteria_mask(a: &[Arg], first_pair: usize, rows: usize, cols: usize) -> R<Vec<bool>>
+- masked_numbers · function · L956-L969 — fn masked_numbers(target: &Array, mask: &[bool]) -> R<Vec<f64>>
+- countifs · function · L971-L975 — fn countifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- ifs_numbers · function · L978-L982 — fn ifs_numbers(a: &[Arg]) -> R<Vec<f64>>
+- sumifs · function · L984-L986 — fn sumifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- averageifs · function · L987-L993 — fn averageifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- maxifs · function · L994-L997 — fn maxifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- minifs · function · L998-L1001 — fn minifs(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- countif · function · L1003-L1007 — fn countif(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- if_numbers · function · L1012-L1035 — fn if_numbers(a: &[Arg]) -> R<Vec<f64>>
+- sumif · function · L1036-L1038 — fn sumif(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- averageif · function · L1039-L1045 — fn averageif(a: &[Arg], _c: &mut dyn Ctx) -> R<Value>
+- specs · function · L1050-L1264 — pub(crate) fn specs() -> Vec<FnSpec>
+- NUM_RANGE_REV · constant · L1266-L1266 — const NUM_RANGE_REV: &[bool] = &[false, true];
+- tests · module · L1269-L1588 — mod tests
+- ev1 · function · L1274-L1276 — fn ev1(name: &str, x: f64) -> Value
+- ev2 · function · L1277-L1279 — fn ev2(name: &str, x: f64, y: f64) -> Value
+- sums · function · L1282-L1304 — fn sums()
+- rounding · function · L1307-L1364 — fn rounding()
+- arithmetic · function · L1367-L1402 — fn arithmetic()
+- combinatorics · function · L1405-L1435 — fn combinatorics()
+- trig · function · L1438-L1466 — fn trig()
+- number_systems · function · L1469-L1496 — fn number_systems()
+- matrices · function · L1499-L1528 — fn matrices()
+- random · function · L1531-L1546 — fn random()
+- lifting · function · L1549-L1554 — fn lifting()
+- data · function · L1556-L1560 — fn data() -> (Value, Value)
+- criteria_functions · function · L1563-L1587 — fn criteria_functions()

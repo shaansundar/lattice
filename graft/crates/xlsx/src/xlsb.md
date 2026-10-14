@@ -1,0 +1,54 @@
+# crates/xlsx/src/xlsb.rs
+
+- MAIN · constant · L17-L17 — const MAIN: &str = "application/vnd.ms-excel.main";
+- BINARY_MAIN · constant · L18-L18 — const BINARY_MAIN: &str = "application/vnd.ms-excel.sheet.binary.macroEnabled.main";
+- WORKSHEET · constant · L19-L19 — const WORKSHEET: &str = "application/vnd.ms-excel.worksheet";
+- STRINGS · constant · L20-L20 — const STRINGS: &str = "application/vnd.ms-excel.sharedStrings";
+- CT_NS · constant · L21-L21 — const CT_NS: &[u8] = b"http://schemas.openxmlformats.org/package/2006/content-types";
+- REL_NS · constant · L22-L22 — const REL_NS: &[u8] = b"http://schemas.openxmlformats.org/package/2006/relationships";
+- REL_TYPE · constant · L23-L23 — const REL_TYPE: &str = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
+- STRICT_REL_TYPE · constant · L24-L24 — const STRICT_REL_TYPE: &str = "http://purl.oclc.org/ooxml/officeDocument/relationships/";
+- MS_REL_TYPE · constant · L25-L25 — const MS_REL_TYPE: &str = "http://schemas.microsoft.com/office/2006/relationships/";
+- MAX_META · constant · L26-L26 — const MAX_META: u64 = 1024 * 1024;
+- MAX_TEXT · constant · L27-L27 — const MAX_TEXT: usize = 64 * 1024 * 1024;
+- MAX_CELLS · constant · L28-L28 — const MAX_CELLS: usize = 1_000_000;
+- MAX_STRINGS · constant · L29-L29 — const MAX_STRINGS: usize = 1_000_000;
+- MAX_SHEETS · constant · L30-L30 — const MAX_SHEETS: usize = 1024;
+- MAX_RECORDS · constant · L31-L31 — const MAX_RECORDS: usize = 5_000_000;
+- invalid · function · L33-L35 — fn invalid(msg: impl Into<String>) -> IoError
+- Budget · struct · L38-L41 — struct Budget
+- text · function · L43-L49 — fn text(&mut self, len: usize) -> Result<(), IoError>
+- cell · function · L50-L56 — fn cell(&mut self) -> Result<(), IoError>
+- read_xlsb · function · L61-L125 — pub fn read_xlsb(bytes: &[u8]) -> Result<(Workbook, ReadReport), IoError>
+- is_xlsb · function · L127-L137 — pub(crate) fn is_xlsb(bytes: &[u8]) -> bool
+- required · function · L139-L141 — fn required(package: &mut Package<'_>, path: &str) -> Result<Vec<u8>, IoError>
+- Entry · struct · L143-L146 — struct Entry
+- attr · function · L148-L150 — fn attr(&self, name: &str) -> Option<&str>
+- metadata · function · L155-L204 — fn metadata(bytes: &[u8], ns: &[u8], root_name: &[u8]) -> Result<Vec<Entry>, IoError>
+- content_types · function · L206-L209 — fn content_types(package: &mut Package<'_>) -> Result<Vec<Entry>, IoError>
+- check_type · function · L211-L222 — fn check_type(types: &[Entry], path: &str, expected: &str) -> Result<(), IoError>
+- relationships · function · L224-L249 — fn relationships(package: &mut Package<'_>, path: &str) -> Result<Vec<Rel>, IoError>
+- Bytes · struct · L251-L253 — struct Bytes<'a>
+- new · function · L255-L257 — fn new(bytes: &'a [u8]) -> Self
+- take · function · L258-L262 — fn take(&mut self, n: usize) -> Result<&'a [u8], IoError>
+- u8 · function · L263-L265 — fn u8(&mut self) -> Result<u8, IoError>
+- u16 · function · L266-L268 — fn u16(&mut self) -> Result<u16, IoError>
+- u32 · function · L269-L271 — fn u32(&mut self) -> Result<u32, IoError>
+- f64 · function · L272-L278 — fn f64(&mut self) -> Result<f64, IoError>
+- string · function · L279-L294 — fn string(&mut self, max: u32, nullable: bool) -> Result<Option<String>, IoError>
+- text · function · L295-L297 — fn text(&mut self, max: u32) -> Result<String, IoError>
+- finish · function · L298-L303 — fn finish(self) -> Result<(), IoError>
+- Records · struct · L306-L310 — struct Records<'a>
+- new · function · L312-L314 — fn new(bytes: &'a [u8]) -> Self
+- next · function · L315-L373 — fn next(&mut self, report: &mut ReadReport) -> Result<Option<(u16, &'a [u8])>, IoError>
+- first · function · L374-L379 — fn first(&mut self, id: u16, report: &mut ReadReport) -> Result<(), IoError>
+- end · function · L380-L385 — fn end(&mut self, payload: &[u8], report: &mut ReadReport) -> Result<(), IoError>
+- SheetInfo · struct · L388-L392 — struct SheetInfo
+- workbook · function · L393-L456 — fn workbook(bytes: &[u8], wb: &mut Workbook, report: &mut ReadReport) -> Result<Vec<SheetInfo>, IoError>
+- rich_string · function · L458-L483 — fn rich_string(b: &mut Bytes<'_>) -> Result<String, IoError>
+- shared_strings · function · L485-L521 — fn shared_strings(bytes: &[u8], budget: &mut Budget, report: &mut ReadReport) -> Result<Vec<Arc<str>>, IoError>
+- error · function · L523-L535 — fn error(code: u8) -> Result<CellError, IoError>
+- boolean · function · L536-L542 — fn boolean(b: &mut Bytes<'_>) -> Result<bool, IoError>
+- cached_formula · function · L543-L553 — fn cached_formula(b: &mut Bytes<'_>) -> Result<(), IoError>
+- value · function · L554-L581 — fn value(id: u16, b: &mut Bytes<'_>, strings: &[Arc<str>], budget: &mut Budget) -> Result<Value, IoError>
+- worksheet · function · L583-L674 — fn worksheet(bytes: &[u8], name: &str, strings: &[Arc<str>], budget: &mut Budget, report: &mut ReadReport) -> Result<Sheet, IoError>

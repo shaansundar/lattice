@@ -1,0 +1,30 @@
+# crates/chart/src/tests.rs
+
+- ALL_KINDS · constant · L8-L34 — const ALL_KINDS: [ChartKind; 25] = [
+- chart · function · L36-L52 — fn chart(kind: ChartKind) -> Chart
+- series · function · L54-L66 — fn series(name: &str, values: &[f64], color: Rgba, kind: ChartKind) -> SeriesData
+- sample · function · L68-L82 — fn sample(kind: ChartKind) -> ChartData
+- coords · function · L84-L93 — fn coords(p: &Prim) -> Vec<f32>
+- assert_sane · function · L95-L108 — fn assert_sane(prims: &[Prim], w: f32, h: f32)
+- texts · function · L110-L118 — fn texts(prims: &[Prim]) -> Vec<&str>
+- every_kind_renders_sanely · function · L121-L142 — fn every_kind_renders_sanely()
+- legend_counts · function · L145-L154 — fn legend_counts()
+- nice_axis · function · L157-L187 — fn nice_axis()
+- axis_labels_use_number_format · function · L190-L199 — fn axis_labels_use_number_format()
+- resolve_from_workbook · function · L202-L330 — fn resolve_from_workbook()
+- palette_beyond_six_series · function · L333-L339 — fn palette_beyond_six_series()
+- scatter_with_text_x_values_numbers_the_points · function · L342-L362 — fn scatter_with_text_x_values_numbers_the_points()
+- pixel · function · L364-L367 — fn pixel(img: &[u8], w: u32, x: u32, y: u32) -> [u8; 4]
+- rasterize_bar_center_has_bar_color · function · L370-L412 — fn rasterize_bar_center_has_bar_color()
+- pie_starts_at_twelve_clockwise · function · L415-L434 — fn pie_starts_at_twelve_clockwise()
+- negative_values_put_axis_below_zero · function · L437-L444 — fn negative_values_put_axis_below_zero()
+- edge_cases_never_panic · function · L447-L474 — fn edge_cases_never_panic()
+- thousands_of_points_are_decimated · function · L477-L498 — fn thousands_of_points_are_decimated()
+- smooth_line_adds_interpolated_points_and_keeps_endpoints · function · L501-L526 — fn smooth_line_adds_interpolated_points_and_keeps_endpoints()
+- smooth_line_splits_at_gaps · function · L529-L540 — fn smooth_line_splits_at_gaps()
+- Rng · struct · L543-L543 — struct Rng(u64);
+- next · function · L546-L551 — fn next(&mut self) -> u64
+- f · function · L552-L554 — fn f(&mut self) -> f64
+- fuzz_random_data_and_sizes · function · L558-L615 — fn fuzz_random_data_and_sizes()
+- sparklines · function · L618-L631 — fn sparklines()
+- treemap_and_histogram_shapes · function · L634-L660 — fn treemap_and_histogram_shapes()

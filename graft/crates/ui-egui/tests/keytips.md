@@ -1,0 +1,24 @@
+# crates/ui-egui/tests/keytips.rs
+
+- Harness · type · L11-L11 — type Harness = egui_kittest::Harness<'static, SheetApp>;
+- harness · function · L13-L15 — fn harness(session: Session) -> Harness
+- harness_on · function · L17-L27 — fn harness_on(session: Session, os: OperatingSystem) -> Harness
+- blank · function · L29-L33 — fn blank() -> Session
+- key_event · function · L35-L37 — fn key_event(key: Key, pressed: bool, modifiers: Modifiers) -> Event
+- events · function · L39-L42 — fn events(h: &mut Harness, events: impl IntoIterator<Item = Event>)
+- key · function · L44-L46 — fn key(h: &mut Harness, key: Key)
+- letter · function · L48-L53 — fn letter(h: &mut Harness, key: Key, text_first: bool)
+- sequence · function · L55-L60 — fn sequence(h: &mut Harness, letters: &[Key], text_first: bool)
+- value · function · L62-L64 — fn value(h: &Harness, cell: &str) -> Value
+- alignment · function · L66-L70 — fn alignment(h: &Harness) -> HAlign
+- copied_row · function · L72-L79 — fn copied_row() -> Session
+- alignment_sequences_consume_key_and_text_events_in_either_order · function · L82-L101 — fn alignment_sequences_consume_key_and_text_events_in_either_order()
+- paste_special_options_wait_for_enter_and_transpose_values · function · L104-L154 — fn paste_special_options_wait_for_enter_and_transpose_values()
+- keyboard_opened_paste_menu_accepts_a_mouse_click_after_keytips_cancel · function · L157-L172 — fn keyboard_opened_paste_menu_accepts_a_mouse_click_after_keytips_cancel()
+- legacy_paste_special_keeps_formulas_when_requested · function · L175-L189 — fn legacy_paste_special_keeps_formulas_when_requested()
+- ribbon_and_legacy_autofit_sequences_resize_the_selected_column · function · L192-L209 — fn ribbon_and_legacy_autofit_sequences_resize_the_selected_column()
+- legacy_prefix_switches_to_home_once_not_every_frame · function · L212-L223 — fn legacy_prefix_switches_to_home_once_not_every_frame()
+- escape_backs_out_without_clearing_copy_and_f10_toggles_off · function · L226-L245 — fn escape_backs_out_without_clearing_copy_and_f10_toggles_off()
+- mouse_press_and_window_focus_loss_cancel_keytips · function · L248-L267 — fn mouse_press_and_window_focus_loss_cancel_keytips()
+- held_keys_do_not_toggle_twice_or_leak_repeated_letters · function · L270-L296 — fn held_keys_do_not_toggle_twice_or_leak_repeated_letters()
+- ordinary_typing_editor_shortcuts_and_altgr_remain_text_input · function · L299-L320 — fn ordinary_typing_editor_shortcuts_and_altgr_remain_text_input()

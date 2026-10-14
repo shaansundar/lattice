@@ -1,0 +1,81 @@
+# crates/engine/src/cmd/pivot.rs
+
+- specs · function · L17-L174 — pub fn specs() -> Vec<CommandSpec>
+- with · function · L176-L180 — fn with(p: &Json, k: &str, v: Json) -> Json
+- other · function · L182-L184 — fn other(msg: impl Into<String>) -> EngineError
+- find_pivot · function · L189-L217 — fn find_pivot(s: &Session, p: &Json) -> Result<(usize, usize)>
+- area_param · function · L219-L228 — fn area_param(cmd: &str, v: Option<&str>) -> Result<&'static str>
+- func_param · function · L230-L245 — fn func_param(v: Option<&str>) -> Option<PivotFunc>
+- func_name · function · L247-L261 — fn func_name(f: PivotFunc) -> &'static str
+- show_as_param · function · L263-L273 — fn show_as_param(v: &str) -> Option<PivotShowAs>
+- show_as_name · function · L275-L284 — fn show_as_name(v: PivotShowAs) -> &'static str
+- layout_name · function · L286-L292 — fn layout_name(l: PivotLayout) -> &'static str
+- group_name · function · L294-L302 — fn group_name(g: PivotDateGroup) -> &'static str
+- sort_name · function · L304-L310 — fn sort_name(o: PivotSort) -> &'static str
+- in_axes · function · L314-L316 — fn in_axes(pt: &PivotTable, field: &str) -> bool
+- canonical · function · L319-L321 — fn canonical(cmd: &str, src: &pv::Source, field: &str) -> Result<String>
+- unique_value_name · function · L323-L329 — fn unique_value_name(pt: &PivotTable, base: &str, except: Option<usize>) -> String
+- auto_name · function · L331-L333 — fn auto_name(f: PivotFunc, field: &str) -> String
+- add_to_area · function · L336-L401 — fn add_to_area(
+- remove_from_area · function · L404-L434 — fn remove_from_area(cmd: &str, pt: &mut PivotTable, field: &str, area: &str) -> Result<String>
+- update · function · L439-L460 — fn update(s: &mut Session, p: &Json, f: impl FnOnce(&mut PivotTable, &pv::Source, &Workbook) -> Result<Json>) -> Result<Json>
+- default_source · function · L465-L482 — fn default_source(s: &Session) -> Result<String>
+- source_param · function · L484-L501 — fn source_param(s: &Session, p: &Json) -> Result<String>
+- next_pivot_name · function · L503-L508 — fn next_pivot_name(wb: &Workbook) -> String
+- next_pivot_id · function · L510-L513 — fn next_pivot_id(wb: &Workbook) -> u32
+- field_list · function · L515-L521 — fn field_list(v: Option<&Json>) -> Vec<Json>
+- insert_pivot · function · L523-L630 — fn insert_pivot(s: &mut Session, p: &Json) -> Result<Json>
+- summarize_table · function · L632-L644 — fn summarize_table(s: &mut Session, p: &Json) -> Result<Json>
+- pivot_json · function · L648-L667 — fn pivot_json(wb: &Workbook, si: usize, pt: &PivotTable) -> Json
+- fields · function · L669-L715 — fn fields(s: &mut Session, p: &Json) -> Result<Json>
+- list · function · L717-L726 — fn list(s: &mut Session, _: &Json) -> Result<Json>
+- position_param · function · L730-L732 — fn position_param(p: &Json) -> Option<usize>
+- add_field · function · L734-L748 — fn add_field(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L735-L735 — const C: &str = "pivot.addField";
+- remove_field · function · L750-L774 — fn remove_field(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L751-L751 — const C: &str = "pivot.removeField";
+- move_field · function · L776-L838 — fn move_field(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L777-L777 — const C: &str = "pivot.moveField";
+- value_settings · function · L840-L910 — fn value_settings(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L841-L841 — const C: &str = "pivot.valueSettings";
+- filter · function · L912-L958 — fn filter(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L913-L913 — const C: &str = "pivot.filter";
+- axis_field · function · L960-L966 — fn axis_field<'a>(cmd: &str, pt: &'a mut PivotTable, field: &str) -> Result<&'a mut PivotField>
+- sort · function · L968-L981 — fn sort(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L969-L969 — const C: &str = "pivot.sort";
+- group_param · function · L983-L992 — fn group_param(v: Option<&str>) -> Option<PivotDateGroup>
+- group · function · L994-L1011 — fn group(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L995-L995 — const C: &str = "pivot.group";
+- collapse · function · L1013-L1045 — fn collapse(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L1014-L1014 — const C: &str = "pivot.collapse";
+- layout · function · L1047-L1100 — fn layout(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L1048-L1048 — const C: &str = "pivot.layout";
+- grand_totals · function · L1102-L1119 — fn grand_totals(s: &mut Session, p: &Json) -> Result<Json>
+- refresh · function · L1121-L1123 — fn refresh(s: &mut Session, p: &Json) -> Result<Json>
+- refresh_all · function · L1125-L1143 — fn refresh_all(s: &mut Session, p: &Json) -> Result<Json>
+- change_source · function · L1145-L1169 — fn change_source(s: &mut Session, p: &Json) -> Result<Json>
+- C · constant · L1146-L1146 — const C: &str = "pivot.changeSource";
+- delete · function · L1171-L1182 — fn delete(s: &mut Session, p: &Json) -> Result<Json>
+- suggestions · function · L1186-L1251 — fn suggestions(wb: &Workbook, src: &pv::Source) -> Vec<Json>
+- recommended · function · L1253-L1279 — fn recommended(s: &mut Session, p: &Json) -> Result<Json>
+- tests · module · L1282-L1718 — mod tests
+- sales · function · L1289-L1310 — fn sales() -> Session
+- TOTAL · constant · L1311-L1311 — const TOTAL: f64 = 835.0;
+- val · function · L1313-L1315 — fn val(s: &Session, a: &str) -> Value
+- text · function · L1316-L1318 — fn text(s: &Session, a: &str) -> String
+- pt · function · L1319-L1321 — fn pt(s: &Session) -> lattice_model::PivotTable
+- find_row · function · L1323-L1327 — fn find_row(s: &Session, label: &str) -> Option<u32>
+- insert_creates_placeholder_on_new_sheet · function · L1330-L1345 — fn insert_creates_placeholder_on_new_sheet()
+- region_by_product_sum_of_sales · function · L1348-L1384 — fn region_by_product_sum_of_sales()
+- multiple_value_fields_make_a_values_dimension · function · L1387-L1406 — fn multiple_value_fields_make_a_values_dimension()
+- date_grouping_by_quarter_and_month · function · L1409-L1426 — fn date_grouping_by_quarter_and_month()
+- filters_and_report_filter_rows · function · L1429-L1451 — fn filters_and_report_filter_rows()
+- show_values_as · function · L1454-L1479 — fn show_values_as()
+- compact_vs_tabular_shapes · function · L1482-L1526 — fn compact_vs_tabular_shapes()
+- refresh_after_source_edits · function · L1529-L1551 — fn refresh_after_source_edits()
+- replace_protection · function · L1554-L1577 — fn replace_protection()
+- fields_move_remove_sort · function · L1580-L1601 — fn fields_move_remove_sort()
+- recommended_and_summarize · function · L1604-L1622 — fn recommended_and_summarize()
+- repeated_headers_get_numbered_names · function · L1625-L1645 — fn repeated_headers_get_numbered_names()
+- hostile_params_never_panic · function · L1648-L1707 — fn hostile_params_never_panic()
+- empty_header_is_refused · function · L1710-L1717 — fn empty_header_is_refused()

@@ -1,0 +1,56 @@
+# crates/xlsx/src/pivot.rs
+
+- CT_PIVOT_TABLE · constant · L27-L27 — pub const CT_PIVOT_TABLE: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml";
+- CT_PIVOT_CACHE_DEF · constant · L28-L28 — pub const CT_PIVOT_CACHE_DEF: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml";
+- CT_PIVOT_CACHE_REC · constant · L29-L29 — pub const CT_PIVOT_CACHE_REC: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml";
+- MAX_SOURCE_CELLS · constant · L32-L32 — const MAX_SOURCE_CELLS: u64 = 10_000_000;
+- MAX_RECORD_CELLS · constant · L34-L34 — const MAX_RECORD_CELLS: u64 = 2_000_000;
+- MAX_ITEMS · constant · L36-L36 — const MAX_ITEMS: usize = 1_048_576;
+- MAX_FIELDS · constant · L38-L38 — const MAX_FIELDS: usize = 16_384;
+- EXT_X14_DATA_FIELD · constant · L40-L40 — const EXT_X14_DATA_FIELD: &str = "{E15A36E0-9728-4e99-A89B-3F7291B0FE68}";
+- NS_X14 · constant · L41-L41 — const NS_X14: &str = "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main";
+- MONTHS · constant · L43-L43 — const MONTHS: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+- label · function · L48-L57 — fn label(v: &Value) -> String
+- same · function · L59-L61 — fn same(a: &str, b: &str) -> bool
+- func_name · function · L63-L77 — fn func_name(f: PivotFunc) -> &'static str
+- func_from · function · L79-L94 — fn func_from(s: &str) -> Option<PivotFunc>
+- func_caption · function · L96-L110 — fn func_caption(f: PivotFunc) -> &'static str
+- group_by_name · function · L112-L120 — fn group_by_name(g: PivotDateGroup) -> &'static str
+- group_caption · function · L122-L130 — fn group_caption(g: PivotDateGroup) -> &'static str
+- iso · function · L133-L136 — fn iso(sys: DateSystem, serial: f64) -> Option<String>
+- mdy · function · L139-L144 — fn mdy(sys: DateSystem, serial: f64) -> String
+- Key · enum · L150-L156 — enum Key
+- key · function · L158-L167 — fn key(v: &Value) -> Key
+- Stats · struct · L170-L180 — struct Stats
+- add · function · L183-L208 — fn add(&mut self, v: &Value)
+- kinds · function · L209-L211 — fn kinds(&self) -> usize
+- Group · struct · L215-L225 — struct Group
+- CField · struct · L227-L237 — struct CField
+- item_labels · function · L241-L246 — fn item_labels(&self) -> Vec<String>
+- Cache · struct · L250-L256 — struct Cache
+- PivotWriter · struct · L261-L266 — pub struct PivotWriter
+- Pending · struct · L268-L274 — struct Pending
+- add_sheet · function · L279-L305 — pub fn add_sheet(&mut self, wb: &Workbook, si: usize, out: &mut Out, rels: &mut Rels)
+- workbook_xml · function · L309-L320 — pub fn workbook_xml(&self, wb_rels: &mut Rels) -> String
+- number_formats · function · L323-L337 — pub fn number_formats(&self, wb: &Workbook) -> Vec<String>
+- finish · function · L340-L346 — pub fn finish(self, wb: &Workbook, out: &mut Out, fmt_id: &dyn Fn(&str) -> Option<u32>)
+- resolve_source · function · L350-L397 — fn resolve_source(wb: &Workbook, text: &str, default_sheet: usize, depth: u32) -> Option<(usize, RangeRef, String)>
+- range_source_xml · function · L399-L402 — fn range_source_xml(sheet: &str, r: RangeRef) -> String
+- header_text · function · L404-L409 — fn header_text(v: &Value) -> String
+- build_cache · function · L411-L610 — fn build_cache(wb: &Workbook, pt: &PivotTable, pivot_sheet: usize) -> Option<Cache>
+- group_items · function · L612-L635 — fn group_items(sys: DateSystem, by: PivotDateGroup, start: f64, end: f64) -> Vec<String>
+- DAYS · constant · L625-L625 — const DAYS: [u32; 12] = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+- item_xml · function · L638-L652 — fn item_xml(v: &Value, sys: DateSystem, date: bool) -> String
+- cache_xml · function · L654-L739 — fn cache_xml(c: &Cache, records_rid: Option<&str>, sys: DateSystem) -> String
+- table_xml · function · L741-L980 — fn table_xml(pt: &PivotTable, idx: usize, cache_id: u32, c: &Cache, fmt_id: &dyn Fn(&str) -> Option<u32>) -> String
+- FieldIn · struct · L986-L994 — struct FieldIn
+- labels · function · L997-L1002 — fn labels(&self) -> &[String]
+- CacheIn · struct · L1006-L1009 — struct CacheIn
+- CachesIn · struct · L1013-L1017 — pub struct CachesIn
+- new · function · L1020-L1032 — pub fn new(wb_xml: &El, wb_rels: &[crate::package::Rel]) -> CachesIn
+- item_label_el · function · L1035-L1044 — fn item_label_el(e: &El, sys: DateSystem) -> String
+- read_cache · function · L1046-L1109 — fn read_cache(cx: &mut Ctx<'_>, part: &str, sheet_name: &str) -> Option<CacheIn>
+- read_pivots · function · L1112-L1147 — pub fn read_pivots(cx: &mut Ctx<'_>, caches: &mut CachesIn, sheet_part: &str, sheet_name: &str) -> Result<Vec<PivotTable>, IoError>
+- items_of · function · L1150-L1152 — fn items_of(e: &El) -> Vec<&El>
+- field_ref · function · L1155-L1179 — fn field_ref(cx: &mut Ctx<'_>, cache: &CacheIn, i: usize) -> Option<(String, PivotDateGroup)>
+- read_table · function · L1181-L1341 — fn read_table(cx: &mut Ctx<'_>, x: &El, cache: &CacheIn, id: u32) -> Option<PivotTable>

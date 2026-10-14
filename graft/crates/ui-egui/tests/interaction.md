@@ -1,0 +1,23 @@
+# crates/ui-egui/tests/interaction.rs
+
+- harness · function · L9-L20 — fn harness(session: Session) -> egui_kittest::Harness<'static, SheetApp>
+- blank · function · L22-L26 — fn blank() -> Session
+- vertical_scrollbar_pages_and_drags_without_changing_selection · function · L29-L58 — fn vertical_scrollbar_pages_and_drags_without_changing_selection()
+- key · function · L60-L64 — fn key(h: &mut egui_kittest::Harness<'static, SheetApp>, k: Key, m: Modifiers)
+- text · function · L66-L69 — fn text(h: &mut egui_kittest::Harness<'static, SheetApp>, t: &str)
+- value · function · L71-L73 — fn value(h: &egui_kittest::Harness<'static, SheetApp>, a: &str) -> Value
+- click_cell · function · L75-L86 — fn click_cell(h: &mut egui_kittest::Harness<'static, SheetApp>, cell: &str)
+- keyboard_navigation_does_not_replay_the_last_pointer_click · function · L89-L111 — fn keyboard_navigation_does_not_replay_the_last_pointer_click()
+- space_toggles_the_active_checkbox_without_clicking_the_hovered_cell · function · L114-L126 — fn space_toggles_the_active_checkbox_without_clicking_the_hovered_cell()
+- name_box_enter_goes_to_the_typed_cell_not_the_one_below · function · L129-L146 — fn name_box_enter_goes_to_the_typed_cell_not_the_one_below()
+- typing_enters_values_and_moves_down · function · L149-L160 — fn typing_enters_values_and_moves_down()
+- arrows_escape_and_undo · function · L163-L176 — fn arrows_escape_and_undo()
+- shortcuts_format_and_extend · function · L179-L191 — fn shortcuts_format_and_extend()
+- renders_every_ribbon_tab_without_panicking · function · L194-L204 — fn renders_every_ribbon_tab_without_panicking()
+- language_switch_translates_the_ribbon_and_persists · function · L207-L233 — fn language_switch_translates_the_ribbon_and_persists()
+- dialogs_open_and_close · function · L236-L257 — fn dialogs_open_and_close()
+- about_renders_every_tab · function · L260-L268 — fn about_renders_every_tab()
+- column_autocomplete_completes_on_enter · function · L271-L282 — fn column_autocomplete_completes_on_enter()
+- general_numbers_fit_by_the_cells_own_font · function · L285-L305 — fn general_numbers_fit_by_the_cells_own_font()
+- text_shapes · function · L307-L313 — fn text_shapes(shape: &egui::Shape, clip: egui::Rect, out: &mut Vec<(egui::epaint::TextShape, egui::Rect)>)
+- rotated_wrapped_text_is_drawn_rotated_inside_its_cell · function · L316-L344 — fn rotated_wrapped_text_is_drawn_rotated_inside_its_cell()

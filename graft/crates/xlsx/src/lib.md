@@ -1,0 +1,32 @@
+# crates/xlsx/src/lib.rs
+
+- array_formula · module · L13-L13 — mod array_formula;
+- cfb · module · L14-L14 — mod cfb;
+- chart · module · L15-L15 — mod chart;
+- chartex · module · L16-L16 — mod chartex;
+- csv · module · L17-L17 — mod csv;
+- drawing · module · L18-L18 — mod drawing;
+- fmla · module · L19-L19 — mod fmla;
+- ods · module · L20-L20 — mod ods;
+- package · module · L21-L21 — mod package;
+- pivot · module · L22-L22 — mod pivot;
+- read · module · L23-L23 — mod read;
+- richdata · module · L24-L24 — mod richdata;
+- sheet_read · module · L25-L25 — mod sheet_read;
+- sheet_write · module · L26-L26 — mod sheet_write;
+- styles · module · L27-L27 — mod styles;
+- tables · module · L28-L28 — mod tables;
+- theme · module · L29-L29 — mod theme;
+- write · module · L30-L30 — mod write;
+- xlsb · module · L31-L31 — mod xlsb;
+- xml · module · L32-L32 — mod xml;
+- tests · module · L35-L35 — mod tests;
+- IoError · enum · L46-L55 — pub enum IoError
+- ReadReport · struct · L59-L61 — pub struct ReadReport
+- warn · function · L64-L69 — pub(crate) fn warn(&mut self, msg: impl Into<String>)
+- read_xlsx · function · L73-L75 — pub fn read_xlsx(bytes: &[u8]) -> Result<(Workbook, ReadReport), IoError>
+- write_xlsx · function · L78-L80 — pub fn write_xlsx(wb: &Workbook) -> Result<Vec<u8>, IoError>
+- CsvOptions · struct · L84-L91 — pub struct CsvOptions
+- default · function · L94-L96 — fn default() -> Self
+- Format · enum · L101-L111 — pub enum Format
+- sniff · function · L114-L142 — pub fn sniff(bytes: &[u8]) -> Format

@@ -1,0 +1,24 @@
+# crates/xlsx/src/write.rs
+
+- NS_MAIN · constant · L14-L14 — pub const NS_MAIN: &str = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+- NS_REL · constant · L15-L15 — pub const NS_REL: &str = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+- XML_DECL · constant · L16-L16 — pub const XML_DECL: &str = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
+- CT_WORKSHEET · constant · L18-L18 — pub const CT_WORKSHEET: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml";
+- CT_DRAWING · constant · L19-L19 — pub const CT_DRAWING: &str = "application/vnd.openxmlformats-officedocument.drawing+xml";
+- CT_CHART · constant · L20-L20 — pub const CT_CHART: &str = "application/vnd.openxmlformats-officedocument.drawingml.chart+xml";
+- CT_TABLE · constant · L21-L21 — pub const CT_TABLE: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml";
+- CT_COMMENTS · constant · L22-L22 — pub const CT_COMMENTS: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml";
+- Rels · struct · L26-L28 — pub struct Rels
+- add · function · L32-L40 — pub fn add(&mut self, kind: &str, target: &str) -> String
+- add_external · function · L41-L45 — pub fn add_external(&mut self, kind: &str, target: &str) -> String
+- add_uri · function · L47-L51 — pub fn add_uri(&mut self, ty: &str, target: &str) -> String
+- is_empty · function · L52-L54 — pub fn is_empty(&self) -> bool
+- xml · function · L55-L67 — pub fn xml(&self) -> String
+- Sst · struct · L72-L76 — pub struct Sst
+- index · function · L79-L88 — pub fn index(&mut self, s: &str) -> u32
+- Out · struct · L92-L109 — pub struct Out
+- part · function · L112-L117 — pub fn part(&mut self, name: &str, content_type: Option<&str>, data: Vec<u8>)
+- default_type · function · L118-L120 — pub fn default_type(&mut self, ext: &str, ct: &str)
+- abs_range · function · L124-L136 — pub fn abs_range(r: &RangeRef) -> String
+- write_xlsx · function · L138-L359 — pub fn write_xlsx(wb: &Workbook) -> Result<Vec<u8>, IoError>
+- METADATA · constant · L362-L362 — const METADATA: &str = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<metadata xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:xda=\"http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray\"><metadataTypes count=\"1\"><metadataType name=\"XLDAPR\" minSupportedVersion=\"120000\" copy=\"1\" pasteAll=\"1\" pasteValues=\"1\" merge=\"1\" splitFirst=\"1\" rowColShift=\"1\" clearFormats=\"1\" clearComments=\"1\" assign=\"1\" coerce=\"1\" cellMeta=\"1\"/></metadataTypes><futureMetadata name=\"XLDAPR\" count=\"1\"><bk><extLst><ext uri=\"{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}\"><xda:dynamicArrayProperties fDynamic=\"1\" fCollapsed=\"0\"/></ext></extLst></bk></futureMetadata><cellMetadata count=\"1\"><bk><rc t=\"1\" v=\"0\"/></bk></cellMetadata></metadata>";

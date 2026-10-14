@@ -1,0 +1,54 @@
+# apps/lattice/src/logging.rs
+
+- LOG_FILE · constant · L31-L31 — pub const LOG_FILE: &str = "lattice.log";
+- KEEP · constant · L33-L33 — pub const KEEP: usize = 2;
+- MAX_FILE_BYTES · constant · L35-L35 — pub const MAX_FILE_BYTES: u64 = 16 * 1024 * 1024;
+- MAX_PENDING · constant · L37-L37 — pub const MAX_PENDING: usize = 512;
+- DEFAULT_FILTER · constant · L39-L39 — pub const DEFAULT_FILTER: &str = "warn,lattice*=info";
+- Filter · struct · L43-L46 — pub struct Filter
+- parse · function · L51-L69 — pub fn parse(spec: &str) -> Filter
+- level_for · function · L72-L74 — pub fn level_for(&self, target: &str) -> LevelFilter
+- max · function · L77-L79 — pub fn max(&self) -> LevelFilter
+- parse_level · function · L82-L84 — fn parse_level(s: &str) -> Option<LevelFilter>
+- matches · function · L88-L93 — fn matches(name: &str, target: &str) -> bool
+- timestamp · function · L96-L102 — pub fn timestamp(t: SystemTime) -> String
+- civil_from_days · function · L107-L118 — fn civil_from_days(days: u64) -> (u64, u64, u64)
+- numbered · function · L120-L122 — fn numbered(dir: &Path, n: usize) -> PathBuf
+- rotate · function · L126-L137 — pub fn rotate(dir: &Path) -> std::io::Result<(PathBuf, File)>
+- format_line · function · L140-L143 — pub fn format_line(ts: &str, level: log::Level, thread: &str, target: &str, message: &str) -> String
+- Sink · struct · L147-L154 — pub struct Sink
+- new · function · L157-L159 — pub fn new(max_bytes: u64) -> Sink
+- write · function · L162-L174 — pub fn write(&mut self, line: &str)
+- attach · function · L177-L189 — pub fn attach(&mut self, file: File)
+- no_file · function · L192-L196 — pub fn no_file(&mut self)
+- append · function · L198-L216 — fn append(&mut self, line: &str)
+- AppLogger · struct · L220-L224 — pub struct AppLogger
+- new · function · L227-L229 — pub fn new(filter: Filter, stderr: bool) -> AppLogger
+- attach_dir · function · L233-L246 — pub fn attach_dir(&self, dir: &Path) -> Result<PathBuf, String>
+- no_file · function · L249-L251 — pub fn no_file(&self)
+- enabled · function · L255-L257 — fn enabled(&self, metadata: &log::Metadata<'_>) -> bool
+- log · function · L259-L273 — fn log(&self, record: &log::Record<'_>)
+- flush · function · L275-L275 — fn flush(&self) {}
+- install · function · L280-L289 — pub fn install() -> Option<&'static AppLogger>
+- LOGGER · constant · L281-L281 — static LOGGER: OnceLock<AppLogger> = OnceLock::new();
+- tests · module · L292-L580 — mod tests
+- temp_dir · function · L297-L302 — fn temp_dir(tag: &str) -> PathBuf
+- N · constant · L298-L298 — static N: AtomicUsize = AtomicUsize::new(0);
+- read · function · L304-L306 — fn read(path: &Path) -> String
+- record · function · L308-L311 — fn record(logger: &AppLogger, level: log::Level, target: &str, msg: &str)
+- the_default_filter_shows_lattice_info_and_other_crates_warnings · function · L314-L323 — fn the_default_filter_shows_lattice_info_and_other_crates_warnings()
+- directives_follow_env_logger_and_the_most_specific_one_wins · function · L326-L344 — fn directives_follow_env_logger_and_the_most_specific_one_wins()
+- hostile_specs_never_panic_and_fall_back_sensibly · function · L347-L381 — fn hostile_specs_never_panic_and_fall_back_sensibly()
+- timestamps_are_utc_with_milliseconds · function · L384-L396 — fn timestamps_are_utc_with_milliseconds()
+- a_line_carries_time_level_thread_target_and_message · function · L399-L406 — fn a_line_carries_time_level_thread_target_and_message()
+- rotation_keeps_the_previous_logs_and_starts_an_empty_file · function · L409-L422 — fn rotation_keeps_the_previous_logs_and_starts_an_empty_file()
+- rotation_into_an_unusable_directory_is_an_error_not_a_panic · function · L425-L431 — fn rotation_into_an_unusable_directory_is_an_error_not_a_panic()
+- lines_logged_before_the_file_exists_are_written_when_it_is_attached · function · L434-L444 — fn lines_logged_before_the_file_exists_are_written_when_it_is_attached()
+- the_pending_buffer_is_bounded_and_says_how_much_it_dropped · function · L447-L460 — fn the_pending_buffer_is_bounded_and_says_how_much_it_dropped()
+- exactly_a_full_pending_buffer_drops_nothing · function · L463-L475 — fn exactly_a_full_pending_buffer_drops_nothing()
+- without_a_file_nothing_is_kept_in_memory · function · L478-L484 — fn without_a_file_nothing_is_kept_in_memory()
+- the_file_stops_at_its_size_cap_with_one_note · function · L487-L499 — fn the_file_stops_at_its_size_cap_with_one_note()
+- the_logger_filters_records_and_writes_them_to_the_attached_file · function · L502-L525 — fn the_logger_filters_records_and_writes_them_to_the_attached_file()
+- records_from_many_threads_are_whole_lines · function · L528-L549 — fn records_from_many_threads_are_whole_lines()
+- attaching_to_an_unusable_directory_reports_an_error_and_keeps_logging · function · L552-L562 — fn attaching_to_an_unusable_directory_reports_an_error_and_keeps_logging()
+- a_poisoned_sink_still_logs · function · L565-L579 — fn a_poisoned_sink_still_logs()

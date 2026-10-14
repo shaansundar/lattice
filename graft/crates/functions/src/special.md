@@ -1,0 +1,28 @@
+# crates/functions/src/special.rs
+
+- LANCZOS_G · constant · L7-L7 — const LANCZOS_G: f64 = 7.0;
+- LANCZOS · constant · L8-L18 — const LANCZOS: [f64; 9] = [
+- ln_gamma · function · L21-L50 — pub(crate) fn ln_gamma(x: f64) -> f64
+- gamma · function · L53-L73 — pub(crate) fn gamma(x: f64) -> f64
+- ln_beta · function · L76-L78 — pub(crate) fn ln_beta(a: f64, b: f64) -> f64
+- reg_gamma_p · function · L81-L92 — pub(crate) fn reg_gamma_p(a: f64, x: f64) -> f64
+- reg_gamma_q · function · L95-L106 — pub(crate) fn reg_gamma_q(a: f64, x: f64) -> f64
+- gamma_series · function · L108-L121 — fn gamma_series(a: f64, x: f64) -> f64
+- gamma_cf · function · L123-L148 — fn gamma_cf(a: f64, x: f64) -> f64
+- erf · function · L151-L175 — pub(crate) fn erf(x: f64) -> f64
+- erfc · function · L178-L186 — pub(crate) fn erfc(x: f64) -> f64
+- reg_inc_beta · function · L189-L202 — pub(crate) fn reg_inc_beta(x: f64, a: f64, b: f64) -> f64
+- beta_cf · function · L204-L247 — fn beta_cf(a: f64, b: f64, x: f64) -> f64
+- norm_pdf · function · L250-L252 — pub(crate) fn norm_pdf(z: f64) -> f64
+- norm_cdf · function · L255-L257 — pub(crate) fn norm_cdf(z: f64) -> f64
+- norm_inv · function · L260-L308 — pub(crate) fn norm_inv(p: f64) -> f64
+- A · constant · L265-L272 — const A: [f64; 6] = [
+- B · constant · L273-L274 — const B: [f64; 5] =
+- C · constant · L275-L282 — const C: [f64; 6] = [
+- D · constant · L283-L283 — const D: [f64; 4] = [7.784_695_709_041_462e-3, 3.224_671_290_700_398e-1, 2.445_134_137_142_996, 3.754_408_661_907_416];
+- invert · function · L312-L353 — pub(crate) fn invert(f: impl Fn(f64) -> f64, target: f64, lo: f64, hi: f64, hi_max: f64) -> f64
+- tests · module · L356-L391 — mod tests
+- close · function · L359-L361 — fn close(a: f64, b: f64, tol: f64)
+- gamma_fn · function · L364-L371 — fn gamma_fn()
+- error_fn · function · L374-L380 — fn error_fn()
+- incomplete · function · L383-L390 — fn incomplete()

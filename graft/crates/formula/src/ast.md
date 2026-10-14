@@ -1,0 +1,21 @@
+# crates/formula/src/ast.rs
+
+- Anchor · struct · L10-L15 — pub struct Anchor
+- cell · function · L18-L20 — pub fn cell(&self) -> CellRef
+- RefKind · enum · L24-L31 — pub enum RefKind
+- SheetSel · enum · L34-L40 — pub enum SheetSel
+- Reference · struct · L43-L46 — pub struct Reference
+- range · function · L49-L56 — pub fn range(&self) -> RangeRef
+- sheet_name · function · L57-L62 — pub fn sheet_name(&self) -> Option<&str>
+- StructRef · struct · L67-L73 — pub struct StructRef
+- StructItem · enum · L76-L82 — pub enum StructItem
+- UnOp · enum · L85-L94 — pub enum UnOp
+- BinOp · enum · L97-L116 — pub enum BinOp
+- symbol · function · L119-L137 — pub fn symbol(&self) -> &'static str
+- precedence · function · L139-L150 — pub fn precedence(&self) -> u8
+- Expr · enum · L154-L174 — pub enum Expr
+- walk · function · L178-L194 — pub fn walk<'a>(&'a self, f: &mut dyn FnMut(&'a Expr))
+- map · function · L196-L207 — pub fn map(self, f: &mut dyn FnMut(Expr) -> Expr) -> Expr
+- references · function · L209-L217 — pub fn references(&self) -> Vec<&Reference>
+- functions · function · L219-L227 — pub fn functions(&self) -> Vec<&str>
+- clamp_anchor · function · L230-L232 — pub(crate) fn clamp_anchor(row: i64, col: i64) -> Option<(u32, u32)>

@@ -1,0 +1,25 @@
+# crates/assistant/src/agent.rs
+
+- MAX_STEPS · constant · L21-L21 — pub const MAX_STEPS: usize = 10;
+- MAX_CALLS_PER_TURN · constant · L22-L22 — pub const MAX_CALLS_PER_TURN: usize = 8;
+- Event · enum · L25-L43 — pub enum Event
+- Worker · enum · L45-L48 — enum Worker
+- State · enum · L50-L55 — enum State
+- Run · struct · L57-L69 — pub struct Run
+- start · function · L73-L90 — pub fn start(generator: Arc<dyn Generator>, harness: &Harness, host: &mut dyn ToolHost, request: &str, thinking: bool) -> Run
+- params · function · L92-L94 — fn params(&self) -> GenParams
+- generate · function · L96-L111 — fn generate(&mut self)
+- is_finished · function · L113-L115 — pub fn is_finished(&self) -> bool
+- is_waiting_for_user · function · L117-L119 — pub fn is_waiting_for_user(&self) -> bool
+- cancel · function · L122-L126 — pub fn cancel(&mut self)
+- confirm · function · L129-L134 — pub fn confirm(&mut self, yes: bool)
+- poll · function · L137-L169 — pub fn poll(&mut self, harness: &Harness, host: &mut dyn ToolHost) -> Vec<Event>
+- on_generated · function · L171-L204 — fn on_generated(&mut self, out: GenOutput, events: &mut Vec<Event>)
+- execute · function · L206-L228 — fn execute(&mut self, harness: &Harness, host: &mut dyn ToolHost, events: &mut Vec<Event>)
+- tests · module · L232-L306 — mod tests
+- Script · struct · L237-L237 — struct Script(Mutex<VecDeque<String>>);
+- generate · function · L240-L244 — fn generate(&self, _: &str, _: &GenParams, on_text: &mut dyn FnMut(&str) -> bool) -> Result<GenOutput, String>
+- run_to_end · function · L247-L261 — fn run_to_end(run: &mut Run, h: &Harness, host: &mut dyn ToolHost, confirm: Option<bool>) -> Vec<Event>
+- runs_tool_calls_and_answers · function · L264-L277 — fn runs_tool_calls_and_answers()
+- risky_calls_wait_for_the_user · function · L280-L291 — fn risky_calls_wait_for_the_user()
+- step_limit_and_runtime_errors_end_the_run · function · L294-L305 — fn step_limit_and_runtime_errors_end_the_run()
