@@ -39,8 +39,13 @@ pub enum Event {
         args: Value,
     },
     Answer(String),
+    /// Shown with the answer: the model's claim and what actually happened disagree (e.g. every action failed).
+    Warning(String),
     Failed(String),
 }
+
+/// The same tool result this many times in a row means the model is stuck; the run stops early.
+pub const MAX_REPEATS: usize = 3;
 
 enum Worker {
     Text(String),
@@ -66,6 +71,11 @@ pub struct Run {
     steps: usize,
     pub tokens_in: u64,
     pub tokens_out: u64,
+    /// Tool calls that succeeded / failed (observation `ERROR:`) in this request.
+    ok_calls: usize,
+    failed_calls: usize,
+    /// The last observation and how many times in a row it came back.
+    last_observation: (String, usize),
 }
 
 impl Run {
@@ -84,6 +94,9 @@ impl Run {
             steps: 0,
             tokens_in: 0,
             tokens_out: 0,
+            ok_calls: 0,
+            failed_calls: 0,
+            last_observation: (String::new(), 0),
         };
         run.generate();
         run
@@ -186,6 +199,11 @@ impl Run {
             } else {
                 Event::Answer(if fin.is_empty() { "Done.".into() } else { fin })
             });
+            if self.failed_calls > 0 && self.ok_calls == 0 {
+                events.push(Event::Warning(
+                    "None of the assistant's actions worked, so the workbook wasn't changed. Try rephrasing the request.".into(),
+                ));
+            }
             return;
         }
         let calls: Vec<ToolCall> = calls.into_iter().take(MAX_CALLS_PER_TURN).collect();
@@ -217,7 +235,22 @@ impl Run {
             self.messages
                 .push(json!({"role": "tool", "tool_call_id": format!("call_{}", self.next_call_id), "name": call.name, "content": observation}));
             self.next_call_id += 1;
+            if observation.starts_with("ERROR") {
+                self.failed_calls += 1;
+            } else {
+                self.ok_calls += 1;
+            }
+            let key = format!("{}\n{observation}", call.name);
+            self.last_observation = if self.last_observation.0 == key { (key, self.last_observation.1 + 1) } else { (key, 1) };
             events.push(Event::ToolFinished { name: call.name, observation });
+            if self.last_observation.1 >= MAX_REPEATS {
+                self.pending.clear();
+                self.state = State::Finished;
+                events.push(Event::Failed(
+                    "The assistant kept getting the same result without making progress, so it stopped. Undo removes its changes.".into(),
+                ));
+                return;
+            }
         }
         if self.steps >= MAX_STEPS {
             self.state = State::Finished;
@@ -277,6 +310,29 @@ mod tests {
     }
 
     #[test]
+    fn claimed_success_after_only_failures_is_flagged() {
+        // What E4B did in the smoke test: invented tool names, then "Bolded B4:I4".
+        let script = Script(Mutex::new(VecDeque::from([
+            "<|tool_call>call:format__bold{range:<|\"|>B4:I4<|\"|>}<tool_call|>".to_string(),
+            "Bolded B4:I4.".to_string(),
+        ])));
+        let mut host = lattice_mcp::Headless::new();
+        let h = Harness::default();
+        let mut run = Run::start(Arc::new(script), &h, &mut host, "Bold the header", false);
+        let ev = run_to_end(&mut run, &h, &mut host, None);
+        assert!(ev.contains(&Event::Answer("Bolded B4:I4.".into())));
+        assert!(matches!(ev.last(), Some(Event::Warning(w)) if w.contains("wasn't changed")), "{ev:?}");
+        // One success among failures is not flagged.
+        let mixed = Script(Mutex::new(VecDeque::from([
+            "<|tool_call>call:format__bold{}<tool_call|><|tool_call>call:set_cell{cell:<|\"|>A1<|\"|>,input:<|\"|>1<|\"|>}<tool_call|>".to_string(),
+            "Done.".to_string(),
+        ])));
+        let mut run = Run::start(Arc::new(mixed), &h, &mut host, "x", false);
+        let ev = run_to_end(&mut run, &h, &mut host, None);
+        assert!(!ev.iter().any(|e| matches!(e, Event::Warning(_))), "{ev:?}");
+    }
+
+    #[test]
     fn risky_calls_wait_for_the_user() {
         let script = Script(Mutex::new(VecDeque::from([
             "<|tool_call>call:execute_command{command:<|\"|>file.new<|\"|>}<tool_call|>".to_string(),
@@ -292,12 +348,19 @@ mod tests {
 
     #[test]
     fn step_limit_and_runtime_errors_end_the_run() {
-        let looping = Script(Mutex::new((0..20).map(|_| "<|tool_call>call:inspect_workbook{}<tool_call|>".to_string()).collect()));
+        let busy = Script(Mutex::new(
+            (0..20).map(|i| format!("<|tool_call>call:set_cell{{cell:<|\"|>A{}<|\"|>,input:<|\"|>{i}<|\"|>}}<tool_call|>", i + 1)).collect(),
+        ));
         let mut host = lattice_mcp::Headless::new();
         let h = Harness::default();
-        let mut run = Run::start(Arc::new(looping), &h, &mut host, "loop", false);
+        let mut run = Run::start(Arc::new(busy), &h, &mut host, "busy", false);
         let ev = run_to_end(&mut run, &h, &mut host, None);
         assert!(matches!(ev.last(), Some(Event::Failed(m)) if m.contains("stopped after")), "{:?}", ev.last());
+        let looping = Script(Mutex::new((0..20).map(|_| "<|tool_call>call:inspect_workbook{}<tool_call|>".to_string()).collect()));
+        let mut run = Run::start(Arc::new(looping), &h, &mut host, "loop", false);
+        let ev = run_to_end(&mut run, &h, &mut host, None);
+        assert!(matches!(ev.last(), Some(Event::Failed(m)) if m.contains("same result")), "{:?}", ev.last());
+        assert_eq!(ev.iter().filter(|e| matches!(e, Event::ToolFinished { .. })).count(), MAX_REPEATS);
         let empty = Script(Mutex::new(VecDeque::new()));
         let mut run = Run::start(Arc::new(empty), &h, &mut host, "x", false);
         let ev = run_to_end(&mut run, &h, &mut host, None);

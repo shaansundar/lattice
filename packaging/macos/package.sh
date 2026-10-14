@@ -111,8 +111,68 @@ sed -e "s/@VERSION@/$VERSION/g" -e "s/@SHORT_VERSION@/$SHORT_VERSION/g" \
 plutil -lint "$APP/Contents/Info.plist"
 printf 'APPL????' >"$APP/Contents/PkgInfo"
 
+# ---- assistant runtime (llama.cpp's llama-server) ---------------------------------------------
+# LATTICE_LLAMA_DIR_AARCH64 / LATTICE_LLAMA_DIR_X86_64: unpacked llama.cpp macOS release folders (llama-server,
+# lib*.dylib, LICENSE), one per target arch; LATTICE_LLAMA_DIR stands in for a single-arch build. They go to
+# Contents/Helpers/assistant (crates/assistant/src/install.rs). Without them the app ships without the runtime and
+# the Assistant pane says so. Models are never bundled: the app downloads them (docs/assistant.md).
+bundle_assistant() {
+  local dest="$APP/Contents/Helpers/assistant" dirs=() t var d f name
+  for t in "${TARGETS[@]}"; do
+    case "$t" in aarch64-*) var=LATTICE_LLAMA_DIR_AARCH64 ;; *) var=LATTICE_LLAMA_DIR_X86_64 ;; esac
+    d="${!var:-}"
+    if [ -z "$d" ] && [ ${#TARGETS[@]} = 1 ]; then d="${LATTICE_LLAMA_DIR:-}"; fi
+    if [ -z "$d" ]; then
+      warn "macOS: no llama.cpp runtime for $t (set $var); the assistant won't be available in this build"
+      return 0
+    fi
+    [ -x "$d/llama-server" ] || { echo "error: $d/llama-server not found" >&2; exit 1; }
+    dirs+=("$d")
+  done
+  mkdir -p "$dest"
+  # The server and the libraries it loads (@rpath closure from otool, version symlinks kept), from the first arch.
+  # Only code goes in Helpers (codesign treats everything there as code); the licence goes to Resources.
+  local src="${dirs[0]}" todo="llama-server" done_list=" " n dep
+  while [ -n "$todo" ]; do
+    n="${todo%% *}"
+    if [ "$n" = "$todo" ]; then todo=""; else todo="${todo#* }"; fi
+    case "$done_list" in *" $n "*) continue ;; esac
+    done_list="$done_list$n "
+    [ -e "$src/$n" ] || { echo "error: $src/$n (needed by llama-server) not found" >&2; exit 1; }
+    cp -P "$src/$n" "$dest/"
+    # Follow version symlinks (libggml.0.dylib -> libggml.0.26.0.dylib) to the real file.
+    while [ -L "$src/$n" ]; do
+      n="$(readlink "$src/$n")"
+      cp -P "$src/$n" "$dest/"
+    done
+    for dep in $(otool -L "$src/$n" | awk '/@rpath\//{sub("@rpath/", "", $1); print $1}'); do
+      todo="$todo${todo:+ }$dep"
+    done
+  done
+  cp "$src/LICENSE" "$APP/Contents/Resources/LICENSE-llama.cpp.txt"
+  # ...merged with the other arches file by file for a universal build.
+  if [ ${#dirs[@]} -gt 1 ]; then
+    for f in "$dest/llama-server" $(find "$dest" -name '*.dylib' -type f); do
+      name="$(basename "$f")"
+      local inputs=()
+      for d in "${dirs[@]}"; do inputs+=("$d/$name"); done
+      lipo -create -output "$f" "${inputs[@]}"
+    done
+  fi
+  # Ad-hoc signatures carry no Team ID, so the hardened runtime's library validation would stop llama-server
+  # loading its own libraries ("different Team IDs"): only a real identity (which notarization requires anyway)
+  # gets --options runtime. All files then share one Team ID.
+  local opts=()
+  [ "$IDENTITY" != "-" ] && opts=(--options runtime)
+  for f in $(find "$dest" -name '*.dylib' -type f) "$dest/llama-server"; do
+    sign ${opts[@]+"${opts[@]}"} "$f"
+  done
+  "$dest/llama-server" --version >/dev/null 2>&1 || warn "macOS: the bundled llama-server didn't run on this Mac (wrong arch?)"
+}
+bundle_assistant
+
 # Sign inside-out: nested code first, then the bundle itself (no --deep on the final signature).
-# Today the only nested code is the main executable; frameworks/helpers would be signed here too.
+# Nested code: the assistant runtime (signed above) and the main executable.
 sign --options runtime --entitlements "$HERE/entitlements.plist" "$APP/Contents/MacOS/Lattice"
 sign --options runtime --entitlements "$HERE/entitlements.plist" "$APP"
 codesign --verify --strict --deep --verbose=2 "$APP"

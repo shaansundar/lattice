@@ -38,3 +38,12 @@ Generated-in-code art is original and has no file to list: the UI icon set (`cra
 | `docs/images/pivot.png` | Lattice contributors | screenshot of Lattice rendered offscreen (`crates/ui-egui/examples/snapshot.rs`) showing an original sample workbook | MIT OR Apache-2.0 | README screenshot; no third-party content |
 | `docs/images/format-chart.png` | Lattice contributors | screenshot of Lattice rendered offscreen (`crates/ui-egui/examples/snapshot.rs`) showing an original sample workbook | MIT OR Apache-2.0 | README screenshot; no third-party content |
 | `docs/images/page-break.png` | Lattice contributors | screenshot of Lattice rendered offscreen (`crates/ui-egui/examples/snapshot.rs`) showing an original sample workbook | MIT OR Apache-2.0 | README screenshot; no third-party content |
+
+## Shipped with desktop releases (not in this repository)
+
+The built-in assistant (`docs/assistant.md`) uses third-party files that are never committed here. Release packaging bundles the runtime; the models are downloaded by the app on the user's request and verified against pinned SHA-256 hashes (`crates/assistant/src/models.rs`).
+
+| Component | Author | Source | Licence | Notes |
+|---|---|---|---|---|
+| `llama-server` and its `libggml*`/`libllama*`/`libmtmd` libraries | The ggml / llama.cpp authors | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) release b11555 | MIT (its `LICENSE` ships beside the binary) | The assistant's local runtime sidecar; bundled by `packaging/` |
+| `lattice-e4b-Q4_K_M.gguf`, `lattice-e2b-Q4_K_M.gguf` | Lattice contributors (fine-tunes); Google (base models) | fine-tuned from Google's Gemma 4 E4B / E2B | Gemma 4 model licence | Downloaded in-app, never bundled or committed; training data includes CC-BY-SA material (attribution in the training repository) |

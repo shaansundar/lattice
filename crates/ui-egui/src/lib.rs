@@ -110,6 +110,8 @@ pub struct Services {
     pub pick_save: Option<Box<dyn Fn(&str) -> Option<String>>>,
     /// Native picture picker (PNG/JPEG), separate from workbook opening.
     pub pick_picture: Option<Box<dyn Fn() -> Option<String>>>,
+    /// Native picker for an assistant model file (`.gguf`) the user already has (desktop).
+    pub pick_model: Option<Box<dyn Fn() -> Option<String>>>,
     /// Browser picture picker. Each dialog owns its inbox, so canceled picks cannot
     /// insert into a subsequent dialog or open the image as a workbook.
     pub pick_picture_async: Option<Box<dyn Fn(Inbox)>>,
@@ -362,8 +364,30 @@ impl SheetApp {
             }
             #[cfg(not(target_arch = "wasm32"))]
             "assistant.ask" => assistant_pane::ask(self, p.get("prompt").and_then(Json::as_str).unwrap_or("")),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.models" => assistant_pane::models_status(self),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.install" => assistant_pane::install(self, p),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.importModel" => assistant_pane::import_model(self, p),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.cancelInstall" => assistant_pane::cancel_install(self, p),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.removeModel" => assistant_pane::remove_model(self, p),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.useModel" => assistant_pane::use_model(self, p),
+            #[cfg(not(target_arch = "wasm32"))]
+            "assistant.manageModels" => assistant_pane::manage(self, p),
             #[cfg(target_arch = "wasm32")]
-            "assistant.toggle" | "assistant.ask" => Err("the assistant is available in the desktop app".into()),
+            "assistant.toggle"
+            | "assistant.ask"
+            | "assistant.models"
+            | "assistant.install"
+            | "assistant.importModel"
+            | "assistant.cancelInstall"
+            | "assistant.removeModel"
+            | "assistant.useModel"
+            | "assistant.manageModels" => Err("the assistant is available in the desktop app".into()),
             _ => return None,
         };
         Some(r)

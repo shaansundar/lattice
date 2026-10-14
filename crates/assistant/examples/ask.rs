@@ -80,6 +80,7 @@ fn main() {
                 }
                 Event::NeedsConfirmation { .. } => run.confirm(false),
                 Event::Answer(a) => println!("answer {:>6.2}s {a}", last.elapsed().as_secs_f64()),
+                Event::Warning(w) => println!("warning {w}"),
                 Event::Failed(e) => println!("failed {e}"),
                 Event::ToolStarted { .. } => {}
             }
